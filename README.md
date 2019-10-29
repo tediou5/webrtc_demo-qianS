@@ -15,13 +15,13 @@
   5. 网页访问'localhost:3000#100',进入房间100(IOS端默认房间)
   
 3> 工程
-  1. cd至WebRTC_two文件夹下
+  1. cd至WebRTC_new文件夹下
   2. pod install安装相关库文件
-  3. 从WebRTC_two.xcworkspace文件进入xcode
-  4. 打开左侧Navigator，选中第一个project navigator(文件夹样式图标📁)，单击WebRTC_two
-  5. 选定TARGETS -> WebRTC-two -> General -> Identity -> Bundle Identifier(安全码)
+  3. 从WebRTC_new.xcworkspace文件进入xcode
+  4. 打开左侧Navigator，选中第一个project navigator(文件夹样式图标📁)，单击WebRTC_new
+  5. 选定TARGETS -> WebRTC-new -> General -> Identity -> Bundle Identifier(安全码)
   6. 随意修改Bundle Identifier直至不报错
-  7. 选定TARGETS -> WebRTC-two -> Signing & Capabilities
+  7. 选定TARGETS -> WebRTC-new -> Signing & Capabilities
   8. 勾选Auto....，在Team一栏选取(Personal Team)
   9. 在Xcode左上角的设备中选择自己的手机(Generic IOS Device)
   10. 修改ChatViewController.m第199行connectServer，更改为本地IP
@@ -32,6 +32,15 @@
   1. 打开设置 -> 通用 -> 描述文件和设备管理 -> 开发者APP 选择信任
   2. 再次运行工程(或在手机桌面打开APP)
   3. 如果遇到显示本地流白屏，则点选挂断重新进入即可
+  
+  ###########################
+  相关问题解决：
+  1. 使用pod install出现-bash: /usr/local/bin/pod: /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby: bad interpreter: No such file or directory
+  这是Mac升级系统导致，当你的Mac系统升级为 high siera的时候，别忘记更新cocoapods。
+  执行命令：
+  $ sudo gem update --system
+  $ sudo gem install cocoapods -n/usr/local/bin
+  
   ---------------------------------------------------
   盛乾(Qian Sheng)
   qian.sheng@51feisuo.com
