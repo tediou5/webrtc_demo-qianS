@@ -71,7 +71,7 @@
 这是由于使用http协议，浏览器认为不安全导致。可以将网页加入白名单来解决。
 步骤：
 - 在chrome地址栏输入：chrome://flags/#unsafely-treat-insecure-origin-as-secure
-- 将Insecure origins treated as secure一栏改为Enable，并在框内输入：http://192.168.31.216:8080（op3800-2.4）
+- 将Insecure origins treated as secure一栏改为Enable，并在框内输入http://ip:port (http://192.168.31.216:8080)
 - 重启浏览器重新打开网页即可
 
 ## Reference
