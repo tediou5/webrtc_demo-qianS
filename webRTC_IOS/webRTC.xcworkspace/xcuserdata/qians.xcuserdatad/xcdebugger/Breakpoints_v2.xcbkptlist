@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "D78B4D40-CE1E-4301-876E-390E3973E5E5"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "57915847-F77C-4934-8A02-343A29843C13"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "webRTC/CallViewController.m"
+            timestampString = "594702395.092851"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84B0ECAF-4D99-4534-AA87-15715955AAB8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "webRTC/CallViewController.m"
+            timestampString = "594702395.09298"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78FF02FA-7A79-46B0-A496-5E4B0A6601CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "webRTC/CallViewController.m"
+            timestampString = "594702395.093118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
+            landmarkName = "-captureLocalMedia"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B1C234E7-FF16-47C5-BF67-E2C735D23E0F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "webRTC/CallViewController.m"
+            timestampString = "594702395.093199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "-captureLocalMedia"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A1E45097-9B94-48C0-BBE5-6B36E12AAA5C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "webRTC/SignalClient.m"
+            timestampString = "594702395.093271"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "-createConnect:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A1E45097-9B94-48C0-BBE5-6B36E12AAA5C - f36c5dd3e96e490a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SignalClient createConnect:]"
+                  moduleName = "webRTC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/qians/Desktop/webRTC_Test2/webRTC_IOS_11.1/webRTC/SignalClient.m"
+                  timestampString = "594702395.142346"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "872">
+               </Location>
+               <Location
+                  uuid = "A1E45097-9B94-48C0-BBE5-6B36E12AAA5C - 7c03815a4916ef8d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__30-[SignalClient createConnect:]_block_invoke"
+                  moduleName = "webRTC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/qians/Desktop/webRTC_Test2/webRTC_IOS_11.1/webRTC/SignalClient.m"
+                  timestampString = "594702395.144565"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "A1E45097-9B94-48C0-BBE5-6B36E12AAA5C - 957fdecaaf734133"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_e8_32s"
+                  moduleName = "webRTC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/qians/Desktop/webRTC_Test2/webRTC_IOS_11.1/webRTC/SignalClient.m"
+                  timestampString = "594702395.1467741"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
