@@ -15,7 +15,7 @@
 # Node.js
 1. 安装Node.js及npm环境
 2. cd至webRTC_Server文件夹下
-3. npm install安装相关库
+3. 命令行执行: npm install
 4. node server.js开启服务器
 
 
