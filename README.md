@@ -49,7 +49,7 @@
 # webrtc client (iOS端)
 1. cd至WebRTC_IOS文件夹下
 2. pod install安装相关库文件
-3. 从webRTC.xcworkspace文件进入xcode
+3. 从webRTC.xcworkspace文件进入Xcode
 4. 打开左侧Navigator，选中第一个project navigator(文件夹样式图标📁)，单击webRTC
 5. 选定TARGETS -> webRTC -> General -> Identity -> Bundle Identifier(安全码)
 6. 随意修改Bundle Identifier直至不报错
@@ -57,6 +57,13 @@
 8. 勾选Automatically manage signing，在Team一栏选取(Personal Team)
 9. 在Xcode左上角的设备中选择自己的手机(webRTC > Generic IOS Device)
 10. 运行工程
+
+
+## apprtc_ios (IOS端)
+1. 本DEMO为Google的webrtc示例程序
+2. 重复wenrtc client 1-10 步骤
+3. 本DEMO可与https://appr.tc/网页端或安卓端互联
+4. ICE需要外网环境才能正常工作，请连接至外网
 
 ## iPhone 手机配置
 1. 打开设置 -> 通用 -> 描述文件和设备管理 -> 开发者APP 选择信任
