@@ -1,3 +1,5 @@
 *.DS_Store
 Pods/
 node_modules/
+temp/
+out/

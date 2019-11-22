@@ -8,33 +8,45 @@
 2. 安装最新版Xcode
 3. 在macOS与Xcode中登陆Apple账号(两者须与手机中登陆的App Store账号匹配)
 4. 将手机连接至mac
-5. 请在IOS12.4及以下版本运行，否则会出现运行错误
-
-
-
-# Node.js
-1. 安装Node.js及npm环境
-2. cd至webRTC_Server文件夹下
-3. 命令行执行: npm install
-4. node server.js开启服务器
-
-
+5. webRTC_IOS请在IOS12.4及以下版本运行，否则会出现运行错误
 
 # webrtc client (WEB端)
-1. 网页访问'localhost:8080'
-2. [可选]如在局域网内非本机可通过'http://ip:8080'访问网页
-3. 点选videoChat -> index.html
-4. 输入房间号，进入房间
-5. 双方都进入房间后点选Connect Sig Server开始连接
-
-
+## apprtc_web
+- 本DEMO为Google appr.tc开源项目，请按照文件夹内README.md进行部署
+- 本DEMO在Ubuntu14.04中运行，请预装好Jre, node.js, python2, Grunt, go, google-cloud-sdk
+- 本DEMO中room_server使用8086端口，Collider使用8089端口，请确保这2个端口开放
+- GOPATH请设置在go源文件外否则可能导致权限问题
+1. 安装node以及python相关库
+2. grunt build编译项目
+3. 设置GOPATH
+4. 按照apprtc/src/collider文件夹下README.md安装collider(信令服务器)
+5. 在项目根目录下执行命令启动room_server和collider:
+```
+$ /home/qsheng/google_appengine/dev_appserver.py --host=0.0.0.0 --port=8086 --enable_host_checking=False ./out/app_engine
+$ $GOPATH/bin/collidermain -port=8089 -tls=false 
+```
+6. 执行
+## webrtc_server
+1. 安装Node.js及npm环境
+2. cd至目标文件夹下命令行执行: 
+```
+    $ npm install
+    $ node server.js
+```
+3. 网页访问'localhost:8080'
+4. [可选]如在局域网内非本机可通过'http://ip:8080'访问网页
+5. 点选videoChat -> index.html
+6. 输入房间号，进入房间
+7. 双方都进入房间后点选Connect Sig Server开始连接
 ## codeLab: step-05
-1. 本DEMO为webRTC codeLab step-05
-2. cd至step-05文件夹下
-3. npm install安装Node.js相关库
-4. node index.js启动服务器
-5. 浏览器输入‘localhost:8080’打开网页
-
+- 本DEMO为webrtc codeLab step-05
+1. 安装Node.js及npm环境
+2. cd至目标文件夹下命令行执行: 
+```
+    $ npm install
+    $ node index.js
+```
+3. 网页访问'localhost:8080'
 ### 相关问题解(web)：
 网页无法调用摄像头
 
@@ -44,27 +56,33 @@
 - 将Insecure origins treated as secure一栏改为Enable，并在框内输入http://ip:port (http://192.168.31.216:8080)
 - 重启浏览器重新打开网页即可
 
-
-
-# webrtc client (iOS端)
-1. cd至WebRTC_IOS文件夹下
-2. pod install安装相关库文件
-3. 从webRTC.xcworkspace文件进入Xcode
+# webrtc client(ios端)
+## webrtc_ios
+1. cd至/webrtc_ios文件夹下
+2. 执行命令行
+```
+    $ pod install
+```
+3. 从apprtc.xcworkspace文件进入Xcode
 4. 打开左侧Navigator，选中第一个project navigator(文件夹样式图标📁)，单击webRTC
-5. 选定TARGETS -> webRTC -> General -> Identity -> Bundle Identifier(安全码)
+5. 选定TARGETS -> webRTC -> Signing & Capabilities
 6. 随意修改Bundle Identifier直至不报错
-7. 选定TARGETS -> webRTC -> Signing & Capabilities
-8. 勾选Automatically manage signing，在Team一栏选取(Personal Team)
-9. 在Xcode左上角的设备中选择自己的手机(webRTC > Generic IOS Device)
-10. 运行工程
-
-
-## apprtc_ios (IOS端)
-1. 本DEMO为Google的webrtc示例程序
-2. 重复wenrtc client 1-10 步骤
-3. 本DEMO可与https://appr.tc/网页端或安卓端互联
-4. ICE需要外网环境才能正常工作，请连接至外网
-
+7. 勾选Automatically manage signing，在Team一栏选取Team
+8. 在Xcode左上角的设备中选择自己的手机(webRTC > Generic IOS Device)
+9. 运行工程
+## apprtc(ios)
+1. cd至/apprtc文件夹下
+2. 执行命令行
+```
+    $ pod install
+```
+3. 从apprtc.xcworkspace文件进入Xcode
+4. 打开左侧Navigator，选中第一个project navigator(文件夹样式图标📁)，单击apprtc
+5. 选定TARGETS -> apprtc -> Signing & Capabilities
+6. 随意修改Bundle Identifier直至不报错
+7. 勾选Automatically manage signing，在Team一栏选取Team
+8. 在Xcode左上角的设备中选择自己的手机(apprtc > Generic IOS Device)
+9. 运行工程
 ## iPhone 手机配置
 1. 打开设置 -> 通用 -> 描述文件和设备管理 -> 开发者APP 选择信任
 2. 再次运行工程(或在手机桌面打开APP)
