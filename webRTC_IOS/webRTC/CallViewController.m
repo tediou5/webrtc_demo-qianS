@@ -52,6 +52,8 @@
 static CGFloat const kLocalVideoViewSize = 120;
 static CGFloat const kLocalVideoViewPadding = 8;
 
+
+
 static NSString *const RTCSTUNServerURL = @"stun:stun.l.google.com:19302";
 static NSString *const RTCSTUNServerURL2 = @"stun:23.21.150.121";
 //static NSString *const RTCSTUNServerURL = @"turn:xxx.xxx.xxx:3478";
@@ -61,34 +63,60 @@ static int logY = 0;
     myAddr = addr;
     myRoom = room;
     
+    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];
+    self.remoteVideoView.delegate = self;
+    [self.view addSubview:self.remoteVideoView];
+    
+    self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:self.localVideoView];
+    
+    self.leaveBtn = [[UIButton alloc] init];
+    
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     logY = 0;
-    CGRect bounds = self.view.bounds;
     
-    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];//------------------------here
-    self.remoteVideoView.delegate = self;//---------------------------or here
-    //[self.remoteVideoView set]
-    //[self.remoteVideoView setBackgroundColor:[UIColor yellowColor]];
-    [self.view addSubview:self.remoteVideoView];
+    [self initView];
     
-    self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.localVideoView];
+    [self createPeerConnectionFactory];
+    
+    //[self startTimer];
+    
+    //创建本地流
+    [self captureLocalMedia];
+    
+    sigclient = [SignalClient getInstance];
+    sigclient.delegate = self;
+    ////[sigclient createConnect:myAddr];
+    
+    myState = @"init";
+    
+}
+
+-(void)initView{
+    
+    //self.leaveBtn = [[UIButton alloc] init];//button init也crash？？？？问题应该就出在这里了
+    //self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:bounds];//------------------------here
+    //self.remoteVideoView.delegate = self;//---------------------------or here
+    //[self.view addSubview:self.remoteVideoView];
+    
+    //self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
+    //[self.view addSubview:self.localVideoView];
     
     // Aspect fit local video view into a square box.
     CGRect localVideoFrame =
     CGRectMake(0, 0, kLocalVideoViewSize, kLocalVideoViewSize);
     // Place the view in the bottom right.
-    localVideoFrame.origin.x = CGRectGetMaxX(bounds)
+    localVideoFrame.origin.x = CGRectGetMaxX(self.view.bounds)
     - localVideoFrame.size.width - kLocalVideoViewPadding;
-    localVideoFrame.origin.y = CGRectGetMaxY(bounds)
+    localVideoFrame.origin.y = CGRectGetMaxY(self.view.bounds)
     - localVideoFrame.size.height - kLocalVideoViewPadding;
     [self.localVideoView setFrame: localVideoFrame];
     
-    self.leaveBtn = [[UIButton alloc] init];
+    //self.leaveBtn = [[UIButton alloc] init];
     [self.leaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.leaveBtn setTintColor:[UIColor whiteColor]];
     [self.leaveBtn setTitle:@"leave" forState:UIControlStateNormal];
@@ -107,19 +135,6 @@ static int logY = 0;
             forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.leaveBtn];
-    
-    [self createPeerConnectionFactory];
-    
-    //[self startTimer];
-    
-    //创建本地流
-    [self captureLocalMedia];
-    
-    sigclient = [SignalClient getInstance];
-    sigclient.delegate = self;
-    ////[sigclient createConnect:myAddr];
-    
-    myState = @"init";
     
 }
 
