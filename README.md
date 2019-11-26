@@ -8,7 +8,6 @@
 2. 安装最新版Xcode
 3. 在macOS与Xcode中登陆Apple账号(两者须与手机中登陆的App Store账号匹配)
 4. 将手机连接至mac
-5. webRTC_IOS请在IOS12.4及以下版本运行，否则会出现运行错误
 
 # webrtc client (WEB端)
 ## apprtc_web
