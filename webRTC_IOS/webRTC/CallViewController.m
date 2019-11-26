@@ -63,14 +63,7 @@ static int logY = 0;
     myAddr = addr;
     myRoom = room;
     
-    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];
-    self.remoteVideoView.delegate = self;
-    [self.view addSubview:self.remoteVideoView];
-    
-    self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.localVideoView];
-    
-    self.leaveBtn = [[UIButton alloc] init];
+    [self initView];
     
     return self;
 }
@@ -78,8 +71,6 @@ static int logY = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     logY = 0;
-    
-    [self initView];
     
     [self createPeerConnectionFactory];
     
@@ -99,12 +90,12 @@ static int logY = 0;
 -(void)initView{
     
     //self.leaveBtn = [[UIButton alloc] init];//button init也crash？？？？问题应该就出在这里了
-    //self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:bounds];//------------------------here
-    //self.remoteVideoView.delegate = self;//---------------------------or here
-    //[self.view addSubview:self.remoteVideoView];
+    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];//------------------------here
+    self.remoteVideoView.delegate = self;//---------------------------or here
+    [self.view addSubview:self.remoteVideoView];
     
-    //self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
-    //[self.view addSubview:self.localVideoView];
+    self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:self.localVideoView];
     
     // Aspect fit local video view into a square box.
     CGRect localVideoFrame =
@@ -116,7 +107,7 @@ static int logY = 0;
     - localVideoFrame.size.height - kLocalVideoViewPadding;
     [self.localVideoView setFrame: localVideoFrame];
     
-    //self.leaveBtn = [[UIButton alloc] init];
+    self.leaveBtn = [[UIButton alloc] init];
     [self.leaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.leaveBtn setTintColor:[UIColor whiteColor]];
     [self.leaveBtn setTitle:@"leave" forState:UIControlStateNormal];
