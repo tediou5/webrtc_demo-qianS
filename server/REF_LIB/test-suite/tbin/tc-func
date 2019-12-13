@@ -1,0 +1,76 @@
+#!/bin/bash
+# ==============================================================================
+#
+#       Filename:   tc-func
+#
+#    Description:  	Test Case functions
+#
+#        Version:  	1.1
+#        Created:  	2015-01-08
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2015-01-18
+#           		Created
+#
+#                   1.1 2016-04-03
+#           		Modified for StGenLib2
+#
+#
+#                   1.2 2016-08-09
+#           		Modified for StGenLib4
+#
+#       
+# ==============================================================================
+
+
+echo "INF: import tc-func & st-func.sh ..."
+
+. $StLibHome/runtime/st-func.sh
+
+
+# ------------------------------------------------------------------------------ 
+# Functions
+# ------------------------------------------------------------------------------ 
+
+function tc_setup() {
+    echo "#### Start ServerSSL and Gateway04 ..."
+    ck-service.sh  -t 5 st-server   "cn.teclub.ha.net.serv.StSngSrvMain"  "none"  start  
+    ck-service.sh  -t 5 st-gw04     "cn.teclub.ha.test.ClientOnline"  "gw04 abcd1234  ./fake-dev/__gw04/sdcard/AA-FAMBO"  start 
+}
+
+
+function tc_status_22() {
+    echo "#### Check ServerSSL and Gateway04 ..."
+    echo "#### WRN: Deprecated !!! "
+}
+
+
+
+
+function tc_clear() {
+    echo "#### Stop ServerSSL and Gateway04 ..."
+    ck-service.sh  -t 5 st-server   "cn.teclub.ha.net.serv.StSngSrvMain"  "none"  stop
+    ck-service.sh  -t 5 st-gw04     "cn.teclub.ha.test.ClientOnline"  "gw04 abcd1234  ./fake-dev/__gw04/sdcard/AA-FAMBO"  stop
+}
+
+
+
+
+# ------------------------------------------------------------------------------ 
+# Description: 
+#       Generate test resule file from a input log file. 
+# ------------------------------------------------------------------------------ 
+function tc_gen_milestone() {
+    res_label="$1"
+    res_logfile="$2"
+    echo -e "\n[tc-func] #### $res_label "   >>  $TC_RESULT_LOG
+    grep "\\$\\$\\$\\$ TEST MILESTONE"   $res_logfile >> $TC_RESULT_LOG
+}
+
+
+

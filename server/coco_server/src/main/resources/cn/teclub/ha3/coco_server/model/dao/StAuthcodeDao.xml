@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.teclub.ha3.coco_server.model.dao.StAuthcodeDao">
+  <resultMap id="BaseResultMap" type="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="authcode" jdbcType="VARCHAR" property="authcode" />
+    <result column="atime" jdbcType="TIMESTAMP" property="atime" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, authcode, atime, ctime, mobile
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_authcode
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAuthcode" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_authcode
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="mobile != null">
+        AND mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="authcode != null">
+        AND authcode = #{authcode,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    limit 0, 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_authcode
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode" useGeneratedKeys="true">
+    insert into tb_authcode (authcode, atime, ctime,
+      mobile)
+    values (#{authcode,jdbcType=VARCHAR}, #{atime,jdbcType=TIMESTAMP}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mobile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode" useGeneratedKeys="true">
+    insert into tb_authcode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authcode != null">
+        authcode,
+      </if>
+      <if test="atime != null">
+        atime,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authcode != null">
+        #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="atime != null">
+        #{atime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode">
+    update tb_authcode
+    <set>
+      <if test="authcode != null">
+        authcode = #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="atime != null">
+        atime = #{atime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanAuthcode">
+    update tb_authcode
+    set authcode = #{authcode,jdbcType=VARCHAR},
+      atime = #{atime,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mobile = #{mobile,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

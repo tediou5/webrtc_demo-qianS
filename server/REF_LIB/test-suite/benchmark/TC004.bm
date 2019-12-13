@@ -1,0 +1,75 @@
+
+[tc-func] #### SSL Server Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [1] Create Core Module ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Server-Core -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [2] Initialize Task & Client Manager ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [3] Create Global ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [4] Start STUN on UDP Port: 17703
+TRACE -- $$$$ TEST MILESTONE $$$$  [5] Create SSL & Plain Sockets ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [SSL  ] Server is listening port: 17701
+TRACE -- $$$$ TEST MILESTONE $$$$  [PLAIN] Server is listening port: 17702
+TRACE -- $$$$ TEST MILESTONE $$$$  [6] Start listening threads ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [7] Add Module Listeners ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [8] Initialize Request Manager...
+TRACE -- $$$$ TEST MILESTONE $$$$  [8/8] Server Compoment Created!
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'gw04' has logged in.
+TRACE -- $$$$ TEST MILESTONE $$$$  [5/5] DONE! Added an ONLINE Client: gw04/孙氏家
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: gw04/孙氏家/0xb04[ ON,MONITOR,UNKNOWN_NAT],stg0004,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  A new client 'user-tc004' has signed up.
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'user-tc004' has logged in.
+TRACE -- $$$$ TEST MILESTONE $$$$  [5/5] DONE! Added an ONLINE Client: user-tc004/MomoSon
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: user-tc004/MomoSon/0xdd0001[ ON,GATEWAY,PORT_RESTRICTED],stuF0001,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (user-tc004, 0xdd0001) is OFFLINE! 
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'user-tc004' has logged in.
+TRACE -- $$$$ TEST MILESTONE $$$$  [5/5] DONE! Added an ONLINE Client: user-tc004/MomoSon
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: user-tc004/MomoSon/0xdd0001[ ON,GATEWAY,PORT_RESTRICTED],stuF0001,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Deleted connection to client: 0xdd0001
+TRACE -- $$$$ TEST MILESTONE $$$$  Sign Out Success: user-tc004
+TRACE -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (gw04, 0xb04) is OFFLINE! 
+
+[tc-func] #### Gateway    Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Upload-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  ^_^ Client Login OK: gw04/孙氏家/0xb04[ ON,MONITOR,UNKNOWN_NAT],stg0004,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 1
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/__gw04/sdcard/AA-FAMBO/data/client_buffered_object.ser
+
+[tc-func] #### User       Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Upload-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  Signup Success: user-tc004/MomoSon/0xdd0001[OFF,GATEWAY,PORT_RESTRICTED],stuF0001,x.x.x.x
+TRACE -- $$$$ TEST MILESTONE $$$$  ^_^ Client Login OK: user-tc004/MomoSon/0xdd0001[ ON,GATEWAY,PORT_RESTRICTED],stuF0001,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 0
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/sdcard/AA-FAMBO/data/client_buffered_object.ser
+TRACE -- $$$$ TEST MILESTONE $$$$  Client Info after Login: user-tc004/MomoSon/0xdd0001[ ON,GATEWAY,PORT_RESTRICTED],stuF0001,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  [Lbr-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [App-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Main-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Upload-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [Session-Core-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT_HDL_POOL] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Upload-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  ^_^ Client Login OK: user-tc004/MomoSon/0xdd0001[ ON,GATEWAY,PORT_RESTRICTED],stuF0001,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 0
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/sdcard/AA-FAMBO/data/client_buffered_object.ser
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'user-tc004' Signout Success
+TRACE -- $$$$ TEST MILESTONE $$$$  [Lbr-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [App-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Main-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Upload-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [Session-Core-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT_HDL_POOL] Event Handler Stopped!

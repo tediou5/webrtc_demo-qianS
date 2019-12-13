@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.teclub.ha3.coco_server.model.dao.StClientDao">
+  <resultMap id="BaseMap" type="cn.teclub.ha3.coco_server.model.dao.StBeanClient">
+  <id column="id" jdbcType="BIGINT" property="clientId" />
+  <result column="name" jdbcType="VARCHAR" property="name" />
+  <result column="label" jdbcType="VARCHAR" property="label" />
+  <result column="dscp" jdbcType="VARCHAR" property="dscp" />
+  <result column="flag" jdbcType="INTEGER" property="flag" />
+  <result column="icon_ts" jdbcType="BIGINT" property="iconTS" />
+  <result column="phone" jdbcType="VARCHAR" property="phone" />
+  <result column="mac_addr" jdbcType="VARCHAR" property="macAddr" />
+  <result column="public_ip" jdbcType="VARCHAR" property="publicIP" />
+  <result column="public_port" jdbcType="INTEGER" property="publicPort" />
+  <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+  <result column="local_ip" jdbcType="VARCHAR" property="localIp" />
+  <result column="local_port" jdbcType="INTEGER" property="localPort" />
+  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
+  <result column="last_logoff" jdbcType="TIMESTAMP" property="lastLogoff" />
+  <result column="online_time" jdbcType="INTEGER" property="onlineTime" />
+  <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+  <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+  </resultMap>
+ <resultMap id="BaseResultMap" type="cn.teclub.ha3.coco_server.model.dao.StBeanClient">
+    <id column="id" jdbcType="BIGINT"  property="clientId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="dscp" jdbcType="VARCHAR" property="dscp" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="icon_ts" jdbcType="BIGINT" property="iconTS" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="mac_addr" jdbcType="VARCHAR" property="macAddr" />
+    <result column="public_ip" jdbcType="VARCHAR" property="publicIP" />
+    <result column="public_port" jdbcType="INTEGER" property="publicPort" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="local_ip" jdbcType="VARCHAR" property="localIp" />
+    <result column="local_port" jdbcType="INTEGER" property="localPort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
+    <result column="last_logoff" jdbcType="TIMESTAMP" property="lastLogoff" />
+    <result column="online_time" jdbcType="INTEGER" property="onlineTime" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+
+    <collection property="list1" ofType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+      <id column="hid" jdbcType="BIGINT" property="id" />
+      <result column="hclt_a" jdbcType="BIGINT" property="cltA" />
+      <result column="hclt_b" jdbcType="BIGINT" property="cltB" />
+      <result column="hflag" jdbcType="INTEGER" property="flag" />
+      <result column="htype" jdbcType="INTEGER" property="type" />
+    </collection>
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    tbc.id as id, tbc.name, tbc.label, tbc.dscp, tbc.flag, tbc.icon_ts, tbc.phone, tbc.mac_addr, tbc.public_ip, tbc.public_port,
+    tbc.passwd, tbc.local_ip, tbc.local_port, tbc.create_time, tbc.last_login, tbc.last_logoff, tbc.online_time,tbc.avatar,tbc.birthday,
+    tbh.id as hid, tbh.clt_a as hclt_a ,tbh.clt_b as hclt_b,tbh.flag as hflag,tbh.type as htype
+
+  </sql>
+  <sql id="Base_Column">
+    id, name, label, dscp, flag, icon_ts, phone, mac_addr, public_ip, public_port,
+    passwd, local_ip, local_port, create_time, last_login, last_logoff, online_time,avatar,birthday
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_client tbc
+    left join tb_client_has tbh on tbc.id = tbh.clt_a
+    left join tb_client_has tbs on tbc.id = tbs.clt_b
+    where tbc.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByClient" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClient" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_client tbc
+    left join tb_client_has tbh on tbc.id = tbh.clt_a
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      <if test="id != null and id != 0L">
+        AND tbc.id = #{id,jdbcType=INTEGER}
+      </if>
+
+      <if test="name != null">
+        AND tbc.name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="passwd != null">
+        AND tbc.passwd = #{passwd,jdbcType=VARCHAR}
+      </if>
+      <if test="label != null">
+        AND tbc.label = #{label,jdbcType=VARCHAR}
+      </if>
+
+      <if test="phone != null">
+        AND tbc.phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="macAddr != null">
+        AND tbc.mac_addr = #{macAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="publicIP != null and publicIP != '0.0.0.0'">
+        AND tbc.public_ip = #{publicIP,jdbcType=VARCHAR}
+      </if>
+      <if test="avatar != null">
+        AND tbc.avatar = #{avatar,jdbcType=VARCHAR}
+      </if>
+      <if test="publicPort != null and publicPort != 0">
+        AND tbc.public_port = #{publicPort,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null">
+        AND tbc.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+ /*   limit 0 ,1*/
+  </select>
+  <select id="selectByKeyword"  resultMap="BaseMap">
+    select
+    <include refid="Base_Column"/>
+    from tb_client
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+      <if test="keyword != null and keyword != ''">
+        name like '%${keyword}%' or phone like '%${keyword}%'
+      </if>
+    </trim>
+    order by id desc limit #{size} offset #{page}
+  </select>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseMap">
+    select
+    <include refid="Base_Column" />
+    from tb_client
+    where id in
+    <foreach item="ids"  collection="list" open="(" separator="," close=")">
+      #{ids}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_client
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClient">
+    insert into tb_client ( name, label,
+      dscp, flag, icon_ts,
+      phone, mac_addr, public_ip,
+      public_port, passwd,
+      local_ip, local_port, create_time,
+      last_login, last_logoff, online_time,
+      birthday,avatar
+      )
+    values ( #{name,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR},
+      #{dscp,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, #{iconTs,jdbcType=BIGINT},
+      #{phone,jdbcType=VARCHAR}, #{macAddr,jdbcType=VARCHAR}, #{publicIP,jdbcType=VARCHAR},
+      #{publicPort,jdbcType=INTEGER}, #{passwd,jdbcType=VARCHAR},
+      #{localIp,jdbcType=VARCHAR}, #{localPort,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{lastLogin,jdbcType=TIMESTAMP}, #{lastLogoff,jdbcType=TIMESTAMP}, #{onlineTime,jdbcType=INTEGER},
+      #{birthday,jdbcType=TIMESTAMP},#{avatar,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClient" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into tb_client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="dscp != null">
+        dscp,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="iconTS != null">
+        icon_ts,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="macAddr != null">
+        mac_addr,
+      </if>
+      <if test="publicIP != null">
+        public_ip,
+      </if>
+      <if test="publicPort != null">
+        public_port,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="localIp != null">
+        local_ip,
+      </if>
+      <if test="localPort != null">
+        local_port,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastLogin != null">
+        last_login,
+      </if>
+      <if test="lastLogoff != null">
+        last_logoff,
+      </if>
+      <if test="onlineTime != null">
+        online_time,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="dscp != null">
+        #{dscp,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="iconTS != null">
+        #{iconTS,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="macAddr != null">
+        #{macAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="publicIP != null">
+        #{publicIP,jdbcType=VARCHAR},
+      </if>
+      <if test="publicPort != null">
+        #{publicPort,jdbcType=INTEGER},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="localIp != null">
+        #{localIp,jdbcType=VARCHAR},
+      </if>
+      <if test="localPort != null">
+        #{localPort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogoff != null">
+        #{lastLogoff,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onlineTime != null">
+        #{onlineTime,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClient">
+    update tb_client
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="dscp != null">
+        dscp = #{dscp,jdbcType=VARCHAR},
+      </if>
+      <if test="iconTS != null and iconTS != 0">
+        icon_ts = #{iconTS,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="macAddr != null">
+        mac_addr = #{macAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="publicIP != null and publicIP!='0.0.0.0'">
+        public_ip = #{publicIP,jdbcType=VARCHAR},
+      </if>
+      <if test="publicPort != null and publicPort != 0">
+        public_port = #{publicPort,jdbcType=INTEGER},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="localIp != null">
+        local_ip = #{localIp,jdbcType=VARCHAR},
+      </if>
+      <if test="localPort != null">
+        local_port = #{localPort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogoff != null">
+        last_logoff = #{lastLogoff,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onlineTime != null">
+        online_time = #{onlineTime,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{clientId,jdbcType=BIGINT}
+  </update>
+<!--  <update id="updateByPrimaryKey" parameterType="cn.teclub.ha3.coco_server.model.bean.StBeanClientient">
+    update tb_client
+    set name = #{name,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      dscp = #{dscp,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      icon_ts = #{iconTS,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=VARCHAR},
+      mac_addr = #{macAddr,jdbcType=VARCHAR},
+      public_ip = #{publicIP,jdbcType=VARCHAR},
+      public_port = #{publicPort,jdbcType=INTEGER},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      local_ip = #{localIp,jdbcType=VARCHAR},
+      local_port = #{localPort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      last_logoff = #{lastLogoff,jdbcType=TIMESTAMP},
+      online_time = #{onlineTime,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      where id = #{id,jdbcType=BIGINT}
+  </update>-->
+</mapper>

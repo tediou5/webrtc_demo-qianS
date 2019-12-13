@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.teclub.ha3.coco_server.model.dao.StTokenDao">
+  <resultMap id="BaseResultMap" type="cn.teclub.ha3.coco_server.model.dao.StBeanToken">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="atime" jdbcType="TIMESTAMP" property="atime" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, `uid`, token, atime, ctime
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_token
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByToken" resultMap="BaseResultMap" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_token
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null" >
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="uid != null" >
+        AND uid = #{uid,jdbcType=INTEGER}
+      </if>
+      <if test="token != null" >
+        AND token = #{token,jdbcType=VARCHAR}
+      </if>
+      <if test="atime != null" >
+        AND atime = #{atime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ctime != null" >
+        AND ctime = #{ctime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+    limit 0 ,1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_token
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken" useGeneratedKeys="true">
+    insert into tb_token (`uid`, token, atime,
+      ctime)
+    values (#{uid,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{atime,jdbcType=TIMESTAMP}, 
+      #{ctime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken" useGeneratedKeys="true">
+    insert into tb_token
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="atime != null">
+        atime,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="atime != null">
+        #{atime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken">
+    update tb_token
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="atime != null">
+        atime = #{atime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByUid" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken" >
+    update tb_token set atime = #{atime,jdbcType=TIMESTAMP} where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanToken">
+    update tb_token
+    set `uid` = #{uid,jdbcType=INTEGER},
+      token = #{token,jdbcType=VARCHAR},
+      atime = #{atime,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

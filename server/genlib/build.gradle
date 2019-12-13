@@ -1,0 +1,121 @@
+plugins {
+    id 'java-library'
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+dependencies {
+    // logback & slf4j
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    //
+    // [Cook: 2019-9-20] adding logback dependencis causes error when building android fambo app
+    //  -------------------------------------------------------------------------------
+    //       program type already present ch.qos.logback.classic.BasicConfigurator
+    //  -------------------------------------------------------------------------------
+    //api 'ch.qos.logback:logback-classic:1.2.3'
+    //api 'ch.qos.logback:logback-core:1.2.3'
+
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    // SMS Sender:
+    api 'org.apache.httpcomponents:httpclient:4.5.6'
+    api 'org.apache.httpcomponents:httpmime:4.5.6'
+
+    //api 'net.sf.json-lib:json-lib:2.4'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+jar {
+    version =  'v0.5.0_RC25'
+    baseName = "st-genlib"
+}
+
+
+
+// [Guilin: 2019-9-19]
+// Build STEPS ---- run on command line!!!
+// - clean gradle project:
+//      $ gradle clean
+// - [opt] generate StVersion.java
+//      $ gradle generateTestSources
+// - build
+//      $ gradle build
+//
+// Q: Is 'generateTestSources' a default task? Can we re-name it?
+//
+// Reference:
+// - https://discuss.gradle.org/t/accessing-build-graddle-information-from-a-java-file/20756/8
+//
+task generateTestSources {
+    inputs.property "version", project.version
+    outputs.dir "$buildDir/generated"
+    doFirst {
+        def versionFile = file("$buildDir/generated/cn/teclub/ha3/StVersion.java")
+        versionFile.parentFile.mkdirs()
+        versionFile.text =
+                """
+package cn.teclub.ha3;
+
+public class StVersion {
+	public static String getVersion() {
+        // DO NOT use "project.version"!!
+        // Reason: 'project' changes, depending on which project genlib belongs to
+        // It can be 'server' or 'fambo'!
+        //
+        // ---- current project ----
+        // 'project.name'    = "$project.name";
+        // 'project.version' = "$project.version";
+
+		return "$jar.version";
+	}
+}
+"""
+    }
+}
+
+
+compileJava.dependsOn generateTestSources
+
+
+sourceSets.main.java {
+    srcDir "$buildDir/generated"
+}
+
+
+
+
+
+
+/*
+// 2019-9-19: get version from project's build.gradle
+// NOTE: following does not work!!!!
+//
+// reference:
+// - https://stackoverflow.com/questions/33020069/how-to-get-version-attribute-from-a-gradle-build-to-be-included-in-runtime-swing
+
+task createProperties(dependsOn: processResources) {
+    doLast {
+        new File("$buildDir/resources/main/version.properties").withWriter { w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p.store w, null
+        }
+    }
+}
+
+classes {
+    dependsOn createProperties
+}
+
+//
+// - https://stackoverflow.com/questions/24724383/add-resources-config-files-to-your-jar-using-gradle
+//sourceSets.main.resources {
+//    srcDirs "build/resources/main"
+//}
+
+*/

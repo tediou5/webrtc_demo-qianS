@@ -1,0 +1,119 @@
+
+[tc-func] #### SSL Server Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [1] Create Core Module ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Server-Core -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [2] Initialize Task & Client Manager ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [3] Create Global ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [4] Start STUN on UDP Port: 17703
+TRACE -- $$$$ TEST MILESTONE $$$$  [5] Create SSL & Plain Sockets ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [SSL  ] Server is listening port: 17701
+TRACE -- $$$$ TEST MILESTONE $$$$  [PLAIN] Server is listening port: 17702
+TRACE -- $$$$ TEST MILESTONE $$$$  [6] Start listening threads ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [7] Add Module Listeners ...
+TRACE -- $$$$ TEST MILESTONE $$$$  [8] Initialize Request Manager...
+TRACE -- $$$$ TEST MILESTONE $$$$  [8/8] Server Compoment Created!
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'gw04' has logged in.
+TRACE -- $$$$ TEST MILESTONE $$$$  [5/5] DONE! Added an ONLINE Client: gw04/孙氏家
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: gw04/孙氏家/0xb04[ ON,MONITOR,UNKNOWN_NAT],stg0004,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  Client 'user0000' has logged in.
+TRACE -- $$$$ TEST MILESTONE $$$$  [5/5] DONE! Added an ONLINE Client: user0000/user_0000
+TRACE -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: user0000/user_0000/0xcc0000[ ON,USER,UNKNOWN_NAT],stuF0000,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  
+$$$$ TEST MILESTONE $$$$  	|========class cn.teclub.ha.net.serv.StModelClientHas==============================================|
+$$$$ TEST MILESTONE $$$$  	|Flag:      0b1000000000                                                                           |
+$$$$ TEST MILESTONE $$$$  	|  -- (str): [USER,---,MONITOR,---]                                                                |
+$$$$ TEST MILESTONE $$$$  	|Client A (Owner) :    0xcc0000                                                                    |
+$$$$ TEST MILESTONE $$$$  	|Client B (Friend):    0xb04                                                                       |
+$$$$ TEST MILESTONE $$$$  	|==================================================================================================|
+TRACE -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (user0000, 0xcc0000) is OFFLINE! 
+TRACE -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (gw04, 0xb04) is OFFLINE! 
+
+[tc-func] #### Gateway    Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Upload-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  ^_^ Client Login OK: gw04/孙氏家/0xb04[ ON,MONITOR,UNKNOWN_NAT],stg0004,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 1
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/__gw04/sdcard/AA-FAMBO/data/client_buffered_object.ser
+TRACE -- $$$$ TEST MILESTONE $$$$  Local Client-Info Updated: 
+$$$$ TEST MILESTONE $$$$  	|========class cn.teclub.ha.net.StClientInfo=======================================================|
+$$$$ TEST MILESTONE $$$$  	|Client ID : 0xb04                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Flag : [ ON,MONITOR,UNKNOWN_NAT]                                                                  |
+$$$$ TEST MILESTONE $$$$  	|  -- 0x0000-000A (00000000 00000000 00000000 00001010)                                            |
+$$$$ TEST MILESTONE $$$$  	|Name : gw04                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|Label: 孙氏家                                                                                     |
+$$$$ TEST MILESTONE $$$$  	|Dscp : <no-description>                                                                           |
+$$$$ TEST MILESTONE $$$$  	|SIP ID : stg0004                                                                                  |
+$$$$ TEST MILESTONE $$$$  	|SIP Passwd: abcd1234                                                                              |
+$$$$ TEST MILESTONE $$$$  	|SIP Domain: sip.teclub.cn                                                                         |
+$$$$ TEST MILESTONE $$$$  	|Phone Num :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|MAC Addr  :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|ICON TS   : 0x0                                                                                   |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-1:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-2:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|  -- [Friendship] 0xa00/USER/ADM,0xb04/MONITOR/---,0b1000001000,0x0000-0208                       |
+$$$$ TEST MILESTONE $$$$  	|  -- [Friendship] 0xcc0000/USER/---,0xb04/MONITOR/---,0b1000000000,0x0000-0200                    |
+$$$$ TEST MILESTONE $$$$  	|==================================================================================================|
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 2
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/__gw04/sdcard/AA-FAMBO/data/client_buffered_object.ser
+TRACE -- $$$$ TEST MILESTONE $$$$  Local Client-Info Updated: 
+$$$$ TEST MILESTONE $$$$  	|========class cn.teclub.ha.net.StClientInfo=======================================================|
+$$$$ TEST MILESTONE $$$$  	|Client ID : 0xb04                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Flag : [ ON,MONITOR,UNKNOWN_NAT]                                                                  |
+$$$$ TEST MILESTONE $$$$  	|  -- 0x0000-000A (00000000 00000000 00000000 00001010)                                            |
+$$$$ TEST MILESTONE $$$$  	|Name : gw04                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|Label: 孙氏家                                                                                     |
+$$$$ TEST MILESTONE $$$$  	|Dscp : <no-description>                                                                           |
+$$$$ TEST MILESTONE $$$$  	|SIP ID : stg0004                                                                                  |
+$$$$ TEST MILESTONE $$$$  	|SIP Passwd: abcd1234                                                                              |
+$$$$ TEST MILESTONE $$$$  	|SIP Domain: sip.teclub.cn                                                                         |
+$$$$ TEST MILESTONE $$$$  	|Phone Num :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|MAC Addr  :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|ICON TS   : 0x0                                                                                   |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-1:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-2:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|  -- [Friendship] 0xa00/USER/ADM,0xb04/MONITOR/---,0b1000001000,0x0000-0208                       |
+$$$$ TEST MILESTONE $$$$  	|==================================================================================================|
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 1
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/__gw04/sdcard/AA-FAMBO/data/client_buffered_object.ser
+
+[tc-func] #### User       Log 
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] EVT_HDL_POOL -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Upload-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+TRACE -- $$$$ TEST MILESTONE $$$$  ^_^ Client Login OK: user0000/user_0000/0xcc0000[ ON,USER,UNKNOWN_NAT],stuF0000,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 0
+TRACE -- $$$$ TEST MILESTONE $$$$  Serialize Success -- File: ./fake-dev/sdcard/AA-FAMBO/data/client_buffered_object.ser
+TRACE -- $$$$ TEST MILESTONE $$$$  Find Contact: 
+$$$$ TEST MILESTONE $$$$  	|========class cn.teclub.ha.net.StClientInfo=======================================================|
+$$$$ TEST MILESTONE $$$$  	|Client ID : 0xb04                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Flag : [ ON,MONITOR,UNKNOWN_NAT]                                                                  |
+$$$$ TEST MILESTONE $$$$  	|  -- 0x0000-000A (00000000 00000000 00000000 00001010)                                            |
+$$$$ TEST MILESTONE $$$$  	|Name : gw04                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|Label: 孙氏家                                                                                     |
+$$$$ TEST MILESTONE $$$$  	|Dscp : <no-description>                                                                           |
+$$$$ TEST MILESTONE $$$$  	|SIP ID : stg0004                                                                                  |
+$$$$ TEST MILESTONE $$$$  	|SIP Passwd: abcd1234                                                                              |
+$$$$ TEST MILESTONE $$$$  	|SIP Domain: sip.teclub.cn                                                                         |
+$$$$ TEST MILESTONE $$$$  	|Phone Num :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|MAC Addr  :                                                                                       |
+$$$$ TEST MILESTONE $$$$  	|ICON TS   : 0x0                                                                                   |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-1:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|Friend ID List-2:                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|  -- [Friendship] 0xa00/USER/ADM,0xb04/MONITOR/---,0b1000001000,0x0000-0208                       |
+$$$$ TEST MILESTONE $$$$  	|==================================================================================================|
+TRACE -- $$$$ TEST MILESTONE $$$$  Added Contact: gw04/孙氏家/0xb04[ ON,MONITOR,UNKNOWN_NAT],stg0004,127.0.0.1
+TRACE -- $$$$ TEST MILESTONE $$$$  [3/3] Search/Add/Delete Success!
+TRACE -- $$$$ TEST MILESTONE $$$$  [Lbr-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [App-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Main-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [RPR-Upload-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [Session-Core-Pulse] Event Handler Stopped!
+TRACE -- $$$$ TEST MILESTONE $$$$  [EVT_HDL_POOL] Event Handler Stopped!

@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 
+##########################################################################
+hibernate mapping file
+##########################################################################
+-->
+<hibernate-mapping package="cn.teclub.ha.net.serv">
+    <class name="StModelMessage" table="tb_message">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+        <property name="cltARawId"  column="clt_a" 		type="long"/>
+     	<property name="cltBRawId"  column="clt_b" 		type="long"/>
+        <property name="flag"  	 	column="flag" 		type="integer"/>
+        <property name="dataLen"  	column="data_len" 	type="integer"/>
+        <property name="startTime" 	column="start_time" type="timestamp"/>
+        <property name="endTime" 	column="end_time"  	type="timestamp"/>
+        <property name="data"   type="binary"/>
+    </class>
+</hibernate-mapping>

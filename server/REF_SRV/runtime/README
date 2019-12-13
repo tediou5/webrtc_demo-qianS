@@ -1,0 +1,4 @@
+[Theodore: 2017-11-28] 
+manually change SSL key_store in bin/st_ha_srv.properties
+	key_store=../src/codeprojectssl.keystore
+

@@ -1,0 +1,6 @@
+.ck-service__*
+tc-result
+tc-runtime
+st-*log*
+fake-dev
+tmp

@@ -1,0 +1,54 @@
+#!/bin/sh
+# ==============================================================================
+#
+#       Filename:   TC003
+#
+#    Description:  	Test Case 003
+#                   TODO: Sending continuous packets
+#
+#        Version:  	1.2
+#        Created:  	2014-12-20 07:42:40
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2014-12-20
+#           		Created
+#       
+#                   1.1  2016-04-05
+#                   TODO: Modified for StGenLib2
+#
+#                   1.2  2016-10-23
+#                   Works in StGenLib4
+#
+# 
+#
+# ==============================================================================
+
+tc_name="TC003"
+tc_info="[Smoke Test] Gateway Sending Continous Packets (deprecated)"
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+
+echo "TODO..."
+
+
+tc_clear
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"     st-server_test.log
+tc_gen_milestone "Gateway    Log"     st-client-online_test.log
+tc_gen_milestone "User       Log"     st-client-test.log
+

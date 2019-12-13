@@ -1,0 +1,65 @@
+#!/bin/bash
+# ==============================================================================
+#
+#       Filename:   TC002
+#
+#    Description:  	Test Case 002 
+#                   Start several gateway clients, which just log in CS.
+#
+#        Version:  	1.2
+#        Created:  	2014-12-20 07:42:40
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2014-12-20
+#           		Created
+#       
+#                   1.1 2015-xx-xx 
+#                   Works in StGenLib2
+#
+#                   1.2  2016-10-23
+#                   Works in StGenLib4
+#
+#
+# ==============================================================================
+
+tc_name="TC002"
+tc_info="[Smoke Test] Two Gateways log in"
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+
+
+env |grep CLASSPATH
+
+echo "Start another gateway ... "
+serv_args="gw00 abcd1234  ./fake-dev/__gw00/sdcard/AA-FAMBO st_client_online2"
+ck-service.sh  client-online2  start "cn.teclub.ha.test.ClientOnline" "$serv_args" 1  2>&1
+sleep 5 
+
+
+ps -ef |grep FAMBO
+ck-service.sh  client-online2 stop "cn.teclub.ha.test.ClientOnline"  "gw00"
+sleep 3
+
+
+
+tc_clear
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"     st-server_test.log
+tc_gen_milestone "Gateway-1  Log"     st-client-online_test.log
+tc_gen_milestone "Gateway-2  Log"     st-client-online2_test.log
+

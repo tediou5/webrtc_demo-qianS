@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.teclub.ha3.coco_server.model.dao.StClientHasDao">
+  <resultMap id="BaseResultMap" type="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="clt_a" jdbcType="BIGINT" property="cltA" />
+    <result column="clt_b" jdbcType="BIGINT" property="cltB" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, clt_a, clt_b, flag, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_client_has
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_client_has
+    where clt_a = #{uid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByDid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_client_has
+    where clt_b = #{did,jdbcType=BIGINT}
+  </select>
+  <select id="selectByRecord" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_client_has
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="cltA != null">
+        and clt_a = #{cltA,jdbcType=BIGINT}
+      </if>
+      <if test="cltB != null">
+        and clt_b = #{cltB,jdbcType=BIGINT}
+      </if>
+      <if test="type != null">
+        and type = #{type,jdbcType=BIGINT}
+      </if>
+    </trim>
+    limit 0 ,1
+  </select>
+  <delete id="deleteByRecord" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    delete from tb_client_has
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="cltA != null">
+        and clt_a = #{cltA,jdbcType=BIGINT}
+      </if>
+      <if test="cltB != null">
+        and clt_b = #{cltB,jdbcType=BIGINT}
+      </if>
+    </trim>
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_client_has
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByUid" parameterType="java.lang.Long">
+    delete from tb_client_has
+    where clt_a = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByDid" parameterType="java.lang.Long">
+    delete from tb_client_has
+    where clt_b = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    insert into tb_client_has (id, clt_a, clt_b, 
+      flag)
+    values (#{id,jdbcType=BIGINT}, #{cltA,jdbcType=BIGINT}, #{cltB,jdbcType=BIGINT}, 
+      #{flag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    insert into tb_client_has
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cltA != null">
+        clt_a,
+      </if>
+      <if test="cltB != null">
+        clt_b,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="cltA != null">
+        #{cltA,jdbcType=BIGINT},
+      </if>
+      <if test="cltB != null">
+        #{cltB,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    update tb_client_has
+    <set>
+      <if test="cltA != null">
+        clt_a = #{cltA,jdbcType=BIGINT},
+      </if>
+      <if test="cltB != null">
+        clt_b = #{cltB,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.teclub.ha3.coco_server.model.dao.StBeanClientHas">
+    update tb_client_has
+    set clt_a = #{cltA,jdbcType=BIGINT},
+      clt_b = #{cltB,jdbcType=BIGINT},
+      flag = #{flag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

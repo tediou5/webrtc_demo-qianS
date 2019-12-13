@@ -1,0 +1,19 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 
+##########################################################################
+hibernate mapping file: tb_client_has
+##########################################################################
+-->
+<hibernate-mapping package="cn.teclub.ha3.server.core">
+    <class name="StModelClientHas" table="tb_client_has">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+     	<property name="cltARawId" column="clt_a" 	type="long"/>
+     	<property name="cltBRawId" column="clt_b" 	type="long"/>
+        <property name="flag"  	   column="flag" 	type="integer"/>
+    </class>
+</hibernate-mapping>

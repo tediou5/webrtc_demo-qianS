@@ -1,0 +1,52 @@
+#!/bin/bash
+# ==============================================================================
+#
+#       Filename:   TC010
+#
+#    Description:  	Test Case 010
+#                   Query Time Lapse
+#
+#        Version:  	1.0
+#        Created:   2016-04-05
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2016-04-05
+#           		Created
+#       
+#					1.1 2016-10-22
+#					[Deprecated] TimaLapse is moved into android-lib.
+# ==============================================================================
+
+tc_name="TC010"
+tc_info="[Smoke Test] Query Time Lapse"
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+
+env |grep CLASSPATH
+
+echo "Start java app QueryTimelapse ... "
+app_args="user00 abcD1234  ./fake-dev/__user00/sdcard/AA-FAMBO  2016-3-4  7 gw04"
+java  cn.teclub.ha.test.QueryTimelapse   $app_args 2>&1
+sleep 2
+
+tc_clear
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"   st-server_test.log
+tc_gen_milestone "Gateway    Log"   st-client-online_test.log
+tc_gen_milestone "User       Log"   st-client-test.log 
+

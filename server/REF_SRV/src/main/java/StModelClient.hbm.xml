@@ -1,0 +1,55 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 
+##########################################################################
+HA Client hibernate mapping file
+##########################################################################
+-->
+<hibernate-mapping package="cn.teclub.ha.net.serv">
+    <class name="StModelClient" table="tb_client" >
+        <id name="rawId" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+        <property name="name"/>
+        <property name="label"/>
+        <property name="dscp"/>
+        <property name="flag"  	 	column="flag" 		type="integer"/>
+        <property name="iconTS"  	column="icon_ts" 	type="long"/>
+        
+        <property name="phone"/>
+        <property name="macAddr"  	column="mac_addr"/>
+        <property name="publicIP"  	column="public_ip"/>
+        <property name="publicPort" column="public_port" type="integer"/>
+        
+        <!-- 	[2016-10-19] TODO: 
+        		1) cascade="delete"
+        		Check relationships are deleted when deleting client! 
+        -->
+        <many-to-one name="sipAcct" class="StModelSipAcct"  fetch="join" 
+            	column="sip_acct_id"  unique="true" not-null="true" 
+            	cascade="none" lazy="false"  />
+              
+      	<set name="relationList1" cascade="delete" fetch="join" >
+            <key column="clt_a"/>
+         	<one-to-many class="StModelClientHas"  />
+        </set>
+        <set name="relationList2" cascade="delete"  fetch="join" >
+            <key column="clt_b"/>
+         	<one-to-many class="StModelClientHas"   />
+        </set>
+        
+        
+        
+        <!--  Used only by server! -->
+        <property name="passwd"/>
+        <property name="localIP"  	column="local_ip"/>
+        <property name="localPort"  column="local_port" type="integer"/>
+        
+       	<property name="createTime" 	column="create_time" 	type="timestamp"/>
+        <property name="lastLogin"  	column="last_login" 	type="timestamp"/>
+        <property name="lastLogoff" 	column="last_logoff" 	type="timestamp"/>
+        <property name="onlineTime"  	column="online_time" 	type="integer"/>
+    </class>
+</hibernate-mapping>

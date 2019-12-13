@@ -1,0 +1,51 @@
+#!/bin/sh
+# ==============================================================================
+#
+#       Filename:   TC005
+#
+#    Description:  	Search, Add & Delete a Contact
+#
+#        Version:  	1.0
+#        Created:  	2016-10-23 
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2016-10-23
+#           		Created
+#       
+#
+#
+# ==============================================================================
+
+
+tc_name="TC005"
+tc_info="[Smoke Test] Search, Add & Delete a Contact"
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+
+java  cn.teclub.ha.test.SearchAddDelContact user0000 abcd1234  ./fake-dev/sdcard/AA-FAMBO  gw04 2>&1   
+sleep 2
+
+
+tc_clear
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"     st-server_test.log
+tc_gen_milestone "Gateway    Log"     st-client-online_test.log
+tc_gen_milestone "User       Log"     st-client-test.log
+
+
+

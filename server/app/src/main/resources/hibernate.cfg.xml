@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://ay004.teclub.cn/db_st_ha</property>
+        <property name="connection.useUnicode">true</property> 
+		<property name="connection.characterEncoding">UTF-8</property>
+        <property name="connection.username">momo</property>
+        <property name="connection.password">asdf123</property>
+        
+        <!-- 
+        Disable the second-level cache
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+        Drop and re-create the database schema on startup
+        <property name="hbm2ddl.auto">update</property>
+        
+        [2015-2-17] DO NOT use the built-in JDBC connection pool in a real project!!!
+        Use 'c3p0' as the connection pool. 
+        
+        
+        [2015-2-22] Make sure the 3 jar files are added into 'build-path' of StGenLib, manually!
+       	- hibernate-c3p0-4.1.2.jar;
+       	- mchange-commons-java-0.2.9.jar;
+       	- c3p0-0.9.5.jar;
+        NOTE: Unlike an Android project, a Jar file in 'libs' folder of StGenLib IS NOT 
+        added into classpath, by default! You must add it manually!
+        -->
+        
+       <!--  
+       <property name="cache.provider_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+       -->
+       
+        <property name="connection.pool_size">3</property> 
+        <property name="connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
+        <property name="hibernate.c3p0.min_size">10</property> 
+        <property name="hibernate.c3p0.max_size">100</property>
+        <property name="hibernate.c3p0.max_statements">100</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.idle_test_period">1200</property>
+        <property name="hibernate.c3p0.acquire_increment">4</property>
+
+        <property name="dialect"> cn.teclub.ha3.server.core.MySqlDialect  </property>
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">false</property>
+        
+        
+        <mapping resource="StModelClient.hbm.xml"/>
+        <mapping resource="StModelClientHas.hbm.xml"/>
+        <mapping resource="StModelSipAcct.hbm.xml"/>
+        <mapping resource="StModelMessage.hbm.xml"/>
+        
+    </session-factory>
+
+</hibernate-configuration>

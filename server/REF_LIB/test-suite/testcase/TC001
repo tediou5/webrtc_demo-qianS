@@ -1,0 +1,56 @@
+#!/bin/bash
+# ==============================================================================
+#
+#       Filename: 	TC001
+#
+#    Description:   Test Case 001
+#                   Start SSL Server, a gateway and a user.
+#
+#
+#        Version:  	1.2
+#        Created:  	2014-12-20
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0 2014-12-20
+#           		Created
+#
+#                   1.1 2015-xx-xx 
+#                   Works in StGenLib2
+#
+#                   1.2  2016-10-23
+#                   Works in StGenLib4
+#
+#
+# ==============================================================================
+
+
+tc_name="TC001"
+tc_info="[Smoke Test] Start SSL Server, a gateway and a user."
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+java  cn.teclub.ha.test.ClientLogin user00  abcD1234  ./fake-dev/__user00/sdcard/AA-FAMBO 2>&1
+sleep 2
+
+tc_clear
+
+
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"     st-server_test.log
+tc_gen_milestone "Gateway    Log"     st-client-online_test.log
+tc_gen_milestone "User       Log"     st-client-test.log
+

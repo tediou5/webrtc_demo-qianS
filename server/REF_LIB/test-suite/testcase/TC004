@@ -1,0 +1,59 @@
+#!/bin/sh
+# ==============================================================================
+#
+#       Filename:   TC004
+#
+#    Description:  	Test Case 004
+#                   A new client signs up
+#
+#        Version:  	1.1
+#        Created:  	2014-12-20 07:42:40
+#       Revision:  	none
+#       Compiler:  	bash
+#
+#         Author:  	Theodore Cao 
+#        Company:  	Spring Tech, Shanghai
+#
+# ------------------------------------------------------------------------------
+# 		Versions:   1.0  2014-12-20
+#           		Created
+#
+#
+#                   1.1  2016-07-xx
+#                   Works in StGenLib4
+#
+#       
+# ==============================================================================
+
+
+tc_name="TC004"
+tc_info="[Smoke Test] A new client signs up"
+
+
+
+# ------------------------------------------------------------------------------ 
+# Main Entry
+# ------------------------------------------------------------------------------ 
+
+echo "#### $tc_info ####"
+tc_setup
+
+
+java  cn.teclub.ha.test.ClientSignup  user-tc004  abcD1234	MomoSon 13819190004 ./fake-dev/sdcard/AA-FAMBO  2>&1
+sleep 2
+
+java  cn.teclub.ha.test.ClientSignout  user-tc004  abcD1234	./fake-dev/sdcard/AA-FAMBO  2>&1
+sleep 2
+
+
+tc_clear
+
+
+# ------------------------------------------------------------------------------ 
+echo "#### Generate result file "
+tc_gen_milestone "SSL Server Log"     st-server_test.log
+tc_gen_milestone "Gateway    Log"     st-client-online_test.log
+tc_gen_milestone "User       Log"     st-client-test.log
+
+
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.teclub.ha3.server.dao.StMessageDao">
+  <resultMap id="BaseResultMap" type="cn.teclub.ha3.server.model.StMessage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="data_len" jdbcType="INTEGER" property="dataLen" />
+    <result column="clt_a" jdbcType="BIGINT" property="cltA" />
+    <result column="clt_b" jdbcType="BIGINT" property="cltB" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.teclub.ha3.server.model.StMessage">
+    <result column="data" jdbcType="LONGVARBINARY" property="data" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, flag, data_len, clt_a, clt_b, start_time, end_time
+  </sql>
+  <sql id="Blob_Column_List">
+    data
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_message
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_message
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.teclub.ha3.server.model.StMessage">
+    insert into tb_message (id, flag, data_len, 
+      clt_a, clt_b, start_time, 
+      end_time, data)
+    values (#{id,jdbcType=BIGINT}, #{flag,jdbcType=INTEGER}, #{dataLen,jdbcType=INTEGER}, 
+      #{cltA,jdbcType=BIGINT}, #{cltB,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{data,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.teclub.ha3.server.model.StMessage">
+    insert into tb_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="dataLen != null">
+        data_len,
+      </if>
+      <if test="cltA != null">
+        clt_a,
+      </if>
+      <if test="cltB != null">
+        clt_b,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="data != null">
+        data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="dataLen != null">
+        #{dataLen,jdbcType=INTEGER},
+      </if>
+      <if test="cltA != null">
+        #{cltA,jdbcType=BIGINT},
+      </if>
+      <if test="cltB != null">
+        #{cltB,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.teclub.ha3.server.model.StMessage">
+    update tb_message
+    <set>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="dataLen != null">
+        data_len = #{dataLen,jdbcType=INTEGER},
+      </if>
+      <if test="cltA != null">
+        clt_a = #{cltA,jdbcType=BIGINT},
+      </if>
+      <if test="cltB != null">
+        clt_b = #{cltB,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="data != null">
+        data = #{data,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.teclub.ha3.server.model.StMessage">
+    update tb_message
+    set flag = #{flag,jdbcType=INTEGER},
+      data_len = #{dataLen,jdbcType=INTEGER},
+      clt_a = #{cltA,jdbcType=BIGINT},
+      clt_b = #{cltB,jdbcType=BIGINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      data = #{data,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.teclub.ha3.server.model.StMessage">
+    update tb_message
+    set flag = #{flag,jdbcType=INTEGER},
+      data_len = #{dataLen,jdbcType=INTEGER},
+      clt_a = #{cltA,jdbcType=BIGINT},
+      clt_b = #{cltB,jdbcType=BIGINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

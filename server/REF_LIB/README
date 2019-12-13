@@ -1,0 +1,52 @@
+################################################################################
+# File: 	README for StGenLib4
+# Author: 	Theodor Cao
+# Created: 	2016-8-3
+# 			
+# Logs:		2016-11-18	Move server code into StServer project.
+#			
+################################################################################
+
+Export JAR Files
+~~~~~~~~~~~~~~~~
+[Theodore: 2015-12-24] ATTENTION:
+- ONLY export log4j, common-net, common-io in project menu:
+	"Properties -> Java Build Path -> Order and Export".
+  DO NOT export other jar files, which may cause error when building Android app. 
+
+
+   
+Test Suite
+~~~~~~~~~~
+Preparation: DO ONLY ONCE!
+	$ cd ${LibHome}/test-suite/
+	$ ln -s ../../../../data/fake-dev
+	
+
+Run all Test: 
+	$ cd ${LibHome}/test-suite/
+	$ ./tc-run-all.sh
+
+
+Run One Test Case:
+	$ cd ${LibHome}/test-suite/
+	$ . ./tc-setenv.sh
+	$ tc-run.sh {TestCase}  [v|bm]
+	
+	Example:
+	$ tc-run.sh TC001 v
+
+
+Use Admin Client
+~~~~~~~~~~~~~~~
+Run admin-client in test-suite! 
+	Admin script: test-suite/bin/admin-client.sh
+	Config file:  test-suite/conf/st_admin_client.properties
+
+Usage:
+	$ . ./tc-setenv.sh
+	$ admin-client.sh
+	
+	
+	
+	

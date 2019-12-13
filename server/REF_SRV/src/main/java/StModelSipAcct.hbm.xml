@@ -1,0 +1,22 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 
+##########################################################################
+HA SIP Account hibernate mapping file
+##########################################################################
+-->
+<hibernate-mapping package="cn.teclub.ha.net.serv">
+    <class name="StModelSipAcct" table="tb_sip_acct">
+        <id name="id" column="id" type="integer">
+            <generator class="increment"/>
+        </id>
+        
+        <property name="sipId"		column="sip_id" />
+        <property name="sipPasswd"	column="sip_passwd" />
+        <property name="sipDomain"	column="sip_domain" />
+        <property name="flag"  	 		column="flag" 		type="integer"/>
+        <property name="dscp"/>
+    </class>
+</hibernate-mapping>

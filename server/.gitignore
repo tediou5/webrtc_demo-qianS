@@ -1,0 +1,28 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# ignore gradle & Maven files
+build
+target
+
+
+
+# ignore Android Studio / Intellij files
+*.iml
+local.properties
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+
+captures
+.externalNativeBuild
+
+# [Theodore: 2018-12-18] added
+bin
+out
+.DS_Store
+.idea
+.idea/caches
+#.idea/vcs.xml
+.idea/misc.xml
+.idea/uiDesigner.xml

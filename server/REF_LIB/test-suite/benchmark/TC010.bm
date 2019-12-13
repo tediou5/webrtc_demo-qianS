@@ -1,0 +1,78 @@
+
+[tc-func] #### SSL Server Log 
+ INFO -- $$$$ TEST MILESTONE $$$$  [1] Create Core Module ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Srv-Mod-Core-Hdl -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [2] Initialize Task & Client Manager ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [3] Create Global ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [4] Start STUN on UDP Port: 17703
+ INFO -- $$$$ TEST MILESTONE $$$$  [5] Create SSL & Plain Sockets ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [SSL  ] Server is listening port: 17701
+ INFO -- $$$$ TEST MILESTONE $$$$  [PLAIN] Server is listening port: 17702
+ INFO -- $$$$ TEST MILESTONE $$$$  [6] Start listening threads ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [7] Add Module Listeners ...
+ INFO -- $$$$ TEST MILESTONE $$$$  [8] Initialize Request Manager...
+ INFO -- $$$$ TEST MILESTONE $$$$  [8/8] Server Compoment Created!
+ INFO -- $$$$ TEST MILESTONE $$$$  [5] Start listening thread ...
+ INFO -- $$$$ TEST MILESTONE $$$$  Client 'gw04' has logged in.
+ INFO -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: ID:0x0000-0000-00BB-0004[Flag:Assigned,OFFLINE,Gateway,Non-User,], publicIP:127.0.0.1, gw04/孙氏家
+ INFO -- $$$$ TEST MILESTONE $$$$  Client 'user00' has logged in.
+ INFO -- $$$$ TEST MILESTONE $$$$  [CS] Login OK -- Client: ID:0x0000-0000-00AA-0000[Flag:Assigned,OFFLINE,Non-Gateway,User,], publicIP:127.0.0.1, user00/Mancook
+ INFO -- $$$$ TEST MILESTONE $$$$  [CS] Deleted connection to client: 0x0000-0000-00AA-0000
+ INFO -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (user00, 0x0000-0000-00AA-0000) is OFFLINE! 
+ INFO -- $$$$ TEST MILESTONE $$$$  [CS] Deleted connection to client: 0x0000-0000-00BB-0004
+ INFO -- $$$$ TEST MILESTONE $$$$  [3/3] DONE! Client (gw04, 0x0000-0000-00BB-0004) is OFFLINE! 
+
+[tc-func] #### Gateway    Log 
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  Client (gw04) logs in, OK ^_^
+ INFO -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 9
+ INFO -- $$$$ TEST MILESTONE $$$$  Serialized Buffer Objects
+ INFO -- $$$$ TEST MILESTONE $$$$  Update Client B:user00(Mancook,stu0000,ONLINE,127.0.0.1)
+ INFO -- $$$$ TEST MILESTONE $$$$  Process SrvReq CMD_SRV_UPDATE_B ---- Updated B Count: 1
+ INFO -- $$$$ TEST MILESTONE $$$$  Serialized Buffer Objects
+ INFO -- $$$$ TEST MILESTONE $$$$  Update Client B:user00(Mancook,stu0000,OFFLINE,127.0.0.1)
+ INFO -- $$$$ TEST MILESTONE $$$$  Process SrvReq CMD_SRV_UPDATE_B ---- Updated B Count: 1
+ INFO -- $$$$ TEST MILESTONE $$$$  Serialized Buffer Objects
+
+[tc-func] #### User       Log 
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread starts.
+ INFO -- $$$$ TEST MILESTONE $$$$  Client (user00) logs in, OK ^_^
+ INFO -- $$$$ TEST MILESTONE $$$$  ALLOW CMD_CLIENT_A_QUERY_B ---- Client B Count: 15
+ INFO -- $$$$ TEST MILESTONE $$$$  Serialized Buffer Objects
+ INFO -- $$$$ TEST MILESTONE $$$$  Ping Success to Gateway: gw04(孙氏家,stg0004,ONLINE,127.0.0.1)
+ INFO -- $$$$ TEST MILESTONE $$$$  Result T.L.: 
+$$$$ TEST MILESTONE $$$$  	|########class cn.teclub.ha.client.app.StcTimeLapse################################################|
+$$$$ TEST MILESTONE $$$$  	|ID: TimeLapse_20160304-07__gw04                                                                   |
+$$$$ TEST MILESTONE $$$$  	|Flag   : 00000000 00000000 00000000 00000000(0)                                                   |
+$$$$ TEST MILESTONE $$$$  	|  Is Recording: NO                                                                                |
+$$$$ TEST MILESTONE $$$$  	|  Is Future   : NO                                                                                |
+$$$$ TEST MILESTONE $$$$  	|Video Number  : 6                                                                                 |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_070000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_071000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_072000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_073000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_074000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|-----------------------------------------------                                                   |
+$$$$ TEST MILESTONE $$$$  	|    Video File:     video/local/date_2016-03-04/TimeLapse_20160304_075000.mp4                     |
+$$$$ TEST MILESTONE $$$$  	|    Video on Cache:                                                                               |
+$$$$ TEST MILESTONE $$$$  	|##################################################################################################|
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Lbr-Pulse -- Thread Ends.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] App-Pulse -- Thread Ends.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] RPR-Main-Pulse -- Thread Ends.
+ INFO -- $$$$ TEST MILESTONE $$$$  [EVT-HDL] Session-Core-Pulse -- Thread Ends.
