@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '13.0'
+
+use_frameworks!
+target 'test_for_fs' do
+  pod 'AFNetworking', '~> 3.0'
+  pod 'GoogleWebRTC'
+  pod "StompClientLib"
+  pod 'SocketRocket'
+  pod 'MBProgressHUD', '~> 1.1.0'
+  pod'Socket.IO-Client-Swift', '~>13.3.0'
+end
