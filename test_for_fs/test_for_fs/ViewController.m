@@ -192,11 +192,12 @@ OpenStomp* stomp;
     self.loginView = [[LoginViewController alloc] init];
     [self.loginView.view setFrame:self.view.bounds];
     [self.loginView.view setBackgroundColor:[UIColor whiteColor]];
-    
     [self addChildViewController:self.loginView];
     [self.loginView didMoveToParentViewController:self];
     
     [self.view addSubview:self.loginView.view];
+    
+    [stomp registerSocket];
 }
 
 - (void)clickTestBtn:(UIButton*) sender{

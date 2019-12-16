@@ -5,7 +5,6 @@
 //  Created by qians on 2019/12/11.
 //  Copyright © 2019 qians. All rights reserved.
 //
-
 import Foundation
 
 class StWsMessage: NSObject{
@@ -56,6 +55,10 @@ class StWsMessage: NSObject{
     
     var cmd: Command
     var type: stType
+    
+//    init(AnyObject: msg){
+//        
+//    }
     
     init(ssid: Int, cmd: Command, type: stType, info: String, from: String, to: String) {
         self.ssid = ssid

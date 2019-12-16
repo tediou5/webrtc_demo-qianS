@@ -9,6 +9,8 @@
 import Foundation
 import StompClientLib
 
+//import "ProcessCommand.h"
+
 
 class OpenStomp: NSObject, StompClientLibDelegate{
 
@@ -21,14 +23,16 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     var token = "[user_ws_token] TODO: request from server when login;"
     
     //let url = NSURL(string: "http://localhost:9001")!
-    let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
+    //let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
+    let url = NSURL(string: "ws://192.168.0.105:9001/ep-st-websocket/websocket")
+    //let url = NSURL(string: "ws://localhost:9001/ep-st-websocket/websocket")
     //var url = NSURL(string: "http://server.teclub.cn:8080/ep-st-websocket/websocket")!
     //var url = NSURL(string: "ws://192.168.11.123:8080/im/websocket")!
     
     
     @objc func registerSocket() -> Void{
         print("webSocket is Connection:\(url)")
-        socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
+        socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
     }
     
     @objc func sendECHO() -> Void{
@@ -58,6 +62,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         let ID = stClientID!["id"] as! Int
         print("ID = \(ID)")
         id = String(ID)
+        //id = "2565"
         topic = baseTopic + id
         //let topic = self.topic
         
@@ -71,7 +76,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         // Reconnect after 4 sec
         print(url)
         if (!socketClient.isConnected()){
-            socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate, time: 4.0)
+            socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate, time: 4.0)
         }
         else {
             print("is connected")
@@ -84,6 +89,16 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, withHeader header: [String : String]?, withDestination destination: String) {
         print("DESTIONATION : \(destination)")
+        print("I should deal with JSON message at here")
+        print("test one")
+        
+        //let jsonData:Data = jsonBody?.anyObject(using: .utf8)!
+        
+        let pMsg = ProcessMessage()
+        let jsonMsg = jsonBody as? NSDictionary
+        print("cmd = \(String(describing: jsonMsg?["cmd"]))")
+        print("command = \(String(describing: jsonMsg?["command"]))")
+        pMsg.getMsg(jsonMsg: jsonMsg!)
         print("JSON BODY : \(String(describing: jsonBody))")
     }
     

@@ -66,6 +66,7 @@
 		B69771FE239F6B6D00B45793 /* IosrtcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69771F6239F6B6C00B45793 /* IosrtcViewController.m */; };
 		B697720123A078B600B45793 /* StWsMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697720023A078B600B45793 /* StWsMessage.swift */; };
 		B697720423A0F00300B45793 /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B697720323A0F00300B45793 /* AddFriendViewController.m */; };
+		B6D908CE23A7D05B002630E7 /* ProcessMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */; };
 		B6FA259C238CC7C100D16967 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA259B238CC7C100D16967 /* AppDelegate.m */; };
 		B6FA259F238CC7C100D16967 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA259E238CC7C100D16967 /* SceneDelegate.m */; };
 		B6FA25A2238CC7C100D16967 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25A1238CC7C100D16967 /* ViewController.m */; };
@@ -200,6 +201,7 @@
 		B697720023A078B600B45793 /* StWsMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StWsMessage.swift; sourceTree = "<group>"; };
 		B697720323A0F00300B45793 /* AddFriendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
 		B697720523A0F02B00B45793 /* AddFriendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
+		B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessMessage.swift; sourceTree = "<group>"; };
 		B6FA2597238CC7C100D16967 /* test_for_fs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_for_fs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6FA259A238CC7C100D16967 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B6FA259B238CC7C100D16967 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -398,11 +400,12 @@
 				B6FA25A8238CC7C100D16967 /* LaunchScreen.storyboard */,
 				B6FA25AB238CC7C100D16967 /* Info.plist */,
 				B6FA25AC238CC7C100D16967 /* main.m */,
-				B697720023A078B600B45793 /* StWsMessage.swift */,
-				B65F2688238FD76600934887 /* OpenStomp.swift */,
 				B65F268A238FD7A100934887 /* test_for_fs-Bridging-Header.h */,
 				B697720523A0F02B00B45793 /* AddFriendViewController.h */,
 				B697720323A0F00300B45793 /* AddFriendViewController.m */,
+				B65F2688238FD76600934887 /* OpenStomp.swift */,
+				B697720023A078B600B45793 /* StWsMessage.swift */,
+				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 			);
 			path = test_for_fs;
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 				B69771C7239E1BBF00B45793 /* ARDStatsView.m in Sources */,
 				B69771BF239E1BBF00B45793 /* ARDMessageResponse.m in Sources */,
 				B69771C6239E1BBF00B45793 /* ARDBroadcastSampleHandler.m in Sources */,
+				B6D908CE23A7D05B002630E7 /* ProcessMessage.swift in Sources */,
 				B69771D4239E1BBF00B45793 /* ARDStatsBuilder.m in Sources */,
 				B69771E8239E1BBF00B45793 /* ARDUtilities.m in Sources */,
 				B69771CA239E1BBF00B45793 /* RTCIceCandidate+JSON.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 
+
 @interface LoginViewController()
 
 @property (strong, nonatomic) UILabel* nameLabel;
@@ -23,6 +24,7 @@
 @end
 
 @implementation LoginViewController
+
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -83,7 +85,10 @@
 - (void)clickLoginBtn:(UIButton*) sender{
     NSLog(@"Login!");
     self.logInBtn.enabled = NO;
-    NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/login/name";
+    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/login/name";
+    NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/login/name";
+    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/login/name";
+    
     NSMutableArray *friendsArr = [NSMutableArray array];
     
 
@@ -129,8 +134,7 @@
         //NSLog(@"%@", friendsArr);
         
         [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
-        
-
+        [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"name"] forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:[[resultDic valueForKey:@"client"] valueForKey:@"id"] forKey:@"stClientID"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         

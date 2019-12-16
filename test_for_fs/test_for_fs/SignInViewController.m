@@ -96,8 +96,8 @@
 - (void)clickGetAuthCodeBtn:(UIButton*) sender{
     NSLog(@"Getting Authenticode!");
     self.getAuthenticodeBtn.enabled = NO;
-    NSMutableString *urlStr = [[NSMutableString alloc]initWithString:@"ws://192.168.11.123:9001/api/v1/rtc/common/authcode/"];
-    
+    //NSMutableString *urlStr = [[NSMutableString alloc]initWithString:@"ws://192.168.11.123:9001/api/v1/rtc/common/authcode/"];
+    NSMutableString *urlStr = [[NSMutableString alloc]initWithString:@"ws://localhost:9001/api/v1/rtc/common/authcode/"];
     [urlStr appendString:_phoneNum.text];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -125,7 +125,9 @@
     
     self.signInBtn.enabled = NO;
     
-    NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/signin";
+    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/signin";
+    NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/signin";
+    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/signin";
 
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
