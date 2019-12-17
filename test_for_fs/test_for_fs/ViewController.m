@@ -15,6 +15,7 @@
 #import "AddFriendViewController.h"
 
 #import "test_for_fs-Swift.h"
+//#import "test_for_fs-Bridging-Header.h"
 
 OpenStomp* stomp;
 
@@ -198,6 +199,7 @@ OpenStomp* stomp;
     [self.view addSubview:self.loginView.view];
     
     [stomp registerSocket];
+    [stomp IsConnected];
 }
 
 - (void)clickTestBtn:(UIButton*) sender{

@@ -84,6 +84,7 @@
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     
     //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/contact/search";
+    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/contact/search";
     NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/search";
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -143,8 +144,8 @@
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     
     //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/contact/applyAdd";
-    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/applyAdd";
-    NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/contact/applyAdd";
+    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/applyAdd";
+    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/contact/applyAdd";
     //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/Add";
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

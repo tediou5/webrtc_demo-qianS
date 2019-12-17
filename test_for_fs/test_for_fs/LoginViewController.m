@@ -86,8 +86,8 @@
     NSLog(@"Login!");
     self.logInBtn.enabled = NO;
     //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/login/name";
-    NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/login/name";
-    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/login/name";
+    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/login/name";
+    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/login/name";
     
     NSMutableArray *friendsArr = [NSMutableArray array];
     

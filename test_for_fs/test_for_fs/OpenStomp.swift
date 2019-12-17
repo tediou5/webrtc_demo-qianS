@@ -24,8 +24,8 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     
     //let url = NSURL(string: "http://localhost:9001")!
     //let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
-    let url = NSURL(string: "ws://192.168.0.105:9001/ep-st-websocket/websocket")
-    //let url = NSURL(string: "ws://localhost:9001/ep-st-websocket/websocket")
+    //let url = NSURL(string: "ws://192.168.0.105:9001/ep-st-websocket/websocket")
+    let url = NSURL(string: "ws://localhost:9001/ep-st-websocket/websocket")
     //var url = NSURL(string: "http://server.teclub.cn:8080/ep-st-websocket/websocket")!
     //var url = NSURL(string: "ws://192.168.11.123:8080/im/websocket")!
     
@@ -35,7 +35,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
     }
     
-    @objc func sendECHO() -> Void{
+    @objc public func sendECHO() -> Void{
         if (socketClient.isConnected()){
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: "ECHO Message", from: id, to: "1").toString()
@@ -46,7 +46,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         }
     }
     
-    @objc func sendoffer(sdp: String, friendId: String) -> Void{
+    @objc public func sendoffer(sdp: String, friendId: String) -> Void{
         if (socketClient.isConnected()){
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.CALL_OFFER, type: StWsMessage.stType.Request, info: "Send Offer", from: id, to: friendId).toString()
@@ -83,14 +83,21 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         }
     }
     
+    @objc public func IsConnected() -> Void{
+        if(socketClient.isConnected()){
+            print("stomp is connected!")
+        }else{
+            print("ERROR: please connect again!")
+        }
+    }
+    
     func stompClientDidDisconnect(client: StompClientLib!) {
         print("Socket is Disconnected")
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, withHeader header: [String : String]?, withDestination destination: String) {
         print("DESTIONATION : \(destination)")
-        print("I should deal with JSON message at here")
-        print("test one")
+        print("I should Process JSON message at here")
         
         //let jsonData:Data = jsonBody?.anyObject(using: .utf8)!
         

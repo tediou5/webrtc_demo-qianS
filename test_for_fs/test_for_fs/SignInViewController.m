@@ -126,8 +126,8 @@
     self.signInBtn.enabled = NO;
     
     //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/signin";
-    NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/signin";
-    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/signin";
+    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/signin";
+    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/signin";
 
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
