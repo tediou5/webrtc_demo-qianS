@@ -26,6 +26,7 @@
 
 @property (strong, nonatomic) UIButton* leaveBtn;
 
+@property (strong, nonatomic) AFManager* AFNet;
 @end
 
 @implementation AddFriendViewController
@@ -33,6 +34,79 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+    self.AFNet = [[AFManager alloc] init];
+    [self showUI];
+}
+
+- (void)clickSearchBtn:(UIButton*) sender{
+    NSLog(@"click search button!");
+    self.friendsDic = [NSMutableDictionary dictionary];
+    
+    NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
+    NSString *sid = [cid stringValue];
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    self.friendsDic = [self.AFNet search:sid keyword:self.search.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            self.friendsArr = self.friendsDic.allKeys;
+            [self.searchTableView reloadData];
+        }else{
+            [self showError:@"搜索失败，请检查网络并重新搜索！"];
+        }
+    });
+    
+    self.friendsArr = self.friendsDic.allKeys;
+    [self.searchTableView reloadData];
+}
+
+- (void)showError:(NSString *)errorMsg {
+    // 弹框提醒
+    // 初始化对话框
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+    // 弹出对话框
+    [self presentViewController:alert animated:true completion:nil];
+}
+
+-(void)m_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"click table view!");
+    NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
+    
+    NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
+    NSString *sid = [cid stringValue];
+    
+    NSNumber *ttid = self.friendsDic[self.friendsArr[indexPath.row]];
+    NSString *tid = [ttid stringValue];
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet applyAddDevice:sid sid:sid tid:tid group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self showError:@"好友申请发送成功！"];
+        }else{
+            [self showError:@"发送失败，请检查网络并重新申请"];
+        }
+    });
+}
+
+- (void) clickLeaveBtn:(UIButton*) sender {
+    
+    NSLog(@"Leave Sign in View Controller!");
+    [self willMoveToParentViewController:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+}
+
+- (void) showUI{
     CGFloat width = self.view.bounds.size.width;
     
     self.search = [[UITextField alloc] init];
@@ -76,122 +150,6 @@
                       action:@selector(clickLeaveBtn:)
             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.leaveBtn];
-}
-
-- (void)clickSearchBtn:(UIButton*) sender{
-    NSLog(@"click search button!");
-    
-    NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
-    
-    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/contact/search";
-    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/contact/search";
-    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/search";
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
-    NSString *sid = [cid stringValue];
-    
-    [manager.requestSerializer setValue:sid forHTTPHeaderField:@"client-id"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
-    
-    [parametersDic setObject:self.search.text forKey:@"keyword"];
-    [parametersDic setObject:@"10" forKey:@"size"];
-    [parametersDic setObject:@"1" forKey:@"page"];
-
-    [manager POST:urlStr parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for searching");
-        
-        self.friendsDic = [NSMutableDictionary dictionary];
-        
-        NSMutableDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        NSMutableArray *resultArr = [resultDic valueForKey:@"contacts"];
-
-        for (NSMutableDictionary *friendDic in resultArr){
-
-            [self.friendsDic setValue:[[friendDic valueForKey:@"id"] valueForKey:@"id"] forKey:[friendDic valueForKey:@"name"]];
-        }
-        
-        self.friendsArr = self.friendsDic.allKeys;
-        NSLog(@"%@", self.friendsDic);
-        [self.searchTableView reloadData];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self showError:@"搜索失败，请检查网络"];
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-    }];
-}
-
-- (void)showError:(NSString *)errorMsg {
-    // 弹框提醒
-    // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
-    // 弹出对话框
-    [self presentViewController:alert animated:true completion:nil];
-}
-
--(void)m_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"click table view!");
-    NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
-    
-    NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
-    
-    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/contact/applyAdd";
-    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/applyAdd";
-    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/contact/applyAdd";
-    //NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/contact/Add";
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
-    NSString *sid = [cid stringValue];
-    
-    NSNumber *ttid = self.friendsDic[self.friendsArr[indexPath.row]];
-    NSString *tid = [ttid stringValue];
-    
-    [manager.requestSerializer setValue:sid forHTTPHeaderField:@"client-id"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
-    
-    [parametersDic setObject:sid forKey:@"uid"];
-    [parametersDic setObject:sid forKey:@"sid"];
-    [parametersDic setObject:tid forKey:@"tid"];
-    [parametersDic setObject:@"0" forKey:@"type"];
-    NSLog(@"%@", parametersDic);
-
-//    NSError * error = nil;
-//    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:parametersDic options:NSJSONWritingPrettyPrinted error:&error];
-//    NSString * jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", jsonStr);
-    
-    [manager POST:urlStr parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for applyAdd");
-        [self showError:@"请求发送成功"];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self showError:@"请求失败，请检查网络并重新登陆"];
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-    }];
-}
-
-- (void) clickLeaveBtn:(UIButton*) sender {
-    
-    NSLog(@"Leave Sign in View Controller!");
-    [self willMoveToParentViewController:nil];
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
 }
 
 #pragma mark - 点击事件

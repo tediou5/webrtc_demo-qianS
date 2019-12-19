@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic) UIButton* leaveBtn;
 
+@property (strong, nonatomic) AFManager* AFNet;
+
 @end
 
 @implementation SignInViewController
@@ -28,6 +30,60 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+    self.AFNet = [[AFManager alloc] init];
+    [self showUI];
+}
+
+- (void)clickGetAuthCodeBtn:(UIButton*) sender{
+    NSLog(@"Getting Authenticode!");
+    self.getAuthenticodeBtn.enabled = NO;
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet getAuthCode:self.phoneNum.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self showError:@"验证码已发送！"];
+            self.signInBtn.enabled = YES;
+        }else{
+            [self showError:@"发送失败，请检查网络并重新申请！"];
+            self.getAuthenticodeBtn.enabled = YES;
+        }
+    });
+}
+
+- (void)clickSignInBtn:(UIButton*) sender{
+    
+    self.signInBtn.enabled = NO;
+
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet signIn:self.phoneNum.text authCode:self.authenticode.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self showError:@"注册成功！"];
+        }else{
+            [self showError:@"注册失败，请检查验证码并重新输入！"];
+            self.getAuthenticodeBtn.enabled = YES;
+        }
+    });
+}
+
+- (void) clickLeaveBtn:(UIButton*) sender {
+    
+    NSLog(@"Leave Sign in View Controller!");
+    [self willMoveToParentViewController:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+}
+
+- (void) showUI{
     CGFloat width = self.view.bounds.size.width;
     
     self.phoneNumLabel = [[UILabel alloc] init];
@@ -74,7 +130,7 @@
     [self.signInBtn setBackgroundColor:[UIColor grayColor]];
     [self.signInBtn setShowsTouchWhenHighlighted:YES];
     [self.signInBtn setFrame:CGRectMake(width-90, 200, 70, 40)];
-    self.signInBtn.enabled = NO;
+    //self.signInBtn.enabled = NO;
     
     [self.signInBtn addTarget:self action:@selector(clickSignInBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.signInBtn];
@@ -93,76 +149,13 @@
     [self.view addSubview:self.leaveBtn];
 }
 
-- (void)clickGetAuthCodeBtn:(UIButton*) sender{
-    NSLog(@"Getting Authenticode!");
-    self.getAuthenticodeBtn.enabled = NO;
-    //NSMutableString *urlStr = [[NSMutableString alloc]initWithString:@"ws://192.168.11.123:9001/api/v1/rtc/common/authcode/"];
-    NSMutableString *urlStr = [[NSMutableString alloc]initWithString:@"ws://localhost:9001/api/v1/rtc/common/authcode/"];
-    [urlStr appendString:_phoneNum.text];
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        self.signInBtn.enabled = YES;
-        NSLog(@"success");
-        // 成功则返回登录界面
-        //[self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        self.getAuthenticodeBtn.enabled = YES;
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-    }];
+- (void)showError:(NSString *)errorMsg {
+    // 弹框提醒
+    // 初始化对话框
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+    // 弹出对话框
+    [self presentViewController:alert animated:true completion:nil];
 }
-
-- (void)clickSignInBtn:(UIButton*) sender{
-    
-    self.signInBtn.enabled = NO;
-    
-    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/signin";
-    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/signin";
-    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/signin";
-
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-
-    NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
-    [parametersDic setObject:self.phoneNum.text forKey:@"phone"];
-    [parametersDic setObject:self.authenticode.text forKey:@"authCode"];
-
-    [manager POST:urlStr parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@", resultDic);
-        //NSLog(@"token = %@", [resultDic valueForKey:@"token"]);
-        // 成功则返回登录界面
-        //[self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        self.signInBtn.enabled = YES;
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-    }];
-}
-
-- (void) clickLeaveBtn:(UIButton*) sender {
-    
-    NSLog(@"Leave Sign in View Controller!");
-    [self willMoveToParentViewController:nil];
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-}
-
 @end
 

@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AFNetworking.h>
+#import "AFManager.h"
 //#import <Foundation/Foundation.h>
 
 @interface SignInViewController : UIViewController

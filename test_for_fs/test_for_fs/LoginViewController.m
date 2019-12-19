@@ -18,8 +18,9 @@
 @property (strong, nonatomic) UITextField* passwd;
 
 @property (strong, nonatomic) UIButton* logInBtn;
-
 @property (strong, nonatomic) UIButton* leaveBtn;
+
+@property (strong, nonatomic) AFManager* AFNet;
 
 @end
 
@@ -29,6 +30,54 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+    self.AFNet = [[AFManager alloc] init];
+    
+    [self showUI];
+
+}
+
+- (void)clickLoginBtn:(UIButton*) sender{
+    NSLog(@"Login!");
+
+    self.logInBtn.enabled = NO;
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet login:self.name.text passwd:self.passwd.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self showError:@"登陆成功！"];
+            //self.logInBtn.enabled = NO;
+        }else{
+            [self showError:@"登录失败，请检查用户名和密码是否正确"];
+            NSLog(@"failure 2");
+            self.logInBtn.enabled = YES;
+        }
+    });
+}
+
+
+- (void) clickLeaveBtn:(UIButton*) sender {
+    
+    NSLog(@"Leave login View Controller!");
+    [self willMoveToParentViewController:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+}
+
+- (void)showError:(NSString *)errorMsg {
+    // 弹框提醒
+    // 初始化对话框
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+    // 弹出对话框
+    [self presentViewController:alert animated:true completion:nil];
+}
+
+- (void) showUI{
     CGFloat width = self.view.bounds.size.width;
     
     self.nameLabel = [[UILabel alloc] init];
@@ -81,96 +130,4 @@
             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.leaveBtn];
 }
-
-- (void)clickLoginBtn:(UIButton*) sender{
-    NSLog(@"Login!");
-    self.logInBtn.enabled = NO;
-    //NSString *urlStr = @"ws://192.168.11.123:9001/api/v1/rtc/user/login/name";
-    //NSString *urlStr = @"ws://192.168.0.105:9001/api/v1/rtc/user/login/name";
-    NSString *urlStr = @"ws://localhost:9001/api/v1/rtc/user/login/name";
-    
-    NSMutableArray *friendsArr = [NSMutableArray array];
-    
-
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-
-    NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
-    [parametersDic setObject:self.name.text forKey:@"name"];
-    [parametersDic setObject:self.passwd.text forKey:@"passwd"];
-    [parametersDic setObject:@"1" forKey:@"type"];
-    
-    [manager POST:urlStr parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
-        self.logInBtn.enabled = NO;
-        
-        NSMutableDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        
-        //NSLog(@"%@", resultDic);
-        NSLog(@"token = %@", [resultDic valueForKey:@"token"]);
-        NSLog(@"friends = %@", [[resultDic valueForKey:@"client"] valueForKey:@"friends"]);
-        NSLog(@"client.id = %@", [[resultDic valueForKey:@"client"] valueForKey:@"id"]);
-
-        NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
-        if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
-            for (NSDictionary *friend in friends){
-                NSMutableDictionary *friendDic = [NSMutableDictionary dictionary];
-                [friendDic setValue:[friend valueForKey:@"name"] forKey:@"name"];
-                [friendDic setValue:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
-                [friendsArr addObject:friendDic];
-                NSLog(@"%@", friendsArr);
-            }
-            [[NSUserDefaults standardUserDefaults] setObject:friendsArr forKey:@"friends"];
-        }else{
-            NSLog(@"friends list is emmpty");
-            [friendsArr addObject:@"you have no friend!"];
-            [[NSUserDefaults standardUserDefaults] setObject:friendsArr forKey:@"friends"];
-            //[self showError:@"没有好友"];
-        }
-        //NSLog(@"%@", friendsArr);
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
-        [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"name"] forKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] setObject:[[resultDic valueForKey:@"client"] valueForKey:@"id"] forKey:@"stClientID"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [self showError:@"登录成功"];
-        
-        // 成功则返回登录界面
-        //[self willMoveToParentViewController:nil];
-        //[self.view removeFromSuperview];
-        //[self removeFromParentViewController];
-        //[self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self showError:@"登录失败，请检查用户名和密码是否正确"];
-        
-        self.logInBtn.enabled = YES;
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-    }];
-}
-
-
-- (void) clickLeaveBtn:(UIButton*) sender {
-    
-    NSLog(@"Leave login View Controller!");
-    [self willMoveToParentViewController:nil];
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-}
-
-- (void)showError:(NSString *)errorMsg {
-    // 弹框提醒
-    // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:errorMsg preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
-    // 弹出对话框
-    [self presentViewController:alert animated:true completion:nil];
-}
-
 @end

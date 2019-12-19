@@ -164,6 +164,21 @@ OpenStomp* stomp;
     [self.view endEditing:YES];
 }
 
+- (void) isFirstRun{
+    bool isFirst = [[[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstRun"] boolValue];
+    if (!isFirst){
+        NSMutableArray* applyAddList = [NSMutableArray array];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isFirstRun"];
+        [[NSUserDefaults standardUserDefaults] setObject:applyAddList forKey:@"applyAddList"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }else{
+        
+    }
+}
+
 - (void)clickSignInBtn:(UIButton*) sender{
     NSLog(@"Click Sign In Button");
     self.signInView = [[SignInViewController alloc] init];
@@ -198,8 +213,8 @@ OpenStomp* stomp;
     
     [self.view addSubview:self.loginView.view];
     
-    [stomp registerSocket];
-    [stomp IsConnected];
+    //[stomp registerSocket];
+    //         [stomp IsConnected];
 }
 
 - (void)clickTestBtn:(UIButton*) sender{

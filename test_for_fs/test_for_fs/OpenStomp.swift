@@ -68,18 +68,25 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         
         print("Socket is Connected : \(topic)")
         socketClient.subscribe(destination: topic)
-        if (socketClient.isProxy()){
-            print("Socket is Proxy")
-        }
+        //if (socketClient.isProxy()){
+        //    print("Socket is Proxy")
+        //}
         // Auto Disconnect after 3 sec
         //socketClient.autoDisconnect(time: 3)
         // Reconnect after 4 sec
-        print(url)
+        //print(url)
         if (!socketClient.isConnected()){
             socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate, time: 4.0)
         }
         else {
             print("is connected")
+        }
+    }
+    
+    @objc public func DisConnect() -> Void{
+        socketClient.disconnect()
+        if (!socketClient.isConnected()) {
+            print("已断开！")
         }
     }
     
