@@ -10,7 +10,6 @@
 #define AddFriendViewController_h
 
 #import <UIKit/UIKit.h>
-#import <AFNetworking.h>
 #import "AFManager.h"
 
 @interface AddFriendViewController : UIViewController

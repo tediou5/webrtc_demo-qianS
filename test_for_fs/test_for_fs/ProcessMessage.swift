@@ -17,6 +17,7 @@ class ProcessMessage: NSObject {
         let cmd: Int = jsonMsg["cmd"] as! Int
         let command: String = jsonMsg["command"] as! String
         let src: NSNumber = jsonMsg["src"] as! NSNumber
+        var applyAddDic: NSMutableDictionary = UserDefaults.standard.value(forKey: "applyAddDic") as! NSMutableDictionary
         
         print("cmd = \(command)")
         print("src = \(src)")
@@ -32,6 +33,7 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.APPLY_ADD_DEVICE.rawValue:
                 print("get APPLY_ADD_DEVICE command")
+                applyAddDevice(src: src, applyAddDic: applyAddDic);
                 break
             case StWsMessage.Command.CALL_ANSWER.rawValue:
                 print("get CALL_ANSWER command")
@@ -56,8 +58,10 @@ class ProcessMessage: NSObject {
         }
     }
     
-    func applyAddDevice(src: NSNumber) -> Void {
+    func applyAddDevice(src: NSNumber, applyAddDic: NSMutableDictionary) -> Void {
         print("process add device apply")
+        //i also need "name" from WsMsg.info(maybe)
+        applyAddDic["name"] = src
     }
 
 }

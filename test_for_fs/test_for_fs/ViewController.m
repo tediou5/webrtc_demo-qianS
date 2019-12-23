@@ -167,12 +167,12 @@ OpenStomp* stomp;
 - (void) isFirstRun{
     bool isFirst = [[[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstRun"] boolValue];
     if (!isFirst){
-        NSMutableArray* applyAddList = [NSMutableArray array];
+        NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
         
         [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
         [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isFirstRun"];
-        [[NSUserDefaults standardUserDefaults] setObject:applyAddList forKey:@"applyAddList"];
+        [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }else{
         

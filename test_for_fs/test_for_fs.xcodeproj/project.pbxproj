@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF3CBE248A748C07F855D45A /* Pods_test_for_fs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA327ACE97BC908AE3A6B47 /* Pods_test_for_fs.framework */; };
 		B620604823A8EF77006A6956 /* AFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B620604723A8EF77006A6956 /* AFManager.m */; };
+		B620604B23AC73EE006A6956 /* GrantAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */; };
 		B6568122238E0637005F85FF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6568121238E0637005F85FF /* LoginViewController.m */; };
 		B65F2689238FD76600934887 /* OpenStomp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65F2688238FD76600934887 /* OpenStomp.swift */; };
 		B68B3F32238D288900C00A64 /* SignOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B68B3F31238D288900C00A64 /* SignOutViewController.m */; };
@@ -103,6 +104,8 @@
 		A685773DA912009D6BD5D077 /* Pods-test_for_fs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_for_fs.debug.xcconfig"; path = "Target Support Files/Pods-test_for_fs/Pods-test_for_fs.debug.xcconfig"; sourceTree = "<group>"; };
 		B620604623A8EF5B006A6956 /* AFManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFManager.h; sourceTree = "<group>"; };
 		B620604723A8EF77006A6956 /* AFManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFManager.m; sourceTree = "<group>"; };
+		B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrantAddFriendsViewController.h; sourceTree = "<group>"; };
+		B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrantAddFriendsViewController.m; sourceTree = "<group>"; };
 		B6568121238E0637005F85FF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B6568123238E0642005F85FF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B65F2688238FD76600934887 /* OpenStomp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenStomp.swift; sourceTree = "<group>"; };
@@ -411,6 +414,8 @@
 				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B620604623A8EF5B006A6956 /* AFManager.h */,
 				B620604723A8EF77006A6956 /* AFManager.m */,
+				B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */,
+				B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */,
 			);
 			path = test_for_fs;
 			sourceTree = "<group>";
@@ -682,6 +687,7 @@
 				B69771BF239E1BBF00B45793 /* ARDMessageResponse.m in Sources */,
 				B69771C6239E1BBF00B45793 /* ARDBroadcastSampleHandler.m in Sources */,
 				B6D908CE23A7D05B002630E7 /* ProcessMessage.swift in Sources */,
+				B620604B23AC73EE006A6956 /* GrantAddFriendsViewController.m in Sources */,
 				B69771D4239E1BBF00B45793 /* ARDStatsBuilder.m in Sources */,
 				B69771E8239E1BBF00B45793 /* ARDUtilities.m in Sources */,
 				B69771CA239E1BBF00B45793 /* RTCIceCandidate+JSON.m in Sources */,
