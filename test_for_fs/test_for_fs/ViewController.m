@@ -14,10 +14,10 @@
 #import "IosrtcViewController.h"
 #import "AddFriendViewController.h"
 
-#import "test_for_fs-Swift.h"
+//#import "test_for_fs-Swift.h"
 //#import "test_for_fs-Bridging-Header.h"
 
-OpenStomp* stomp;
+//OpenStomp* stomp;
 
 @interface ViewController ()
 
@@ -27,9 +27,6 @@ OpenStomp* stomp;
 @property (strong, nonatomic) UIButton* addFriendBtn;
 
 @property (strong, nonatomic) UIButton* testBtn;
-
-@property (strong, nonatomic) UIButton* stompConnBtn;
-@property (strong, nonatomic) UIButton* stompECHOBtn;
 
 @property (strong, nonatomic) UIButton* apprtcBtn;
 @property (strong, nonatomic) UIButton* iosrtcBtn;
@@ -56,8 +53,41 @@ OpenStomp* stomp;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self isFirstRun];
+    //stomp = [[OpenStomp alloc] init];
+    [self showUI];
+    
+
+}
+
+/** 点击空白处回收键盘 */
+- (void)touchesBegan:(NSSet<UITouch *> *)touches   withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+- (void) isFirstRun{
+    bool isFirst = [[[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstRun"] boolValue];
+    if (!isFirst){
+        NSLog(@"is first");
+        NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
+        [applyAddDic setObject:@"it`s apply add dic" forKey:@"info"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isFirstRun"];
+        [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }else{
+        NSLog(@"is not the first");
+        //NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
+        //[applyAddDic setObject:@"it`s apply add dic" forKey:@"info"];
+        //[[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
+    }
+}
+
+- (void)showUI{
     CGFloat width = self.view.bounds.size.width;
-    stomp = [[OpenStomp alloc] init];
     
     self.signInBtn = [[UIButton alloc] init];
     [self.signInBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -107,26 +137,6 @@ OpenStomp* stomp;
             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.testBtn];
     
-    self.stompConnBtn = [[UIButton alloc] init];
-    [self.stompConnBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.stompConnBtn setTintColor:[UIColor whiteColor]];
-    [self.stompConnBtn setTitle:@"Stomp Conn" forState:UIControlStateNormal];
-    [self.stompConnBtn setBackgroundColor:[UIColor grayColor]];
-    [self.stompConnBtn setShowsTouchWhenHighlighted:YES];
-    [self.stompConnBtn setFrame:CGRectMake(width-150, 230, 120, 40)];
-    [self.stompConnBtn addTarget:self action:@selector(clickStompConnBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.stompConnBtn];
-    
-    self.stompECHOBtn = [[UIButton alloc] init];
-    [self.stompECHOBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.stompECHOBtn setTintColor:[UIColor whiteColor]];
-    [self.stompECHOBtn setTitle:@"Stomp ECHO" forState:UIControlStateNormal];
-    [self.stompECHOBtn setBackgroundColor:[UIColor grayColor]];
-    [self.stompECHOBtn setShowsTouchWhenHighlighted:YES];
-    [self.stompECHOBtn setFrame:CGRectMake(width-150, 280, 120, 40)];
-    [self.stompECHOBtn addTarget:self action:@selector(clickstompECHOBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.stompECHOBtn];
-    
     self.apprtcBtn = [[UIButton alloc] init];
     [self.apprtcBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.apprtcBtn setTintColor:[UIColor whiteColor]];
@@ -156,27 +166,6 @@ OpenStomp* stomp;
     [self.addFriendBtn setFrame:CGRectMake(width-150, 430, 120, 40)];
     [self.addFriendBtn addTarget:self action:@selector(clickaddFriendBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addFriendBtn];
-}
-
-/** 点击空白处回收键盘 */
-- (void)touchesBegan:(NSSet<UITouch *> *)touches   withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
-}
-
-- (void) isFirstRun{
-    bool isFirst = [[[NSUserDefaults standardUserDefaults] valueForKey:@"isFirstRun"] boolValue];
-    if (!isFirst){
-        NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
-        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isFirstRun"];
-        [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }else{
-        
-    }
 }
 
 - (void)clickSignInBtn:(UIButton*) sender{
@@ -221,19 +210,9 @@ OpenStomp* stomp;
     NSLog(@"Click Test Button");
     NSLog(@"name = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
     NSLog(@"Token = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
-    NSLog(@"stClientID = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"]);
-    NSLog(@"stClientID.id = %@", [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"]);
+    //NSLog(@"stClientID = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"]);
+    NSLog(@"stClientID.id = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"id"]);
     NSLog(@"friends = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"]);
-}
-
-- (void)clickStompConnBtn:(UIButton*) sender {
-    NSLog(@"Click Stomp Test Button");
-    [stomp registerSocket];
-}
-
-- (void)clickstompECHOBtn:(UIButton*) sender {
-    NSLog(@"Click Stomp ECHO Button");
-    [stomp sendECHO];
 }
 
 - (void)clickapprtcBtn:(UIButton*) sender{

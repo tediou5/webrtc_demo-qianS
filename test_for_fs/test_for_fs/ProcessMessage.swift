@@ -16,11 +16,13 @@ class ProcessMessage: NSObject {
         //NSLog(@"test four");
         let cmd: Int = jsonMsg["cmd"] as! Int
         let command: String = jsonMsg["command"] as! String
-        let src: NSNumber = jsonMsg["src"] as! NSNumber
-        var applyAddDic: NSMutableDictionary = UserDefaults.standard.value(forKey: "applyAddDic") as! NSMutableDictionary
+        //let src: NSNumber = jsonMsg["src"] as! NSNumber
+        let info: String = jsonMsg["info"] as! String
+        //let name: String = info["name"] as! String
+        
+        //var applyAddDic: NSMutableDictionary = UserDefaults.standard.value(forKey: "applyAddDic") as! NSMutableDictionary
         
         print("cmd = \(command)")
-        print("src = \(src)")
         
         //let wsCmd = StWsMessage.Command();
         
@@ -33,7 +35,7 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.APPLY_ADD_DEVICE.rawValue:
                 print("get APPLY_ADD_DEVICE command")
-                applyAddDevice(src: src, applyAddDic: applyAddDic);
+                applyAddDevice(info: info);
                 break
             case StWsMessage.Command.CALL_ANSWER.rawValue:
                 print("get CALL_ANSWER command")
@@ -58,10 +60,27 @@ class ProcessMessage: NSObject {
         }
     }
     
-    func applyAddDevice(src: NSNumber, applyAddDic: NSMutableDictionary) -> Void {
+    func applyAddDevice(info: String) -> Void {
         print("process add device apply")
+        //print("info = \(info)")
+        let jsonInfo = info.data(using: .utf8)
+        let infoDic = try! JSONSerialization.jsonObject(with: jsonInfo!, options: .allowFragments) as! [String: AnyObject]
+        //print("infoDic = \(infoDic)")
+        let sourceInfo = infoDic["sourceInfo"]
+
+        print("--------------------------------------------")
+        print("sourceInfo = \(sourceInfo)")
+        
+        //let ID = sourceInfo?["id"] as? Dictionary<<#Key: Hashable#>, Any>
+        //let id = ID??["id"]
+        //let name = sourceInfo!["name"]
+        print("--------------------------------------------")
+        //print("id = \(ID)")
+        //print("name = \(name)")
         //i also need "name" from WsMsg.info(maybe)
-        applyAddDic["name"] = src
+        var applyAddDic = UserDefaults.standard.dictionary(forKey: "applyAddDic")
+        print(applyAddDic)
+        //applyAddDic["name"] = src
     }
 
 }

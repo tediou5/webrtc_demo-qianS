@@ -8,6 +8,8 @@
 
 #import "AFManager.h"
 
+OpenStomp* stomp;
+
 @interface AFManager()
 
 @property (strong, nonatomic) NSString* baseUrl;
@@ -30,9 +32,11 @@
 - (instancetype) init{
     self = [super init];
     
+    stomp = [[OpenStomp alloc] init];
+    
     if(self){
         //self.baseUrl = @"ws://localhost:9001";
-        self.baseUrl = @"ws://192.168.0.116:9001";
+        self.baseUrl = @"ws://192.168.11.123:9001";
         self.applyAddApi = @"/api/v1/rtc/contact/applyAdd";
         self.authcodeApi = @"/api/v1/rtc/common/authcode/";
         self.grantAddApi = @"/api/v1/rtc/contact/grantAdd";
@@ -45,6 +49,10 @@
         //self.isSuccess = YES;
     }
     return self;
+}
+
+- (void) echo{
+    [stomp sendECHO];
 }
 
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group{
@@ -71,9 +79,10 @@
 
         NSMutableDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         
+        NSLog(@"%@", resultDic);
         NSLog(@"token = %@", [resultDic valueForKey:@"token"]);
-        NSLog(@"friends = %@", [[resultDic valueForKey:@"client"] valueForKey:@"friends"]);
-        NSLog(@"client.id = %@", [[resultDic valueForKey:@"client"] valueForKey:@"id"]);
+        NSLog(@"name = %@", [[resultDic valueForKey:@"client"] valueForKey:@"name"]);
+        NSLog(@"client.id = %@", [[[resultDic valueForKey:@"client"] valueForKey:@"id"] valueForKey:@"id"]);
 
         NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
@@ -82,7 +91,7 @@
                 [friendDic setValue:[friend valueForKey:@"name"] forKey:@"name"];
                 [friendDic setValue:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
                 [friendsArr addObject:friendDic];
-                NSLog(@"%@", friendsArr);
+                NSLog(@"friends = %@", friendsArr);
             }
             [[NSUserDefaults standardUserDefaults] setObject:friendsArr forKey:@"friends"];
         }else{
@@ -92,10 +101,11 @@
         }
         
         [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
-        [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"name"] forKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] setObject:[[resultDic valueForKey:@"client"] valueForKey:@"id"] forKey:@"stClientID"];
+        [[NSUserDefaults standardUserDefaults] setObject:[[resultDic valueForKey:@"client"] valueForKey:@"name"] forKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] setObject:[[[resultDic valueForKey:@"client"] valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
+        [stomp registerSocket];
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

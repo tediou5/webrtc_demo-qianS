@@ -16,23 +16,31 @@ class OpenStomp: NSObject, StompClientLibDelegate{
 
     var id = ""
     //var friendId = ""
-    let stClientID = UserDefaults.standard.dictionary(forKey: "stClientID")
+    
     var socketClient = StompClientLib()
     var baseTopic = "/u/"
     var topic = ""
     var token = "[user_ws_token] TODO: request from server when login;"
     
     //let url = NSURL(string: "http://localhost:9001")!
-    //let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
+    let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
     //let url = NSURL(string: "ws://192.168.0.105:9001/ep-st-websocket/websocket")
-    let url = NSURL(string: "ws://localhost:9001/ep-st-websocket/websocket")
+    //let url = NSURL(string: "ws://localhost:9001/ep-st-websocket/websocket")
     //var url = NSURL(string: "http://server.teclub.cn:8080/ep-st-websocket/websocket")!
     //var url = NSURL(string: "ws://192.168.11.123:8080/im/websocket")!
     
     
     @objc func registerSocket() -> Void{
         print("webSocket is Connection:\(url)")
-        socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
+        if (socketClient.isConnected()){
+            DisConnect()
+            socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
+            print("reconnect")
+        }
+        else{
+            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
+        }
+        print("i can do something over here")
     }
     
     @objc public func sendECHO() -> Void{
@@ -58,13 +66,11 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     }
     
     func stompClientDidConnect(client: StompClientLib!) {
-        
-        let ID = stClientID!["id"] as! Int
+        let ID = UserDefaults.standard.integer(forKey: "id")
         print("ID = \(ID)")
         id = String(ID)
-        //id = "2565"
+        
         topic = baseTopic + id
-        //let topic = self.topic
         
         print("Socket is Connected : \(topic)")
         socketClient.subscribe(destination: topic)
@@ -110,10 +116,10 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         
         let pMsg = ProcessMessage()
         let jsonMsg = jsonBody as? NSDictionary
-        print("cmd = \(String(describing: jsonMsg?["cmd"]))")
-        print("command = \(String(describing: jsonMsg?["command"]))")
+        //print("cmd = \(String(describing: jsonMsg?["cmd"]))")
+        //print("command = \(String(describing: jsonMsg?["command"]))")
         pMsg.getMsg(jsonMsg: jsonMsg!)
-        print("JSON BODY : \(String(describing: jsonBody))")
+        //print("JSON BODY : \(String(describing: jsonBody))")
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, akaStringBody stringBody: String?, withHeader header: [String : String]?, withDestination destination: String) {

@@ -11,11 +11,13 @@
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
+#import "test_for_fs-Swift.h"
 
 @interface AFManager : NSObject
 
 - (instancetype) init;
 
+- (void) echo;
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group;
 - (void) logout: (NSString* )uid group:(dispatch_group_t)group;
 - (void) signIn: (NSString* )phoneNum authCode:(NSString* )authCode group:(dispatch_group_t)group;

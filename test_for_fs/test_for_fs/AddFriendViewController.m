@@ -77,7 +77,7 @@
     NSLog(@"click table view!");
     NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
     
-    NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
+    NSNumber *cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
     NSString *sid = [cid stringValue];
     
     NSNumber *ttid = self.friendsDic[self.friendsArr[indexPath.row]];

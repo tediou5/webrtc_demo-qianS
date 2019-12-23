@@ -50,6 +50,9 @@
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
             [self showError:@"登陆成功！"];
+            [[NSUserDefaults standardUserDefaults] setObject:self.passwd.text forKey:@"passwd"];
+            
+            [NSThread detachNewThreadSelector:@selector(threadMoth) toTarget:self withObject:nil];
             //self.logInBtn.enabled = NO;
         }else{
             [self showError:@"登录失败，请检查用户名和密码是否正确"];
@@ -59,6 +62,13 @@
     });
 }
 
+- (void)threadMoth {
+    while (1) {
+        NSLog(@"i can do a loop over here");
+        [self.AFNet echo];
+        [NSThread sleepForTimeInterval:10];
+    }
+}
 
 - (void) clickLeaveBtn:(UIButton*) sender {
     
@@ -86,7 +96,7 @@
     [self.view addSubview:self.nameLabel];
     
     self.name = [[UITextField alloc] init];
-    [self.name setText:@"user05"];
+    [self.name setText:[[NSUserDefaults standardUserDefaults] valueForKey:@"name"]];
     [self.name setFrame:CGRectMake(100, 100, width-120, 40)];
     [self.name setTextColor:[UIColor blackColor]];
     [self.name setBorderStyle:UITextBorderStyleRoundedRect];
@@ -99,7 +109,7 @@
     [self.view addSubview:self.passwdLabel];
     
     self.passwd = [[UITextField alloc] init];
-    [self.passwd setText:@"abcd1234"];
+    [self.passwd setText:[[NSUserDefaults standardUserDefaults] valueForKey:@"passwd"]];
     [self.passwd setFrame:CGRectMake(100, 150, width-120, 40)];
     [self.passwd setTextColor:[UIColor blackColor]];
     [self.passwd setBorderStyle:UITextBorderStyleRoundedRect];
