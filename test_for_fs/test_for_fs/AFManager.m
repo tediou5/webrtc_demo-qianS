@@ -19,6 +19,7 @@ OpenStomp* stomp;
 @property (strong, nonatomic) NSString* signInApi;
 @property (strong, nonatomic) NSString* signOutApi;
 @property (strong, nonatomic) NSString* searchApi;
+@property (strong, nonatomic) NSString* contactsApi;
 @property (strong, nonatomic) NSString* applyAddApi;
 @property (strong, nonatomic) NSString* grantAddApi;
 @property (strong, nonatomic) NSString* deleteDeviceApi;
@@ -39,6 +40,7 @@ OpenStomp* stomp;
         self.baseUrl = @"ws://192.168.11.123:9001";
         self.applyAddApi = @"/api/v1/rtc/contact/applyAdd";
         self.authcodeApi = @"/api/v1/rtc/common/authcode/";
+        self.contactsApi = @"/api/v1/rtc/user/contacts/";
         self.grantAddApi = @"/api/v1/rtc/contact/grantAdd";
         self.loginApi = @"/api/v1/rtc/user/login/name";
         self.logoutApi = @"";
@@ -57,7 +59,7 @@ OpenStomp* stomp;
 
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group{
     NSString *Url = [self.baseUrl stringByAppendingString: self.loginApi];
-    NSMutableArray *friendsArr = [NSMutableArray array];
+    NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
     
     NSLog(@"start Login!");
     
@@ -87,17 +89,13 @@ OpenStomp* stomp;
         NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
-                NSMutableDictionary *friendDic = [NSMutableDictionary dictionary];
-                [friendDic setValue:[friend valueForKey:@"name"] forKey:@"name"];
-                [friendDic setValue:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
-                [friendsArr addObject:friendDic];
-                NSLog(@"friends = %@", friendsArr);
+                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                NSLog(@"friends = %@", friendsDic);
             }
-            [[NSUserDefaults standardUserDefaults] setObject:friendsArr forKey:@"friends"];
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
-            [friendsArr addObject:@"you have no friend!"];
-            [[NSUserDefaults standardUserDefaults] setObject:friendsArr forKey:@"friends"];
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }
         
         [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
@@ -199,6 +197,38 @@ OpenStomp* stomp;
     }];
 }
 
+- (void) getContacts: (NSString* )uid group:(dispatch_group_t)group{
+    NSLog(@"start get Contacts");
+    NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
+    NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    [manager.requestSerializer setValue:uid forHTTPHeaderField:@"client-id"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
+
+    [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"success");
+        NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@", resultDic);
+        //Dic<contacts: Arr[Dic["id"]]>
+        //i should process JSON over here
+        
+        self.isSuccess = YES;
+        dispatch_group_leave(group);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure");
+        NSLog(@"%@", error);
+        self.isSuccess = NO;
+        dispatch_group_leave(group);
+    }];
+}
+
 - (NSMutableDictionary* ) search:(NSString* )sid keyword:(NSString* )keyword group:(dispatch_group_t)group{
     NSLog(@"start search!");
     NSString *Url = [self.baseUrl stringByAppendingString: self.searchApi];
@@ -285,7 +315,7 @@ OpenStomp* stomp;
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
     [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
     
-    [parametersDic setObject:sid forKey:@"uid"];
+    [parametersDic setObject:uid forKey:@"uid"];
     [parametersDic setObject:sid forKey:@"sid"];
     [parametersDic setObject:tid forKey:@"tid"];
     [parametersDic setObject:type forKey:@"type"];

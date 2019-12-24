@@ -13,6 +13,8 @@
 #import "ARDMainViewController.h"
 #import "IosrtcViewController.h"
 #import "AddFriendViewController.h"
+#import "GrantAddFriendsViewController.h"
+#import "DeleteFriendsViewController.h"
 
 //#import "test_for_fs-Swift.h"
 //#import "test_for_fs-Bridging-Header.h"
@@ -25,6 +27,8 @@
 @property (strong, nonatomic) UIButton* signOutBtn;
 @property (strong, nonatomic) UIButton* loginBtn;
 @property (strong, nonatomic) UIButton* addFriendBtn;
+@property (strong, nonatomic) UIButton* applyAddBtn;
+@property (strong, nonatomic) UIButton* deleteFriendBtn;
 
 @property (strong, nonatomic) UIButton* testBtn;
 
@@ -37,6 +41,8 @@
 @property (strong, nonatomic) ARDMainViewController* apprtcView;
 @property (strong, nonatomic) IosrtcViewController* iosrtcView;
 @property (strong, nonatomic) AddFriendViewController* addFriendView;
+@property (strong, nonatomic) GrantAddFriendsViewController* applyAddView;
+@property (strong, nonatomic) DeleteFriendsViewController* deleteFriendView;
 
 @end
 
@@ -52,12 +58,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self isFirstRun];
-    //stomp = [[OpenStomp alloc] init];
     [self showUI];
-    
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 /** 点击空白处回收键盘 */
@@ -71,7 +77,7 @@
     if (!isFirst){
         NSLog(@"is first");
         NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
-        [applyAddDic setObject:@"it`s apply add dic" forKey:@"info"];
+        [applyAddDic setObject:@"" forKey:@""];
         
         [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
@@ -80,10 +86,115 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }else{
         NSLog(@"is not the first");
-        //NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
-        //[applyAddDic setObject:@"it`s apply add dic" forKey:@"info"];
-        //[[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
+//        NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
+//        [applyAddDic removeAllObjects];
+//        [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+
+- (void)clickSignInBtn:(UIButton*) sender{
+    NSLog(@"Click Sign In Button");
+    self.signInView = [[SignInViewController alloc] init];
+    [self.signInView.view setFrame:self.view.bounds];
+    [self.signInView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.signInView];
+    [self.signInView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.signInView.view];
+}
+
+- (void)clickSignOutBtn:(UIButton*) sender{
+    NSLog(@"Click Sign out Button");
+    self.signOutView = [[SignOutViewController alloc] init];
+    [self.signOutView.view setFrame:self.view.bounds];
+    [self.signOutView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.signOutView];
+    [self.signOutView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.signOutView.view];
+}
+
+- (void)clickLogInBtn:(UIButton*) sender{
+    NSLog(@"Click Login Button");
+    self.loginView = [[LoginViewController alloc] init];
+    [self.loginView.view setFrame:self.view.bounds];
+    [self.loginView.view setBackgroundColor:[UIColor whiteColor]];
+    [self addChildViewController:self.loginView];
+    [self.loginView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.loginView.view];
+}
+
+- (void)clickTestBtn:(UIButton*) sender{
+    NSLog(@"Click Test Button");
+    NSLog(@"name = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
+    NSLog(@"Token = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
+    NSLog(@"applyAddDic = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"]);
+    NSLog(@"stClientID.id = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"id"]);
+    NSLog(@"friends = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"]);
+}
+
+- (void)clickApprtcBtn:(UIButton*) sender{
+    NSLog(@"Click apprtc Button");
+    self.apprtcView = [[ARDMainViewController alloc] init];
+    [self.apprtcView.view setFrame:self.view.bounds];
+    [self.apprtcView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.apprtcView];
+    [self.apprtcView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.apprtcView.view];
+}
+
+- (void)clickIosrtcBtn:(UIButton*) sender{
+    NSLog(@"Click iosrtc Button");
+    self.iosrtcView = [[IosrtcViewController alloc] init];
+    [self.iosrtcView.view setFrame:self.view.bounds];
+    [self.iosrtcView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.iosrtcView];
+    [self.iosrtcView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.iosrtcView.view];
+}
+
+- (void)clickAddFriendBtn:(UIButton*) sender{
+    NSLog(@"Click Add Friend Button");
+    self.addFriendView = [[AddFriendViewController alloc] init];
+    [self.addFriendView.view setFrame:self.view.bounds];
+    [self.addFriendView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.addFriendView];
+    [self.addFriendView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.addFriendView.view];
+}
+
+- (void)clickApplyAddBtn:(UIButton*) sender{
+    NSLog(@"Click Add Friend Button");
+    self.applyAddView = [[GrantAddFriendsViewController alloc] init];
+    [self.applyAddView.view setFrame:self.view.bounds];
+    [self.applyAddView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.applyAddView];
+    [self.applyAddView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.applyAddView.view];
+}
+
+- (void)clickDeleteFriendBtn:(UIButton*) sender{
+    NSLog(@"Click Delete Friend Button");
+    self.deleteFriendView = [[DeleteFriendsViewController alloc] init];
+    [self.deleteFriendView.view setFrame:self.view.bounds];
+    [self.deleteFriendView.view setBackgroundColor:[UIColor whiteColor]];
+    
+    [self addChildViewController:self.deleteFriendView];
+    [self.deleteFriendView didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.deleteFriendView.view];
 }
 
 - (void)showUI{
@@ -144,7 +255,7 @@
     [self.apprtcBtn setBackgroundColor:[UIColor grayColor]];
     [self.apprtcBtn setShowsTouchWhenHighlighted:YES];
     [self.apprtcBtn setFrame:CGRectMake(width-150, 330, 120, 40)];
-    [self.apprtcBtn addTarget:self action:@selector(clickapprtcBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.apprtcBtn addTarget:self action:@selector(clickApprtcBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.apprtcBtn];
     
     self.iosrtcBtn = [[UIButton alloc] init];
@@ -154,7 +265,7 @@
     [self.iosrtcBtn setBackgroundColor:[UIColor grayColor]];
     [self.iosrtcBtn setShowsTouchWhenHighlighted:YES];
     [self.iosrtcBtn setFrame:CGRectMake(width-150, 380, 120, 40)];
-    [self.iosrtcBtn addTarget:self action:@selector(clickiosrtcBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.iosrtcBtn addTarget:self action:@selector(clickIosrtcBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.iosrtcBtn];
     
     self.addFriendBtn = [[UIButton alloc] init];
@@ -164,91 +275,28 @@
     [self.addFriendBtn setBackgroundColor:[UIColor grayColor]];
     [self.addFriendBtn setShowsTouchWhenHighlighted:YES];
     [self.addFriendBtn setFrame:CGRectMake(width-150, 430, 120, 40)];
-    [self.addFriendBtn addTarget:self action:@selector(clickaddFriendBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addFriendBtn addTarget:self action:@selector(clickAddFriendBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addFriendBtn];
-}
-
-- (void)clickSignInBtn:(UIButton*) sender{
-    NSLog(@"Click Sign In Button");
-    self.signInView = [[SignInViewController alloc] init];
-    [self.signInView.view setFrame:self.view.bounds];
-    [self.signInView.view setBackgroundColor:[UIColor whiteColor]];
     
-    [self addChildViewController:self.signInView];
-    [self.signInView didMoveToParentViewController:self];
+    self.applyAddBtn = [[UIButton alloc] init];
+    [self.applyAddBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.applyAddBtn setTintColor:[UIColor whiteColor]];
+    [self.applyAddBtn setTitle:@"Apply List" forState:UIControlStateNormal];
+    [self.applyAddBtn setBackgroundColor:[UIColor grayColor]];
+    [self.applyAddBtn setShowsTouchWhenHighlighted:YES];
+    [self.applyAddBtn setFrame:CGRectMake(width-150, 480, 120, 40)];
+    [self.applyAddBtn addTarget:self action:@selector(clickApplyAddBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.applyAddBtn];
     
-    [self.view addSubview:self.signInView.view];
-}
-
-- (void)clickSignOutBtn:(UIButton*) sender{
-    NSLog(@"Click Sign out Button");
-    self.signOutView = [[SignOutViewController alloc] init];
-    [self.signOutView.view setFrame:self.view.bounds];
-    [self.signOutView.view setBackgroundColor:[UIColor whiteColor]];
-    
-    [self addChildViewController:self.signOutView];
-    [self.signOutView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.signOutView.view];
-}
-
-- (void)clickLogInBtn:(UIButton*) sender{
-    NSLog(@"Click Login Button");
-    self.loginView = [[LoginViewController alloc] init];
-    [self.loginView.view setFrame:self.view.bounds];
-    [self.loginView.view setBackgroundColor:[UIColor whiteColor]];
-    [self addChildViewController:self.loginView];
-    [self.loginView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.loginView.view];
-    
-    //[stomp registerSocket];
-    //         [stomp IsConnected];
-}
-
-- (void)clickTestBtn:(UIButton*) sender{
-    NSLog(@"Click Test Button");
-    NSLog(@"name = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
-    NSLog(@"Token = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]);
-    //NSLog(@"stClientID = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"]);
-    NSLog(@"stClientID.id = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"id"]);
-    NSLog(@"friends = %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"]);
-}
-
-- (void)clickapprtcBtn:(UIButton*) sender{
-    NSLog(@"Click apprtc Button");
-    self.apprtcView = [[ARDMainViewController alloc] init];
-    [self.apprtcView.view setFrame:self.view.bounds];
-    [self.apprtcView.view setBackgroundColor:[UIColor whiteColor]];
-    
-    [self addChildViewController:self.apprtcView];
-    [self.apprtcView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.apprtcView.view];
-}
-
-- (void)clickiosrtcBtn:(UIButton*) sender{
-    NSLog(@"Click iosrtc Button");
-    self.iosrtcView = [[IosrtcViewController alloc] init];
-    [self.iosrtcView.view setFrame:self.view.bounds];
-    [self.iosrtcView.view setBackgroundColor:[UIColor whiteColor]];
-    
-    [self addChildViewController:self.iosrtcView];
-    [self.iosrtcView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.iosrtcView.view];
-}
-
-- (void)clickaddFriendBtn:(UIButton*) sender{
-    NSLog(@"Click Add Friend Button");
-    self.addFriendView = [[AddFriendViewController alloc] init];
-    [self.addFriendView.view setFrame:self.view.bounds];
-    [self.addFriendView.view setBackgroundColor:[UIColor whiteColor]];
-    
-    [self addChildViewController:self.addFriendView];
-    [self.addFriendView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.addFriendView.view];
+    self.deleteFriendBtn = [[UIButton alloc] init];
+    [self.deleteFriendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.deleteFriendBtn setTintColor:[UIColor whiteColor]];
+    [self.deleteFriendBtn setTitle:@"Delete Friends" forState:UIControlStateNormal];
+    [self.deleteFriendBtn setBackgroundColor:[UIColor grayColor]];
+    [self.deleteFriendBtn setShowsTouchWhenHighlighted:YES];
+    [self.deleteFriendBtn setFrame:CGRectMake(width-150, 530, 120, 40)];
+    [self.deleteFriendBtn addTarget:self action:@selector(clickDeleteFriendBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.deleteFriendBtn];
 }
 
 @end

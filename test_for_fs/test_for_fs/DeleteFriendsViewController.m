@@ -1,58 +1,87 @@
 //
-//  GrantAddFriendsViewController.m
+//  DeleteFriendsViewController.m
 //  test_for_fs
 //
-//  Created by qianS on 2019/12/20.
+//  Created by qians on 2019/12/24.
 //  Copyright © 2019 qians. All rights reserved.
 //
 
-#import "GrantAddFriendsViewController.h"
+#import "DeleteFriendsViewController.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
-@interface GrantAddFriendsViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
+@interface DeleteFriendsViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
-@property (strong, nonatomic) UITableView* ApplyAddTableView;
+@property (strong, nonatomic) UITableView* friendsTableView;
 @property (strong, nonatomic) UIButton* refreshBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
 
-//@property (strong, nonatomic) UIAlertController* applyAddAlert;
-
-@property (strong, nonatomic) NSMutableDictionary* applyAddDic;
-@property (strong, nonatomic) NSMutableArray* applyAddArr;
+@property (strong, nonatomic) NSMutableDictionary* friendsDic;
+@property (strong, nonatomic) NSMutableArray* friendsArr;
 
 @property (strong, nonatomic) AFManager* AFNet;
 
 @end
 
-@implementation GrantAddFriendsViewController
+@implementation DeleteFriendsViewController
 
 - (void) viewDidLoad{
     [super viewDidLoad];
     
-    self.applyAddDic = [NSMutableDictionary dictionary];
-    NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
-    [self.applyAddDic addEntriesFromDictionary:localApplyAddDic];
-    
-    self.applyAddArr = self.applyAddDic.allKeys;
-    [self.ApplyAddTableView reloadData];
+    self.friendsDic = [NSMutableDictionary dictionary];
+    [self refresh];
     
     self.AFNet = [[AFManager alloc] init];
     [self showUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet getContacts:uid group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            
+        }else{
+            [self showError:@"please login first"];
+        }
+    });
+}
+
+- (void) refresh{
+    //i should do GET with webSocket but not get friendsDic from local
+    self.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
+    NSLog(@"%@", self.friendsDic);
+    if ([self.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsDic.count != 0) {
+        self.friendsArr = self.friendsDic.allKeys;
+        NSLog(@"%@", self.friendsArr);
+        [self.friendsTableView reloadData];
+    }else{
+         [self showError:@"YOU HAVE NO FRIENDS!!!"];
+         [self leave];
+    }
+
+}
+
 - (void) showUI{
     CGFloat width = self.view.bounds.size.width;
     
-    self.ApplyAddTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 80, ScreenWidth-130, ScreenHeight-100) style:UITableViewStylePlain];
+    self.friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 80, ScreenWidth-130, ScreenHeight-100) style:UITableViewStylePlain];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myTableViewClick:)];
-    [self.ApplyAddTableView addGestureRecognizer:tapGesture];
+    [self.friendsTableView addGestureRecognizer:tapGesture];
     
-    self.ApplyAddTableView.delegate = self;
-    self.ApplyAddTableView.dataSource = self;
-    [self.view addSubview:self.ApplyAddTableView];
+    self.friendsTableView.delegate = self;
+    self.friendsTableView.dataSource = self;
+    [self.view addSubview:self.friendsTableView];
     
     self.refreshBtn = [[UIButton alloc] init];
     [self.refreshBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -78,55 +107,39 @@
 -(void)m_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"click table view!");
     //NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
-    NSString* name = self.applyAddArr[indexPath.row];
-    NSNumber* cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSNumber* ttid = self.applyAddDic[self.applyAddArr[indexPath.row]];
-    NSString* sid = [NSString stringWithFormat:@"%@", cid];
-    NSString* tid = [NSString stringWithFormat:@"%@", ttid];
-    static NSString* type;
-    type = [[NSString alloc] init];
+    NSString* name = self.friendsArr[indexPath.row];
+    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSNumber* ccid = self.friendsDic[self.friendsArr[indexPath.row]];
+    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
+    NSString* cid = [NSString stringWithFormat:@"%@", ccid];
     
-    UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否同意该好友的申请" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction* agreeAction = [UIAlertAction actionWithTitle:@"Agree" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+    UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否确定删除该好友" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* comfirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
         NSLog(@"click Agree Action!");
-        type = @"1";
-        [self doGrantAddDevice:indexPath uid:sid sid:sid tid:tid type:type];
-    }];
-    
-    UIAlertAction* rejectAction = [UIAlertAction actionWithTitle:@"Reject" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
-        NSLog(@"click Reject Action!");
-        type = @"0";
-        [self doGrantAddDevice:indexPath uid:sid sid:sid tid:tid type:type];
+        [self doDeleteFriends:indexPath uid:uid cid:cid];
     }];
     
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"click Cancel Action!");
     }];
-    [alertSheet addAction:agreeAction];
-    [alertSheet addAction:rejectAction];
+    [alertSheet addAction:comfirmAction];
     [alertSheet addAction:cancelAction];
     [self presentViewController:alertSheet animated:YES completion:nil];
 }
 
-- (void)doGrantAddDevice:(NSIndexPath *)indexPath uid:(NSString* )uid sid:(NSString* )sid tid:(NSString* )tid type:(NSString* )type{
+- (void)doDeleteFriends:(NSIndexPath *)indexPath uid:(NSString* )uid cid:(NSString* )cid{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     
-    [self.AFNet grantAddDevice:sid sid:sid tid:tid type:type group:group];
+    [self.AFNet deleteDevice:uid cid:cid group:group];
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
-            [self.applyAddDic removeObjectForKey:self.applyAddArr[indexPath.row]];
-            [[NSUserDefaults standardUserDefaults] setObject:self.applyAddDic forKey:@"applyAddDic"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            self.applyAddArr = self.applyAddDic.allKeys;
-            [self.ApplyAddTableView reloadData];
-            
-            [self showError:@"好友申请已处理！"];
+            [self refresh];
+            [self showError:@"成功删除好友！"];
         }else{
-            [self showError:@"请求发送失败，请检查网络并重新申请"];
+            [self showError:@"删除失败，请检查网络并重新申请"];
         }
     });
 }
@@ -143,6 +156,10 @@
 - (void) clickLeaveBtn:(UIButton*) sender {
     
     NSLog(@"Leave GrantAdd View Controller!");
+    [self leave];
+}
+
+- (void) leave{
     [self willMoveToParentViewController:nil];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
@@ -150,17 +167,15 @@
 
 - (void) clickRefreshBtn:(UIButton*) sender {
     NSLog(@"Click Refresh Button!");
-    
-    NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
-    [self.applyAddDic addEntriesFromDictionary:localApplyAddDic];
+    [self refresh];
 }
 
 #pragma mark - 点击事件
 - (void)myTableViewClick:(UIGestureRecognizer *)gestureRecognizer {
-    CGPoint point = [gestureRecognizer locationInView:self.ApplyAddTableView];
-    NSIndexPath *indexpath = [self.ApplyAddTableView indexPathForRowAtPoint:point];
+    CGPoint point = [gestureRecognizer locationInView:self.friendsTableView];
+    NSIndexPath *indexpath = [self.friendsTableView indexPathForRowAtPoint:point];
     if ([self respondsToSelector:@selector(m_tableView:didSelectRowAtIndexPath:)]) {
-        [self m_tableView:self.ApplyAddTableView didSelectRowAtIndexPath:indexpath];
+        [self m_tableView:self.friendsTableView didSelectRowAtIndexPath:indexpath];
     }
 }
 
@@ -169,18 +184,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.applyAddArr.count;
+    return self.friendsArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *ide = @"Apply List";
+    static NSString *ide = @"Friends List";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ide];
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ide];
     }
-    cell.textLabel.text = [self.applyAddArr objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.friendsArr objectAtIndex:indexPath.row];
     
     return cell;
 }

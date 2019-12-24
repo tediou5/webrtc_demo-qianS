@@ -76,13 +76,27 @@
 -(void)m_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"click table view!");
     NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
+    NSString* name = self.friendsArr[indexPath.row];
+    NSNumber* cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSNumber* ttid = self.friendsDic[self.friendsArr[indexPath.row]];
+    NSString* sid = [NSString stringWithFormat:@"%@", cid];
+    NSString* tid = [NSString stringWithFormat:@"%@", ttid];
     
-    NSNumber *cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSString *sid = [cid stringValue];
+    UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否发送好友申请" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* sendAction = [UIAlertAction actionWithTitle:@"Send" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSLog(@"click Agree Action!");
+        [self doApplyAddDevice:indexPath uid:sid sid:sid tid:tid];
+    }];
     
-    NSNumber *ttid = self.friendsDic[self.friendsArr[indexPath.row]];
-    NSString *tid = [ttid stringValue];
-    
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"click Cancel Action!");
+    }];
+    [alertSheet addAction:sendAction];
+    [alertSheet addAction:cancelAction];
+    [self presentViewController:alertSheet animated:YES completion:nil];
+}
+
+- (void)doApplyAddDevice:(NSIndexPath *)indexPath uid:(NSString* )uid sid:(NSString* )sid tid:(NSString* )tid{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     

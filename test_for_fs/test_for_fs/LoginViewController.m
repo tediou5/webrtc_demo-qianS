@@ -51,9 +51,7 @@
         if (isSuccess == YES) {
             [self showError:@"登陆成功！"];
             [[NSUserDefaults standardUserDefaults] setObject:self.passwd.text forKey:@"passwd"];
-            
             [NSThread detachNewThreadSelector:@selector(threadMoth) toTarget:self withObject:nil];
-            //self.logInBtn.enabled = NO;
         }else{
             [self showError:@"登录失败，请检查用户名和密码是否正确"];
             NSLog(@"failure 2");
@@ -63,6 +61,7 @@
 }
 
 - (void)threadMoth {
+    [self.AFNet echo];
     while (1) {
         NSLog(@"i can do a loop over here");
         [self.AFNet echo];

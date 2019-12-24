@@ -112,12 +112,8 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         print("DESTIONATION : \(destination)")
         print("I should Process JSON message at here")
         
-        //let jsonData:Data = jsonBody?.anyObject(using: .utf8)!
-        
         let pMsg = ProcessMessage()
         let jsonMsg = jsonBody as? NSDictionary
-        //print("cmd = \(String(describing: jsonMsg?["cmd"]))")
-        //print("command = \(String(describing: jsonMsg?["command"]))")
         pMsg.getMsg(jsonMsg: jsonMsg!)
         //print("JSON BODY : \(String(describing: jsonBody))")
     }

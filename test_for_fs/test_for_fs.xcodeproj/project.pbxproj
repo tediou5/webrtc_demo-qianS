@@ -79,6 +79,8 @@
 		B6FA25B7238CC7C200D16967 /* test_for_fsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25B6238CC7C200D16967 /* test_for_fsTests.m */; };
 		B6FA25C2238CC7C200D16967 /* test_for_fsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25C1238CC7C200D16967 /* test_for_fsUITests.m */; };
 		B6FA25D1238D197000D16967 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25D0238D197000D16967 /* SignInViewController.m */; };
+		B6FB9B0523B1A57E00997DD4 /* ProcessCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */; };
+		B6FB9B0823B1FCCB00997DD4 /* DeleteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -228,6 +230,10 @@
 		B6FA25C3238CC7C200D16967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6FA25CF238D196500D16967 /* SignInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		B6FA25D0238D197000D16967 /* SignInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		B6FB9B0323B1A56900997DD4 /* ProcessCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessCommand.h; sourceTree = "<group>"; };
+		B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcessCommand.m; sourceTree = "<group>"; };
+		B6FB9B0623B1FCC000997DD4 /* DeleteFriendsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteFriendsViewController.h; sourceTree = "<group>"; };
+		B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteFriendsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +395,13 @@
 			children = (
 				B69771F1239F6ABB00B45793 /* iosrtc */,
 				B6977167239E1B7300B45793 /* apprtc */,
+				B620604623A8EF5B006A6956 /* AFManager.h */,
+				B620604723A8EF77006A6956 /* AFManager.m */,
+				B65F2688238FD76600934887 /* OpenStomp.swift */,
+				B697720023A078B600B45793 /* StWsMessage.swift */,
+				B6FB9B0323B1A56900997DD4 /* ProcessCommand.h */,
+				B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */,
+				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B6FA259A238CC7C100D16967 /* AppDelegate.h */,
 				B6FA259B238CC7C100D16967 /* AppDelegate.m */,
 				B6FA259D238CC7C100D16967 /* SceneDelegate.h */,
@@ -401,21 +414,18 @@
 				B68B3F31238D288900C00A64 /* SignOutViewController.m */,
 				B6FA25CF238D196500D16967 /* SignInViewController.h */,
 				B6FA25D0238D197000D16967 /* SignInViewController.m */,
+				B697720523A0F02B00B45793 /* AddFriendViewController.h */,
+				B697720323A0F00300B45793 /* AddFriendViewController.m */,
+				B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */,
+				B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */,
+				B6FB9B0623B1FCC000997DD4 /* DeleteFriendsViewController.h */,
+				B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */,
+				B65F268A238FD7A100934887 /* test_for_fs-Bridging-Header.h */,
 				B6FA25A3238CC7C100D16967 /* Main.storyboard */,
 				B6FA25A6238CC7C100D16967 /* Assets.xcassets */,
 				B6FA25A8238CC7C100D16967 /* LaunchScreen.storyboard */,
 				B6FA25AB238CC7C100D16967 /* Info.plist */,
 				B6FA25AC238CC7C100D16967 /* main.m */,
-				B65F268A238FD7A100934887 /* test_for_fs-Bridging-Header.h */,
-				B697720523A0F02B00B45793 /* AddFriendViewController.h */,
-				B697720323A0F00300B45793 /* AddFriendViewController.m */,
-				B65F2688238FD76600934887 /* OpenStomp.swift */,
-				B697720023A078B600B45793 /* StWsMessage.swift */,
-				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
-				B620604623A8EF5B006A6956 /* AFManager.h */,
-				B620604723A8EF77006A6956 /* AFManager.m */,
-				B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */,
-				B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */,
 			);
 			path = test_for_fs;
 			sourceTree = "<group>";
@@ -653,11 +663,13 @@
 			files = (
 				B69771FE239F6B6D00B45793 /* IosrtcViewController.m in Sources */,
 				B69771ED239E1BBF00B45793 /* ARDFileCaptureController.m in Sources */,
+				B6FB9B0823B1FCCB00997DD4 /* DeleteFriendsViewController.m in Sources */,
 				B69771D5239E1BBF00B45793 /* ARDBitrateTracker.m in Sources */,
 				B69771E9239E1BBF00B45793 /* RTCIceServer+JSON.m in Sources */,
 				B697720123A078B600B45793 /* StWsMessage.swift in Sources */,
 				B69771CE239E1BBF00B45793 /* ARDCaptureController.m in Sources */,
 				B69771C3239E1BBF00B45793 /* ARDAppClient.m in Sources */,
+				B6FB9B0523B1A57E00997DD4 /* ProcessCommand.m in Sources */,
 				B69771E5239E1BBF00B45793 /* ARDAppDelegate.m in Sources */,
 				B69771E0239E1BBF00B45793 /* ARDTURNClient.m in Sources */,
 				B69771DD239E1BBF00B45793 /* ARDBroadcastSetupViewController.m in Sources */,
