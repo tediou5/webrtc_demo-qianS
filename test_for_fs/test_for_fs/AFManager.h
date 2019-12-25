@@ -22,6 +22,7 @@
 - (void) logout: (NSString* )uid group:(dispatch_group_t)group;
 - (void) signIn: (NSString* )phoneNum authCode:(NSString* )authCode group:(dispatch_group_t)group;
 - (void) getAuthCode: (NSString* )phoneNum group:(dispatch_group_t)group;
+- (void) getContacts: (NSString* )uid;
 - (void) getContacts: (NSString* )uid group:(dispatch_group_t)group;
 - (NSMutableDictionary* ) search:(NSString* )sid keyword:(NSString* )keyword group:(dispatch_group_t)group;
 - (void) applyAddDevice: (NSString* )cid sid:(NSString* )sid tid:(NSString* )tid group:(dispatch_group_t)group;

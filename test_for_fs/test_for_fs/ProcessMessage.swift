@@ -13,9 +13,8 @@ class ProcessMessage: NSObject {
         
         let cmd: Int = jsonMsg["cmd"] as! Int
         let command: String = jsonMsg["command"] as! String
-        //let src: NSNumber = jsonMsg["src"] as! NSNumber
         let info: String = jsonMsg["info"] as! String
-        
+        print("------------------------Process Command---------------------")
         print("cmd = \(command)")
         
         switch cmd {
@@ -56,24 +55,9 @@ class ProcessMessage: NSObject {
         print("process add device apply")
         let doCmd = ProcessCommand()
         doCmd.doApplyAddCmd(info)
-        
-        //let jsonInfo = info.data(using: .utf8)
-        //let infoDic = try! JSONSerialization.jsonObject(with: jsonInfo!, options: .allowFragments) as! [String: AnyObject]
-        //print("infoDic = \(infoDic)")
-        
-        //let sourceInfo = infoDic["sourceInfo"]
         print("--------------------------------------------")
         print(info)
-        //print("sourceInfo = \(String(describing: sourceInfo))")
-//        let ID = sourceInfo!["id"]
-//        let name = sourceInfo!["name"]
         print("--------------------------------------------")
-        //print("id = \((idDic))")
-        //print("name = \(String(describing: name))")
-        //i also need "name" from WsMsg.info(maybe)
-        
-        //var applyAddDic = UserDefaults.standard.dictionary(forKey: "applyAddDic")
-        //print(applyAddDic)
     }
 
 }

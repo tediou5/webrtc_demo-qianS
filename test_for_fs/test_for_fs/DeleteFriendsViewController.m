@@ -38,6 +38,29 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self refresh];
+//    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+//    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
+//
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_group_enter(group);
+//
+//    [self.AFNet getContacts:uid group:group];
+//
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+//        bool isSuccess = [self.AFNet getIsSuccess];
+//        if (isSuccess == YES) {
+//
+//        }else{
+//            [self showError:@"please login first"];
+//        }
+//    });
+}
+
+- (void) refresh{
+    //i should do GET with webSocket but not get friendsDic from local
+    
     NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
     NSString* uid = [NSString stringWithFormat:@"%@", uuid];
     
@@ -49,25 +72,22 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
-            
+            self.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
+            NSLog(@"%@", self.friendsDic);
+            if ([self.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsDic.count != 0) {
+                self.friendsArr = self.friendsDic.allKeys;
+                NSLog(@"%@", self.friendsArr);
+                [self.friendsTableView reloadData];
+            }else{
+                 [self showError:@"YOU HAVE NO FRIENDS!!!"];
+                 [self leave];
+            }
         }else{
             [self showError:@"please login first"];
         }
     });
-}
+    
 
-- (void) refresh{
-    //i should do GET with webSocket but not get friendsDic from local
-    self.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
-    NSLog(@"%@", self.friendsDic);
-    if ([self.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsDic.count != 0) {
-        self.friendsArr = self.friendsDic.allKeys;
-        NSLog(@"%@", self.friendsArr);
-        [self.friendsTableView reloadData];
-    }else{
-         [self showError:@"YOU HAVE NO FRIENDS!!!"];
-         [self leave];
-    }
 
 }
 

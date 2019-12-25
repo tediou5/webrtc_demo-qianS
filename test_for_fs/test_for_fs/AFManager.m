@@ -90,8 +90,8 @@ OpenStomp* stomp;
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
                 [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
-                NSLog(@"friends = %@", friendsDic);
             }
+            NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
@@ -201,6 +201,7 @@ OpenStomp* stomp;
     NSLog(@"start get Contacts");
     NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
     NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
+    NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -215,9 +216,19 @@ OpenStomp* stomp;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success");
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@", resultDic);
-        //Dic<contacts: Arr[Dic["id"]]>
-        //i should process JSON over here
+         
+        NSArray *friends = [resultDic valueForKey:@"contacts"];
+        NSLog(@"------------------------friends---------------------");
+        if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
+            for (NSDictionary *friend in friends){
+                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+            }
+            NSLog(@"friends = %@", friendsDic);
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }else{
+            NSLog(@"friends list is emmpty");
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }
         
         self.isSuccess = YES;
         dispatch_group_leave(group);
@@ -226,6 +237,47 @@ OpenStomp* stomp;
         NSLog(@"%@", error);
         self.isSuccess = NO;
         dispatch_group_leave(group);
+    }];
+}
+
+- (void) getContacts: (NSString* )uid{
+    NSLog(@"start get Contacts");
+    NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
+    NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
+    NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    [manager.requestSerializer setValue:uid forHTTPHeaderField:@"client-id"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
+
+    [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"success");
+        NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+         
+        NSArray *friends = [resultDic valueForKey:@"contacts"];
+        NSLog(@"------------------------friends---------------------");
+        if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
+            for (NSDictionary *friend in friends){
+                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+            }
+            NSLog(@"friends = %@", friendsDic);
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }else{
+            NSLog(@"friends list is emmpty");
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }
+        
+        self.isSuccess = YES;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure");
+        NSLog(@"%@", error);
+        self.isSuccess = NO;
     }];
 }
 

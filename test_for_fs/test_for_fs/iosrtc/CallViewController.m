@@ -292,7 +292,7 @@ static int logY = 0;
                            }
                        }];
 }
-
+//----------------------------------------------------------------------------------------------------------------I need change this(send answer)
 - (void) setLocalAnswer: (RTCPeerConnection*)pc withSdp: (RTCSessionDescription*)sdp {
     
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {
@@ -331,6 +331,7 @@ static int logY = 0;
            }];
 }
 
+//本地
 - (void) offer:(NSString *)room message:(NSDictionary *)dict {
     NSLog(@"have received a offer message %@", dict);
     
@@ -351,7 +352,7 @@ static int logY = 0;
         }
     }];
 }
-
+//本地
 - (void) candidate:(NSString *)room message:(NSDictionary *)dict {
     NSLog(@"have received a message %@", dict);
     
@@ -366,7 +367,7 @@ static int logY = 0;
                                                                sdpMid:sdpMid];;
     [peerConnection addIceCandidate:candidate];
 }
-
+//----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
 - (void)connected {
     [[SignalClient getInstance]  joinRoom: myRoom];
     [self addLogToScreen: @"socket connect success!"];
@@ -426,6 +427,7 @@ didChangeIceGatheringState:(RTCIceGatheringState)newState{
 }
 
 /** New ice candidate has been found. */
+//----------------------------------------------------------------------------------------------------------------I need change this(New ice candidate has been found)
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
 didGenerateIceCandidate:(RTCIceCandidate *)candidate{
     NSLog(@"%s",__func__);
@@ -606,7 +608,7 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     
     return conn;
 }
-
+//----------------------------------------------------------------------------------------------------------------I need change this(send offer)
 - (void)setLocalOffer:(RTCPeerConnection*)pc withSdp:(RTCSessionDescription*) sdp{
     
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {

@@ -34,23 +34,28 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         print("webSocket is Connection:\(url)")
         if (socketClient.isConnected()){
             DisConnect()
-            socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
+            socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
             print("reconnect")
         }
         else{
-            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
+            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
         }
         print("i can do something over here")
     }
     
     @objc public func sendECHO() -> Void{
         if (socketClient.isConnected()){
+            print("send echo!")
+            print(StWsMessage.Command.ECHO)
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
-            let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: "ECHO Message", from: id, to: "1").toString()
+            let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: "ECHO Message", from: id, to: "").toString()
+            print("----------ECHO MSG-------------")
+            print(mess)
             socketClient.sendMessage(message: mess, toDestination: "/app/server", withHeaders: stompHeaders, withReceipt: nil)
         }
         else {
-            print("Please Connect Websocket First!")
+            print("Try To Connect Websocket!")
+            self.registerSocket()
         }
     }
     
@@ -61,7 +66,8 @@ class OpenStomp: NSObject, StompClientLibDelegate{
             socketClient.sendMessage(message: mess, toDestination: "/app/server", withHeaders: stompHeaders, withReceipt: nil)
         }
         else {
-            print("Please Connect Websocket First!")
+            print("Try To Connect Websocket!")
+            self.registerSocket()
         }
     }
     
@@ -74,15 +80,9 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         
         print("Socket is Connected : \(topic)")
         socketClient.subscribe(destination: topic)
-        //if (socketClient.isProxy()){
-        //    print("Socket is Proxy")
-        //}
-        // Auto Disconnect after 3 sec
-        //socketClient.autoDisconnect(time: 3)
-        // Reconnect after 4 sec
-        //print(url)
+        print(url)
         if (!socketClient.isConnected()){
-            socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate, time: 4.0)
+            socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate, time: 4.0)
         }
         else {
             print("is connected")
@@ -109,13 +109,13 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, withHeader header: [String : String]?, withDestination destination: String) {
+        print("------------------------Get Command---------------------")
         print("DESTIONATION : \(destination)")
-        print("I should Process JSON message at here")
-        
+        print("JSON BODY : \(String(describing: jsonBody))")
         let pMsg = ProcessMessage()
         let jsonMsg = jsonBody as? NSDictionary
         pMsg.getMsg(jsonMsg: jsonMsg!)
-        //print("JSON BODY : \(String(describing: jsonBody))")
+        
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, akaStringBody stringBody: String?, withHeader header: [String : String]?, withDestination destination: String) {
