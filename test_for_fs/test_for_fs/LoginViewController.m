@@ -33,7 +33,6 @@
     self.AFNet = [[AFManager alloc] init];
     
     [self showUI];
-
 }
 
 - (void)clickLoginBtn:(UIButton*) sender{
@@ -64,7 +63,7 @@
 - (void)threadMoth {
     while (1) {
         [self.AFNet echo];
-        NSLog(@"i can do a loop over here");
+        //NSLog(@"i can do a loop over here");
         NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
         NSString* uid = [NSString stringWithFormat:@"%@", uuid];
         [self.AFNet getContacts:uid];

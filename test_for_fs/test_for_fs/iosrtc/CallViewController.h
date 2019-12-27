@@ -13,7 +13,7 @@
 
 @interface CallViewController : UIViewController
 
-- (instancetype) initAddr:(NSString*)addr withRoom:(NSString*)room;
+- (instancetype) initWithId:(NSString* )friend userID:(NSString* )user;
 
 @end
 

@@ -40,22 +40,6 @@
     [super viewWillAppear:animated];
     
     [self refresh];
-//    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-//    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
-//
-//    dispatch_group_t group = dispatch_group_create();
-//    dispatch_group_enter(group);
-//
-//    [self.AFNet getContacts:uid group:group];
-//
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-//        bool isSuccess = [self.AFNet getIsSuccess];
-//        if (isSuccess == YES) {
-//
-//        }else{
-//            [self showError:@"please login first"];
-//        }
-//    });
 }
 
 - (void) refresh{
@@ -86,9 +70,6 @@
             [self showError:@"please login first"];
         }
     });
-    
-
-
 }
 
 - (void) showUI{

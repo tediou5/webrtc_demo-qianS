@@ -9,24 +9,39 @@
 import Foundation
 
 class ProcessMessage: NSObject {
+    let doCmd = ProcessCommand()
+    
+    let id = String(UserDefaults.standard.integer(forKey: "id"))
+    
+    func join(friendID: String) -> Void {
+        doCmd.doJoin(friendID)
+    }
     func getMsg(jsonMsg: NSDictionary){
         
         let cmd: Int = jsonMsg["cmd"] as! Int
         let command: String = jsonMsg["command"] as! String
         let info: String = jsonMsg["info"] as! String
+        let friendID: Int = jsonMsg["src"] as! Int
+        let friendId: String = String(friendID)
         print("------------------------Process Command---------------------")
         print("cmd = \(command)")
+        print("cmd = \(friendId)")
         
         switch cmd {
+        case StWsMessage.Command.SEND_DATA.rawValue:
+                print("get SEND_DATA command")
+                print(info)
+                break
             case StWsMessage.Command.ECHO.rawValue:
                 print("get ECHO command")
                 break
             case StWsMessage.Command.ACCEPT_CALL.rawValue:
                 print("get ACCEPT_CALL command")
+                doCall(friendID: friendId, user: id)
                 break
             case StWsMessage.Command.APPLY_ADD_DEVICE.rawValue:
                 print("get APPLY_ADD_DEVICE command")
-                applyAddDevice(info: info);
+                applyAddDevice(info: info)
                 break
             case StWsMessage.Command.CALL_ANSWER.rawValue:
                 print("get CALL_ANSWER command")
@@ -42,6 +57,7 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.CALL_OFFER.rawValue:
                 print("get CALL_OFFER command")
+                doCallOffer(sdp: info)
                 break
             case StWsMessage.Command.HANDUP_CALL.rawValue:
                 print("get HANDUP_CALL command")
@@ -53,11 +69,48 @@ class ProcessMessage: NSObject {
     
     func applyAddDevice(info: String) -> Void {
         print("process add device apply")
-        let doCmd = ProcessCommand()
+        
         doCmd.doApplyAddCmd(info)
         print("--------------------------------------------")
         print(info)
         print("--------------------------------------------")
     }
-
+    
+    func doCall(friendID: String, user: String) -> Void {
+        print("process do call apply")
+//        let isCouldCall: Bool = UserDefaults.standard.bool(forKey: "isCouldCall")
+//        print(isCouldCall)
+//        if (isCouldCall){
+            let defaults = UserDefaults.standard
+            defaults.set(false, forKey: "isCouldCall")
+            let doCmd = ProcessCommand()
+            doCmd.doCallCmd(friendID, userID: user)
+//        }else{
+//            doCmd.doFull()
+//        }
+    }
+    
+    func doCallOffer(sdp: String) -> Void {
+        print("process do send offer apply")
+        doCmd.doCallOfferCmd(sdp)
+        print("----------------------offer----------------------")
+        print(sdp)
+        print("-----------------------------------------------")
+    }
+    
+    func doCallAnswer(sdp: String) -> Void {
+        print("process do send offer apply")
+        doCmd.doCallAnswerCmd(sdp)
+        print("----------------------answer----------------------")
+        print(sdp)
+        print("-----------------------------------------------")
+    }
+    
+    func doCallCandidate(info: String) -> Void {
+        print("process do send candidate apply")
+        doCmd.doCallAnswerCmd(info)
+        print("----------------------candidate----------------------")
+        print(info)
+        print("-----------------------------------------------")
+    }
 }

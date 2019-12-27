@@ -57,6 +57,22 @@ OpenStomp* stomp;
     [stomp sendECHO];
 }
 
+- (void) doCall:(NSString* )friendId{
+    [stomp doCallWithFriendId:friendId];
+}
+
+- (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId{
+    [stomp sendOfferWithSdp:sdp friendId:friendId];
+}
+
+- (void) sendAnwser: (NSString* )sdp friendId:(NSString* )friendId{
+    [stomp sendAnswerWithSdp:sdp friendId:friendId];
+}
+
+- (void) sendCandidate:(NSDictionary* )sdp friendId:(NSString* )friendId{
+    [stomp sendCandidateWithSdp:sdp friendId:friendId];
+}
+
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group{
     NSString *Url = [self.baseUrl stringByAppendingString: self.loginApi];
     NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
@@ -91,7 +107,7 @@ OpenStomp* stomp;
             for (NSDictionary *friend in friends){
                 [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
             }
-            NSLog(@"friends = %@", friendsDic);
+            //NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
@@ -218,12 +234,12 @@ OpenStomp* stomp;
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
          
         NSArray *friends = [resultDic valueForKey:@"contacts"];
-        NSLog(@"------------------------friends---------------------");
+        //NSLog(@"------------------------friends---------------------");
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
                 [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
             }
-            NSLog(@"friends = %@", friendsDic);
+            //NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
@@ -261,12 +277,12 @@ OpenStomp* stomp;
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
          
         NSArray *friends = [resultDic valueForKey:@"contacts"];
-        NSLog(@"------------------------friends---------------------");
+        //NSLog(@"------------------------friends---------------------");
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
                 [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
             }
-            NSLog(@"friends = %@", friendsDic);
+            //NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");

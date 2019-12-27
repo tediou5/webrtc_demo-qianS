@@ -18,6 +18,11 @@
 - (instancetype) init;
 
 - (void) echo;
+- (void) doCall:(NSString* )friendId;
+- (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId;
+- (void) sendAnswer: (NSString* )sdp friendId:(NSString* )friendId;
+- (void) sendCandidate: (NSDictionary* )sdp friendId:(NSString* )friendId;
+
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group;
 - (void) logout: (NSString* )uid group:(dispatch_group_t)group;
 - (void) signIn: (NSString* )phoneNum authCode:(NSString* )authCode group:(dispatch_group_t)group;

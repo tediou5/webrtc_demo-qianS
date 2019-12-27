@@ -16,7 +16,7 @@
 
 @implementation ProcessCommand
 
-- (void) doApplyAddCmd: (NSString*)info{
+- (void) doApplyAddCmd: (NSString* )info{
     NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
     NSLog(@"*******************************************");
@@ -35,4 +35,30 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void) doCallCmd:(NSString* )friendID userID:(NSString* )user{
+    [self.delegate joinCall:friendID userID:user];
+}
+
+- (void) doCallOfferCmd: (NSString* )sdp{
+    [self.delegate offer:sdp];
+}
+
+- (void) doCallAnswerCmd: (NSString* )sdp{
+    [self.delegate answer:sdp];
+}
+
+- (void) doCallCandidateCmd: (NSString* )info{
+    NSData* infoData = [info dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* infoDict = [NSJSONSerialization JSONObjectWithData:infoData options:NSJSONReadingMutableLeaves error:nil];
+    
+    [self.delegate candidate:infoDict];
+}
+
+-(void) doFull{
+    [self.delegate full];
+}
+
+- (void) doJoin: (NSString* )friendId{
+    [self.delegate join:friendId];
+}
 @end

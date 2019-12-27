@@ -7,7 +7,8 @@
 //
 
 #import "CallViewController.h"
-#import "SignalClient.h"
+#import "AFManager.h"
+#import "ProcessCommand.h"
 
 #import <WebRTC/WebRTC.h>
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -15,16 +16,16 @@
 @interface CallViewController() <SignalEventNotify, RTCPeerConnectionDelegate, RTCVideoViewDelegate>
 {
     
-    NSString* myAddr;
-    NSString* myRoom;
+    NSString* userID;
+    NSString* friendID;
     
     NSString* myState;
     
-    SignalClient* sigclient;
+    AFManager* AFNet;
     
     RTCPeerConnectionFactory* factory;
     RTCCameraVideoCapturer* capture;
-    //RTCMediaStream* localStream; //???
+
     RTCPeerConnection* peerConnection;
     
     RTCVideoTrack* videoTrack;
@@ -58,30 +59,26 @@ static NSString *const RTCSTUNServerURL = @"stun:hy03.teclub.cn:3478";
 //static NSString *const RTCSTUNServerURL2 = @"stun:23.21.150.121";
 static NSString *const RTCTURNServerURL = @"turn:turn003.teclub.cn:17711";
 static int logY = 0;
-- (instancetype) initAddr:(NSString*) addr withRoom:(NSString*) room {
+- (instancetype) initWithId:(NSString* )friend userID:(NSString* )user{
     
-    myAddr = addr;
-    myRoom = room;
+    friendID = friend;
+    userID = user;
     
     [self initView];
-    
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     logY = 0;
-    
+    AFNet = [[AFManager alloc] init];
+
     [self createPeerConnectionFactory];
-    
     //[self startTimer];
     
     //创建本地流
     [self captureLocalMedia];
-    
-    sigclient = [SignalClient getInstance];
-    sigclient.delegate = self;
-    ////[sigclient createConnect:myAddr];
     
     myState = @"init";
     
@@ -129,19 +126,19 @@ static int logY = 0;
     
 }
 
--(void)addLogToScreen:(NSString *)format, ...{
-    
-    va_list paramList;
-    va_start(paramList,format);
-    NSString* log = [[NSString alloc]initWithFormat:format arguments:paramList];
-    va_end(paramList);
-    
-    CGRect labelRect = CGRectMake(0, logY++ * 20, 500, 200);
-    UILabel *label = [[UILabel alloc] initWithFrame:labelRect];
-    label.text = log;
-    label.textColor = [UIColor redColor];
-    [self.view addSubview:label];
-}
+//-(void)addLogToScreen:(NSString *)format, ...{
+//
+//    va_list paramList;
+//    va_start(paramList,format);
+//    NSString* log = [[NSString alloc]initWithFormat:format arguments:paramList];
+//    va_end(paramList);
+//
+//    CGRect labelRect = CGRectMake(0, logY++ * 20, 500, 200);
+//    UILabel *label = [[UILabel alloc] initWithFrame:labelRect];
+//    label.text = log;
+//    label.textColor = [UIColor redColor];
+//    [self.view addSubview:label];
+//}
 - (void)layoutSubviews {
     CGRect bounds = self.view.bounds;
     if (remoteVideoSize.width > 0 && remoteVideoSize.height > 0) {
@@ -167,39 +164,41 @@ static int logY = 0;
     
 }
 
+
 - (void) leaveRoom:(UIButton*) sender {
     
     [self willMoveToParentViewController:nil];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
     
-    if (!sigclient) {
-        sigclient = [SignalClient getInstance];
-    }
-    
-    if(![myState isEqualToString:@"leaved"]){
-        [sigclient leaveRoom: myRoom];
-    }
-    
+    //------------------------------------------------------------------------------------------leave room
+//    if (!sigclient) {
+//        sigclient = [SignalClient getInstance];
+//    }
+//
+//    if(![myState isEqualToString:@"leaved"]){
+//        [sigclient leaveRoom: myRoom];
+//    }
+//
     if(peerConnection){
         [peerConnection close];
         peerConnection = nil;
     }
-    
-    NSLog(@"leave room(%@)", myRoom);
-    [self addLogToScreen: @"leave room(%@)", myRoom];
+//
+//    NSLog(@"leave room(%@)", myRoom);
+//    [self addLogToScreen: @"leave room(%@)", myRoom];
 }
 
 #pragma mark - SignalEventNotify
 
 - (void) leaved:(NSString *)room {
     NSLog(@"leaved room(%@) notify!", room);
-    [self addLogToScreen: @"leaved room(%@) notify!", room];
+    //[self addLogToScreen: @"leaved room(%@) notify!", room];
 }
 
-- (void) joined:(NSString *)room {
-    NSLog(@"joined room(%@) notify!", room);
-    [self addLogToScreen: @"joined room(%@) notify!", room];
+- (void) join :(NSString* )friendId{
+    NSLog(@"joined room(%@) notify!", friendId);
+    //[self addLogToScreen: @"joined room(%@) notify!", self->friendID];
     
     myState = @"joined";
     
@@ -209,9 +208,9 @@ static int logY = 0;
     }
 }
 
-- (void) otherjoin:(NSString *)room User:(NSString *)uid {
-    NSLog(@"other user(%@) has been joined into room(%@) notify!", uid, room);
-    [self addLogToScreen: @"other user(%@) has been joined into room(%@) notify!", uid, room];
+//-----------------------------------------------------------------------------------------otherjoin here
+- (void) otherjoin {
+    //[self addLogToScreen: @"other user(%@) has been called with user(%@) notify!", friendID, userID];
     if([myState isEqualToString:@"joined_unbind"]){
         if (!peerConnection) {
             peerConnection = [self createPeerConnection];
@@ -224,9 +223,9 @@ static int logY = 0;
     
 }
 
-- (void) full:(NSString *)room {
-    NSLog(@"the room(%@) is full notify!", room);
-    [self addLogToScreen: @"the room(%@) is full notify!", room];
+- (void) full {
+    NSLog(@"the friendID(%@) is buzy!", self->friendID);
+    //[self addLogToScreen: @"the friendID(%@) is buzy!", self->friendID];
     myState = @"leaved";
     
     if(peerConnection) {
@@ -265,9 +264,10 @@ static int logY = 0;
     }
 }
 
+//------------------------------TODO-------------------------------------update byeFrom later
 - (void) byeFrom:(NSString *)room User:(NSString *)uid {
     NSLog(@"the user(%@) has leaved from room(%@) notify!", uid, room);
-    [self addLogToScreen: @"the user(%@) has leaved from room(%@) notify!", uid, room];
+    //[self addLogToScreen: @"the user(%@) has leaved from room(%@) notify!", uid, room];
     myState = @"joined_unbind";
     
     [peerConnection close];
@@ -275,10 +275,10 @@ static int logY = 0;
     
 }
 
-- (void) answer:(NSString *)room message:(NSDictionary *)dict {
-    NSLog(@"have received a answer message %@", dict);
+- (void) answer:(NSString *)sdp {
+    NSLog(@"have received a answer message %@", sdp);
     
-    NSString *remoteAnswerSdp = dict[@"sdp"];
+    NSString *remoteAnswerSdp = sdp;
     RTCSessionDescription *remoteSdp = [[RTCSessionDescription alloc]
                                         initWithType:RTCSdpTypeAnswer
                                         sdp: remoteAnswerSdp];
@@ -303,14 +303,13 @@ static int logY = 0;
         }
     }];
     
-    __weak NSString* weakMyRoom = myRoom;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         //send answer sdp
-        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"answer", sdp.sdp]
-                                                           forKeys: @[@"type", @"sdp"]];
+//        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"answer", sdp.sdp]
+//                                                           forKeys: @[@"type", @"sdp"]];
         
-        [[SignalClient getInstance] sendMessage: weakMyRoom withMsg:dict];
+        [self->AFNet sendAnswer:sdp.sdp friendId:self->friendID];
     });
 }
 
@@ -332,10 +331,10 @@ static int logY = 0;
 }
 
 //本地
-- (void) offer:(NSString *)room message:(NSDictionary *)dict {
-    NSLog(@"have received a offer message %@", dict);
+- (void) offer:(NSString *)sdp {
+    NSLog(@"have received a offer message %@", sdp);
     
-    NSString* remoteOfferSdp = dict[@"sdp"];
+    NSString* remoteOfferSdp = sdp;
     RTCSessionDescription* remoteSdp = [[RTCSessionDescription alloc]
                                         initWithType:RTCSdpTypeOffer
                                         sdp: remoteOfferSdp];
@@ -353,7 +352,7 @@ static int logY = 0;
     }];
 }
 //本地
-- (void) candidate:(NSString *)room message:(NSDictionary *)dict {
+- (void) candidate: (NSDictionary *)dict {
     NSLog(@"have received a message %@", dict);
     
     NSString* desc = dict[@"sdp"];
@@ -368,27 +367,7 @@ static int logY = 0;
     [peerConnection addIceCandidate:candidate];
 }
 //----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
-- (void)connected {
-    [[SignalClient getInstance]  joinRoom: myRoom];
-    [self addLogToScreen: @"socket connect success!"];
-    [self addLogToScreen: @"joinRoom: %@", myRoom];
-    
-    
-}
 
-- (void)connect_error {
-    //todo: notfiy UI
-    [self addLogToScreen: @"socket connect_error!"];
-}
-
-- (void)connect_timeout {
-    //todo: notfiy UI
-    [self addLogToScreen: @"socket connect_timeout!"];
-}
-
-- (void) reconnectAttempt{
-    [self addLogToScreen: @"socket reconnectAttempt!"];
-}
 #pragma mark RTCPeerConnectionDelegate
 
 /** Called when the SignalingState changed. */
@@ -432,17 +411,13 @@ didChangeIceGatheringState:(RTCIceGatheringState)newState{
 didGenerateIceCandidate:(RTCIceCandidate *)candidate{
     NSLog(@"%s",__func__);
     
-    NSString* weakMyRoom = myRoom;
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"candidate",
-                                                                     [NSString stringWithFormat:@"%d", candidate.sdpMLineIndex],
+        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[[NSString stringWithFormat:@"%d", candidate.sdpMLineIndex],
                                                                      candidate.sdpMid,
                                                                      candidate.sdp]
-                                                           forKeys:@[@"type", @"label", @"id", @"candidate"]];
-        
-        [[SignalClient getInstance] sendMessage: weakMyRoom
-                                        withMsg:dict];
+                                                           forKeys:@[@"label", @"id", @"sdp"]];
+        [self->AFNet sendCandidate:dict friendId:self->friendID];
     });
 }
 
@@ -608,7 +583,7 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     
     return conn;
 }
-//----------------------------------------------------------------------------------------------------------------I need change this(send offer)
+//----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
 - (void)setLocalOffer:(RTCPeerConnection*)pc withSdp:(RTCSessionDescription*) sdp{
     
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {
@@ -619,20 +594,18 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
         }
     }];
     
-    __weak NSString* weakMyRoom = myRoom;
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"offer", sdp.sdp]
-                                                           forKeys: @[@"type", @"sdp"]];
+//        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"offer", sdp.sdp]
+//                                                           forKeys: @[@"type", @"sdp"]];
         
-        [[SignalClient getInstance] sendMessage: weakMyRoom
-                                        withMsg: dict];
+        [self->AFNet sendOffer:sdp.sdp friendId:self->friendID];
     });
 }
-
+//-----------------------------------------------------------------------------------------------------setLocalOffer here
 - (void) doStartCall {
     NSLog(@"Start Call, Wait ...");
-    [self addLogToScreen: @"Start Call, Wait ..."];
+    //[self addLogToScreen: @"Start Call, Wait ..."];
     if (!peerConnection) {
         peerConnection = [self createPeerConnection];
     }
