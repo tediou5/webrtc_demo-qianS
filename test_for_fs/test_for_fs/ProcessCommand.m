@@ -15,6 +15,7 @@
 @end
 
 @implementation ProcessCommand
+//每当我收到一个request之后，首先回复一个Allow给对方，用来确认我收到了该请求
 
 - (void) doApplyAddCmd: (NSString* )info{
     NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
