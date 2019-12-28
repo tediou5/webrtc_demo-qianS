@@ -13,7 +13,7 @@
 
 @protocol SignalEventNotify <NSObject>
 
-@required
+@optional
 - (void) leaved: (NSString* ) room;
 - (void) join :(NSString* )friendId;
 - (void) joinCall:(NSString* )friendID userID:(NSString* )user;

@@ -37,7 +37,7 @@
 
 - (void)clickLoginBtn:(UIButton*) sender{
     NSLog(@"Login!");
-
+    
     self.logInBtn.enabled = NO;
     
     dispatch_group_t group = dispatch_group_create();
@@ -61,13 +61,15 @@
 }
 
 - (void)threadMoth {
+    [self.AFNet registerSocket];
     while (1) {
+        [NSThread sleepForTimeInterval:10];
         [self.AFNet echo];
         //NSLog(@"i can do a loop over here");
         NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
         NSString* uid = [NSString stringWithFormat:@"%@", uuid];
         [self.AFNet getContacts:uid];
-        [NSThread sleepForTimeInterval:10];
+        
     }
 }
 

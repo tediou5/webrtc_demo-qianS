@@ -145,15 +145,14 @@
 
 - (void)doCall:(NSIndexPath *)indexPath friendID:(NSString* )friendId userID:(NSString* )userId{
     NSLog(@"Do Call");
-    
-    [[NSUserDefaults standardUserDefaults] setObject:@false forKey:@"isCouldCall"];
+    [self.AFNet doCall:friendId];
+    //[[NSUserDefaults standardUserDefaults] setObject:@false forKey:@"isCouldCall"];
     self.callView = [[CallViewController alloc] initWithId:friendId userID:userId];
     [self.callView.view setFrame:self.view.bounds];
     [self.callView.view setBackgroundColor:[UIColor whiteColor]];
-    
     [self addChildViewController:self.callView];
     [self.callView didMoveToParentViewController:self];
-    [self.AFNet doCall:friendId];
+    
     [self.view addSubview:self.callView.view];
 }
 

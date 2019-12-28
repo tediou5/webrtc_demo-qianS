@@ -293,6 +293,7 @@
 }
 
 - (void)joinCall: (NSString* )friend userID:(NSString* )user  {
+    NSLog(@"get joinCall delegate");
     self.callView = [[CallViewController alloc] initWithId:friend userID:user];
     [self.callView.view setFrame:self.view.bounds];
     [self.callView.view setBackgroundColor:[UIColor whiteColor]];
@@ -302,6 +303,4 @@
     
     [self.view addSubview:self.callView.view];
 }
-
-
 @end

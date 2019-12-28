@@ -17,6 +17,7 @@
 
 - (instancetype) init;
 
+- (void) registerSocket;
 - (void) echo;
 - (void) doCall:(NSString* )friendId;
 - (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId;

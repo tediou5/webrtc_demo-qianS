@@ -27,13 +27,14 @@ class ProcessMessage: NSObject {
         print("cmd = \(command)")
         print("cmd = \(friendId)")
         
-        switch cmd {
+        switch cmd {//should add MAKE_CALL cmd
         case StWsMessage.Command.SEND_DATA.rawValue:
                 print("get SEND_DATA command")
                 print(info)
                 break
             case StWsMessage.Command.ECHO.rawValue:
                 print("get ECHO command")
+                print(jsonMsg)
                 break
             case StWsMessage.Command.ACCEPT_CALL.rawValue:
                 print("get ACCEPT_CALL command")
@@ -81,8 +82,8 @@ class ProcessMessage: NSObject {
 //        let isCouldCall: Bool = UserDefaults.standard.bool(forKey: "isCouldCall")
 //        print(isCouldCall)
 //        if (isCouldCall){
-            let defaults = UserDefaults.standard
-            defaults.set(false, forKey: "isCouldCall")
+//            let defaults = UserDefaults.standard
+            //defaults.set(false, forKey: "isCouldCall")
             let doCmd = ProcessCommand()
             doCmd.doCallCmd(friendID, userID: user)
 //        }else{

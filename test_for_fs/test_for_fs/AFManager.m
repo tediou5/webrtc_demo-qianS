@@ -53,6 +53,10 @@ OpenStomp* stomp;
     return self;
 }
 
+- (void) registerSocket{
+    [stomp registerSocket];
+}
+
 - (void) echo{
     [stomp sendECHO];
 }
@@ -119,7 +123,7 @@ OpenStomp* stomp;
         [[NSUserDefaults standardUserDefaults] setObject:[[[resultDic valueForKey:@"client"] valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [stomp registerSocket];
+        //[stomp registerSocket];
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
