@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary* applyAddDic;
 @property (strong, nonatomic) NSMutableArray* applyAddArr;
+@property (strong, nonatomic) NSMutableArray* IDsArr;
 
 @property (strong, nonatomic) AFManager* AFNet;
 
@@ -35,7 +36,8 @@
     NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
     [self.applyAddDic addEntriesFromDictionary:localApplyAddDic];
     
-    self.applyAddArr = self.applyAddDic.allKeys;
+    self.applyAddArr = self.applyAddDic.allValues;
+    self.IDsArr = self.applyAddDic.allKeys;
     [self.ApplyAddTableView reloadData];
     
     self.AFNet = [[AFManager alloc] init];
@@ -80,9 +82,9 @@
     //NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
     NSString* name = self.applyAddArr[indexPath.row];
     NSNumber* cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSNumber* ttid = self.applyAddDic[self.applyAddArr[indexPath.row]];
+    NSString* tid = self.IDsArr[indexPath.row];
     NSString* sid = [NSString stringWithFormat:@"%@", cid];
-    NSString* tid = [NSString stringWithFormat:@"%@", ttid];
+    //NSString* tid = [NSString stringWithFormat:@"%@", ttid];
     static NSString* type;
     type = [[NSString alloc] init];
     
@@ -117,11 +119,11 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
-            [self.applyAddDic removeObjectForKey:self.applyAddArr[indexPath.row]];
+            [self.applyAddDic removeObjectForKey:self.IDsArr[indexPath.row]];
             [[NSUserDefaults standardUserDefaults] setObject:self.applyAddDic forKey:@"applyAddDic"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            self.applyAddArr = self.applyAddDic.allKeys;
+            self.applyAddArr = self.applyAddDic.allValues;
             [self.ApplyAddTableView reloadData];
             
             [self showError:@"好友申请已处理！"];
@@ -148,12 +150,6 @@
     [self removeFromParentViewController];
 }
 
-- (void) clickRefreshBtn:(UIButton*) sender {
-    NSLog(@"Click Refresh Button!");
-    
-    NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
-    [self.applyAddDic addEntriesFromDictionary:localApplyAddDic];
-}
 
 #pragma mark - 点击事件
 - (void)myTableViewClick:(UIGestureRecognizer *)gestureRecognizer {

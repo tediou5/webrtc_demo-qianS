@@ -61,8 +61,12 @@ OpenStomp* stomp;
     [stomp sendECHO];
 }
 
-- (void) doCall:(NSString* )friendId{
-    [stomp doCallWithFriendId:friendId];
+- (void) doMakeCall:(NSString* )friendId name:(NSString* )name{
+    [stomp doMakeCallWithFriendId:friendId name:name];
+}
+
+- (void) doAcceptCall:(NSString* )friendId{
+    [stomp doAcceptCallWithFriendId:friendId];
 }
 
 - (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId{
@@ -109,13 +113,16 @@ OpenStomp* stomp;
         NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
-                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
+                NSString* ID = Id.stringValue;
+                [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
             }
-            //NSLog(@"friends = %@", friendsDic);
+            NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
-            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+            //[[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }
         
         [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
@@ -241,9 +248,12 @@ OpenStomp* stomp;
         //NSLog(@"------------------------friends---------------------");
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
-                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
+                NSString* ID = Id.stringValue;
+                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
             }
-            //NSLog(@"friends = %@", friendsDic);
+            NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
@@ -284,7 +294,10 @@ OpenStomp* stomp;
         //NSLog(@"------------------------friends---------------------");
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
-                [friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
+                NSString* ID = Id.stringValue;
+                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
+                [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
             }
             //NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
@@ -328,7 +341,9 @@ OpenStomp* stomp;
         NSMutableArray* resultArr = [resultDic valueForKey:@"contacts"];
 
         for (NSMutableDictionary *friendDic in resultArr){
-            [friendsDic setValue:[[friendDic valueForKey:@"id"] valueForKey:@"id"] forKey:[friendDic valueForKey:@"name"]];
+            NSNumber* Id = [[friendDic valueForKey:@"id"] valueForKey:@"id"];
+            NSString* ID = Id.stringValue;
+            [friendsDic setValue:[friendDic valueForKey:@"name"] forKey:ID];
         }
         self.isSuccess = YES;
         dispatch_group_leave(group);

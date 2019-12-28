@@ -25,10 +25,10 @@ class ProcessMessage: NSObject {
         let friendId: String = String(friendID)
         print("------------------------Process Command---------------------")
         print("cmd = \(command)")
-        print("cmd = \(friendId)")
+        print("msg = \(jsonMsg)")
         
         switch cmd {//should add MAKE_CALL cmd
-        case StWsMessage.Command.SEND_DATA.rawValue:
+            case StWsMessage.Command.SEND_DATA.rawValue:
                 print("get SEND_DATA command")
                 print(info)
                 break
@@ -36,9 +36,13 @@ class ProcessMessage: NSObject {
                 print("get ECHO command")
                 print(jsonMsg)
                 break
+            case StWsMessage.Command.MAKE_CALL.rawValue:
+                print("get MAKE_CALL command")
+                doMakeCall(friendID: friendId)
+                break
             case StWsMessage.Command.ACCEPT_CALL.rawValue:
                 print("get ACCEPT_CALL command")
-                doCall(friendID: friendId, user: id)
+                doAcceptCall(friendID: friendId, user: id)
                 break
             case StWsMessage.Command.APPLY_ADD_DEVICE.rawValue:
                 print("get APPLY_ADD_DEVICE command")
@@ -67,7 +71,9 @@ class ProcessMessage: NSObject {
                 print("error")
         }
     }
-    
+    func doMakeCall(friendID: String) -> Void {
+        doCmd.doMakeCallCmd(friendID)
+    }
     func applyAddDevice(info: String) -> Void {
         print("process add device apply")
         
@@ -77,7 +83,7 @@ class ProcessMessage: NSObject {
         print("--------------------------------------------")
     }
     
-    func doCall(friendID: String, user: String) -> Void {
+    func doAcceptCall(friendID: String, user: String) -> Void {
         print("process do call apply")
 //        let isCouldCall: Bool = UserDefaults.standard.bool(forKey: "isCouldCall")
 //        print(isCouldCall)
@@ -85,7 +91,8 @@ class ProcessMessage: NSObject {
 //            let defaults = UserDefaults.standard
             //defaults.set(false, forKey: "isCouldCall")
             let doCmd = ProcessCommand()
-            doCmd.doCallCmd(friendID, userID: user)
+            doCmd.doAcceptCallCmd(friendID, userID: user)
+            
 //        }else{
 //            doCmd.doFull()
 //        }

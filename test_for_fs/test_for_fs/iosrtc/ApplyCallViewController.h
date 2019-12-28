@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IosrtcViewController : UIViewController
+@interface ApplyCallViewController : UIViewController
 
 
 @end

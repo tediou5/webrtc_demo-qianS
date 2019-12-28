@@ -13,7 +13,7 @@
 #import <WebRTC/WebRTC.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
-@interface CallViewController() <SignalEventNotify, RTCPeerConnectionDelegate, RTCVideoViewDelegate>
+@interface CallViewController() <ProcessCommandEvents, RTCPeerConnectionDelegate, RTCVideoViewDelegate>
 {
     
     NSString* userID;
@@ -22,6 +22,7 @@
     NSString* myState;
     
     AFManager* AFNet;
+    ProcessCommand* pCMD;
     
     RTCPeerConnectionFactory* factory;
     RTCCameraVideoCapturer* capture;
@@ -73,7 +74,7 @@ static int logY = 0;
     
     logY = 0;
     AFNet = [[AFManager alloc] init];
-
+    pCMD = [[ProcessCommand alloc] init];
     [self createPeerConnectionFactory];
     //[self startTimer];
     
@@ -209,7 +210,7 @@ static int logY = 0;
 }
 
 //-----------------------------------------------------------------------------------------otherjoin here
-- (void) otherjoin {
+- (void) otherjoin:(NSString *)friendID userID:(NSString *)user{
     //[self addLogToScreen: @"other user(%@) has been called with user(%@) notify!", friendID, userID];
     if([myState isEqualToString:@"joined_unbind"]){
         if (!peerConnection) {

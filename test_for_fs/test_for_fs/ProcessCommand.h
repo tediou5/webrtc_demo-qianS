@@ -11,12 +11,12 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SignalEventNotify <NSObject>
+@protocol ProcessCommandEvents <NSObject>
 
 @optional
 - (void) leaved: (NSString* ) room;
 - (void) join :(NSString* )friendId;
-- (void) joinCall:(NSString* )friendID userID:(NSString* )user;
+- (void) otherjoin:(NSString* )friendID userID:(NSString* )user;
 - (void) full;
 - (void) byeFrom: (NSString* ) room User:(NSString*) uid;
 - (void) answer: (NSString* ) sdp;
@@ -30,12 +30,13 @@
 - (void) doApplyAddCmd: (NSString* )info;
 
 - (void) doFull;
-- (void) doCallCmd:(NSString* )friendID userID:(NSString* )user;
-- (void) doJoin:(NSString* )friendId;
+- (void) doMakeCallCmd: (NSString* )friendID;
+- (void) doAcceptCallCmd: (NSString* )friendID userID:(NSString* )user;
+- (void) doJoin: (NSString* )friendId;
 - (void) doCallOfferCmd: (NSString* )sdp;
 - (void) doCallAnswerCmd: (NSString* )sdp;
 
-@property (retain, nonatomic) id<SignalEventNotify> delegate;
+@property (retain, nonatomic) id<ProcessCommandEvents> delegate;
 
 @end
 #endif /* ProcessCommand_h */

@@ -14,7 +14,7 @@
 		B65F2689238FD76600934887 /* OpenStomp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65F2688238FD76600934887 /* OpenStomp.swift */; };
 		B68B3F32238D288900C00A64 /* SignOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B68B3F31238D288900C00A64 /* SignOutViewController.m */; };
 		B69771FD239F6B6D00B45793 /* CallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69771F5239F6B6C00B45793 /* CallViewController.m */; };
-		B69771FE239F6B6D00B45793 /* IosrtcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69771F6239F6B6C00B45793 /* IosrtcViewController.m */; };
+		B69771FE239F6B6D00B45793 /* ApplyCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69771F6239F6B6C00B45793 /* ApplyCallViewController.m */; };
 		B697720123A078B600B45793 /* StWsMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697720023A078B600B45793 /* StWsMessage.swift */; };
 		B697720423A0F00300B45793 /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B697720323A0F00300B45793 /* AddFriendViewController.m */; };
 		B6D908CE23A7D05B002630E7 /* ProcessMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */; };
@@ -29,7 +29,7 @@
 		B6FA25C2238CC7C200D16967 /* test_for_fsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25C1238CC7C200D16967 /* test_for_fsUITests.m */; };
 		B6FA25D1238D197000D16967 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA25D0238D197000D16967 /* SignInViewController.m */; };
 		B6FB9B0523B1A57E00997DD4 /* ProcessCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */; };
-		B6FB9B0823B1FCCB00997DD4 /* DeleteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */; };
+		B6FB9B0823B1FCCB00997DD4 /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB9B0723B1FCCB00997DD4 /* FriendsListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,9 +64,9 @@
 		B68B3F30238D288900C00A64 /* SignOutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignOutViewController.h; sourceTree = "<group>"; };
 		B68B3F31238D288900C00A64 /* SignOutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignOutViewController.m; sourceTree = "<group>"; };
 		B69771F5239F6B6C00B45793 /* CallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallViewController.m; sourceTree = "<group>"; };
-		B69771F6239F6B6C00B45793 /* IosrtcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IosrtcViewController.m; sourceTree = "<group>"; };
+		B69771F6239F6B6C00B45793 /* ApplyCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCallViewController.m; sourceTree = "<group>"; };
 		B69771F7239F6B6D00B45793 /* CallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallViewController.h; sourceTree = "<group>"; };
-		B69771FA239F6B6D00B45793 /* IosrtcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosrtcViewController.h; sourceTree = "<group>"; };
+		B69771FA239F6B6D00B45793 /* ApplyCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCallViewController.h; sourceTree = "<group>"; };
 		B697720023A078B600B45793 /* StWsMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StWsMessage.swift; sourceTree = "<group>"; };
 		B697720323A0F00300B45793 /* AddFriendViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
 		B697720523A0F02B00B45793 /* AddFriendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
@@ -93,8 +93,8 @@
 		B6FA25D0238D197000D16967 /* SignInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		B6FB9B0323B1A56900997DD4 /* ProcessCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessCommand.h; sourceTree = "<group>"; };
 		B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcessCommand.m; sourceTree = "<group>"; };
-		B6FB9B0623B1FCC000997DD4 /* DeleteFriendsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteFriendsViewController.h; sourceTree = "<group>"; };
-		B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteFriendsViewController.m; sourceTree = "<group>"; };
+		B6FB9B0623B1FCC000997DD4 /* FriendsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendsListViewController.h; sourceTree = "<group>"; };
+		B6FB9B0723B1FCCB00997DD4 /* FriendsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendsListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +128,8 @@
 			children = (
 				B69771F7239F6B6D00B45793 /* CallViewController.h */,
 				B69771F5239F6B6C00B45793 /* CallViewController.m */,
-				B69771FA239F6B6D00B45793 /* IosrtcViewController.h */,
-				B69771F6239F6B6C00B45793 /* IosrtcViewController.m */,
+				B69771FA239F6B6D00B45793 /* ApplyCallViewController.h */,
+				B69771F6239F6B6C00B45793 /* ApplyCallViewController.m */,
 			);
 			path = iosrtc;
 			sourceTree = "<group>";
@@ -183,8 +183,8 @@
 				B697720323A0F00300B45793 /* AddFriendViewController.m */,
 				B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */,
 				B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */,
-				B6FB9B0623B1FCC000997DD4 /* DeleteFriendsViewController.h */,
-				B6FB9B0723B1FCCB00997DD4 /* DeleteFriendsViewController.m */,
+				B6FB9B0623B1FCC000997DD4 /* FriendsListViewController.h */,
+				B6FB9B0723B1FCCB00997DD4 /* FriendsListViewController.m */,
 				B65F268A238FD7A100934887 /* test_for_fs-Bridging-Header.h */,
 				B6FA25A3238CC7C100D16967 /* Main.storyboard */,
 				B6FA25A6238CC7C100D16967 /* Assets.xcassets */,
@@ -405,8 +405,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B69771FE239F6B6D00B45793 /* IosrtcViewController.m in Sources */,
-				B6FB9B0823B1FCCB00997DD4 /* DeleteFriendsViewController.m in Sources */,
+				B69771FE239F6B6D00B45793 /* ApplyCallViewController.m in Sources */,
+				B6FB9B0823B1FCCB00997DD4 /* FriendsListViewController.m in Sources */,
 				B697720123A078B600B45793 /* StWsMessage.swift in Sources */,
 				B6FB9B0523B1A57E00997DD4 /* ProcessCommand.m in Sources */,
 				B6568122238E0637005F85FF /* LoginViewController.m in Sources */,

@@ -6,25 +6,28 @@
 //  Copyright © 2019 qians. All rights reserved.
 //
 
-#import "DeleteFriendsViewController.h"
+#import "FriendsListViewController.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
-@interface DeleteFriendsViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
+@interface FriendsListViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
 @property (strong, nonatomic) UITableView* friendsTableView;
+@property (strong, nonatomic) CallViewController* callView;
+
 @property (strong, nonatomic) UIButton* refreshBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
 
 @property (strong, nonatomic) NSMutableDictionary* friendsDic;
 @property (strong, nonatomic) NSMutableArray* friendsArr;
+@property (strong, nonatomic) NSMutableArray* IDsArr;
 
 @property (strong, nonatomic) AFManager* AFNet;
 
 @end
 
-@implementation DeleteFriendsViewController
+@implementation FriendsListViewController
 
 - (void) viewDidLoad{
     [super viewDidLoad];
@@ -57,10 +60,11 @@
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
             self.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
-            NSLog(@"%@", self.friendsDic);
+            NSLog(@"friends = %@", self.friendsDic);
             if ([self.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsDic.count != 0) {
-                self.friendsArr = self.friendsDic.allKeys;
-                NSLog(@"%@", self.friendsArr);
+                self.friendsArr = self.friendsDic.allValues;
+                self.IDsArr = self.friendsDic.allKeys;
+                NSLog(@"refresh %@", self.friendsArr);
                 [self.friendsTableView reloadData];
             }else{
                  [self showError:@"YOU HAVE NO FRIENDS!!!"];
@@ -110,22 +114,42 @@
     //NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
     NSString* name = self.friendsArr[indexPath.row];
     NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSNumber* ccid = self.friendsDic[self.friendsArr[indexPath.row]];
+    NSString* cid = self.IDsArr[indexPath.row];
     NSString* uid = [NSString stringWithFormat:@"%@", uuid];
-    NSString* cid = [NSString stringWithFormat:@"%@", ccid];
+    //NSString* cid = [NSString stringWithFormat:@"%@", ccid];
+    NSLog(@"cid = %@", cid);
     
-    UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否确定删除该好友" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction* comfirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
-        NSLog(@"click Agree Action!");
+    UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:uid message:name preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSLog(@"click delete Action!");
         [self doDeleteFriends:indexPath uid:uid cid:cid];
     }];
-    
+    UIAlertAction* callAction = [UIAlertAction actionWithTitle:@"Call" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSLog(@"click Call Action!");
+        [self doCallFriend:cid name:name];
+    }];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"click Cancel Action!");
     }];
-    [alertSheet addAction:comfirmAction];
+    [alertSheet addAction:deleteAction];
+    [alertSheet addAction:callAction];
     [alertSheet addAction:cancelAction];
     [self presentViewController:alertSheet animated:YES completion:nil];
+}
+
+- (void)doCallFriend:(NSString* )friendId name:(NSString* )name{
+    [self.AFNet doMakeCall:friendId name:name];
+    
+    NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSString* userID = [NSString stringWithFormat:@"%@", uid];
+    self.callView = [[CallViewController alloc] initWithId:friendId userID:userID];
+    [self.callView.view setFrame:self.view.bounds];
+    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
+    [self addChildViewController:self.callView];
+    [self.callView didMoveToParentViewController:self];
+    
+    
+    [self.view addSubview:self.callView.view];
 }
 
 - (void)doDeleteFriends:(NSIndexPath *)indexPath uid:(NSString* )uid cid:(NSString* )cid{

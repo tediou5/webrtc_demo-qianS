@@ -11,8 +11,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AFManager.h"
+#import "CallViewController.h"
 
-@interface DeleteFriendsViewController : UIViewController
+@interface FriendsListViewController : UIViewController
 
 @end
 #endif /* DeleteFriendsViewController_h */

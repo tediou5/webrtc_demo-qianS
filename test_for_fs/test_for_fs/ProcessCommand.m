@@ -25,7 +25,7 @@
     NSDictionary* sourceInfo = [infoDic valueForKey:@"sourceInfo"];
     NSString* src = [[[sourceInfo valueForKey:@"id"] valueForKey:@"id"] stringValue];
     NSString* name = [sourceInfo valueForKey:@"name"];
-    [applyAddDic setValue:src forKey:name];
+    [applyAddDic setValue:name forKey:src];
     [applyAddDic addEntriesFromDictionary:localApplyAddDic];
     NSLog(@"src = %@", src);
     NSLog(@"name = %@", name);
@@ -35,8 +35,32 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void) doCallCmd:(NSString* )friendID userID:(NSString* )user{
-    [self.delegate joinCall:friendID userID:user];
+- (void) doMakeCallCmd: (NSString* )friendID{
+    NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
+    NSMutableDictionary* localApplyCallDic = [NSMutableDictionary dictionary];
+    NSMutableDictionary* friendsDic = [NSMutableDictionary dictionary];
+    friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
+    localApplyCallDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyCallDic"];
+    //NSString* name = [[NSString alloc] init];
+    
+    NSString* name = [friendsDic valueForKey:friendID];
+    NSLog(@"%@", name);
+
+    [applyCallDic setValue:name forKey:friendID];
+    [applyCallDic addEntriesFromDictionary:localApplyCallDic];
+    NSLog(@"*********applyCallDic*******%@", applyCallDic);
+    [[NSUserDefaults standardUserDefaults] setObject:applyCallDic forKey:@"applyCallDic"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"*********applyCallDic*******");
+    [self.delegate join:friendID];
+}
+
+- (void) processMakeCallCmd: (NSString* )friendID{
+    [self.delegate join:friendID];
+}
+
+- (void) doAcceptCallCmd:(NSString* )friendID userID:(NSString* )user{
+    [self.delegate otherjoin:friendID userID:user];
 }
 
 - (void) doCallOfferCmd: (NSString* )sdp{

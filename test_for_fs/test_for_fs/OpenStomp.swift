@@ -54,7 +54,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         }
     }
     
-    @objc public func doCall(friendId: String) -> Void{
+    @objc public func doMakeCall(friendId: String, name: String) -> Void{
         let des = "/app/user/"
         let toDestination = des + friendId
         //let pMsg = ProcessMessage()
@@ -63,6 +63,26 @@ class OpenStomp: NSObject, StompClientLibDelegate{
             let pMsg = ProcessMessage()
             print("+++++++++++++++++++++++++++++++++++webrtc send do call!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
+            let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.MAKE_CALL, type: StWsMessage.stType.Request, info: name, from: id, to: friendId).toString()
+            pMsg.join(friendID: friendId)
+            socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
+        }else {
+            print("do call Try To Connect Websocket!")
+            //socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
+            //self.registerSocket()
+            doMakeCall(friendId: friendId, name: name)
+        }
+    }
+    
+    @objc public func doAcceptCall(friendId: String) -> Void{
+        let des = "/app/user/"
+        let toDestination = des + friendId
+        //let pMsg = ProcessMessage()
+        print(toDestination)
+        if (socketClient.isConnected()){
+            let pMsg = ProcessMessage()
+            print("+++++++++++++++++++++++++++++++++++webrtc Accept call!")
+            let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ACCEPT_CALL, type: StWsMessage.stType.Request, info: "", from: id, to: friendId).toString()
             pMsg.join(friendID: friendId)
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
@@ -70,7 +90,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
             print("do call Try To Connect Websocket!")
             //socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
             //self.registerSocket()
-            doCall(friendId: friendId)
+            doAcceptCall(friendId: friendId)
         }
     }
     

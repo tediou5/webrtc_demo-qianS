@@ -19,7 +19,8 @@
 
 - (void) registerSocket;
 - (void) echo;
-- (void) doCall:(NSString* )friendId;
+- (void) doMakeCall:(NSString* )friendId name:(NSString* )name;
+- (void) doAcceptCall:(NSString* )friendId;
 - (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId;
 - (void) sendAnswer: (NSString* )sdp friendId:(NSString* )friendId;
 - (void) sendCandidate: (NSDictionary* )sdp friendId:(NSString* )friendId;

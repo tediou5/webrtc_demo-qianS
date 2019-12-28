@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UITableView* searchTableView;
 
 @property (strong, nonatomic) NSArray *friendsArr;
+@property (strong, nonatomic) NSMutableArray* IDsArr;
 @property (strong, nonatomic) NSMutableDictionary *friendsDic;
 
 @property (strong, nonatomic) UIButton* leaveBtn;
@@ -53,14 +54,15 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
-            self.friendsArr = self.friendsDic.allKeys;
+            self.friendsArr = self.friendsDic.allValues;
+            self.IDsArr = self.friendsDic.allKeys;
             [self.searchTableView reloadData];
         }else{
             [self showError:@"搜索失败，请检查网络并重新搜索！"];
         }
     });
     
-    self.friendsArr = self.friendsDic.allKeys;
+    self.friendsArr = self.friendsDic.allValues;
     [self.searchTableView reloadData];
 }
 
@@ -78,9 +80,9 @@
     NSLog(@"client id = %@", self.friendsDic[self.friendsArr[indexPath.row]]);
     NSString* name = self.friendsArr[indexPath.row];
     NSNumber* cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSNumber* ttid = self.friendsDic[self.friendsArr[indexPath.row]];
+    NSString* tid = self.IDsArr[indexPath.row];
     NSString* sid = [NSString stringWithFormat:@"%@", cid];
-    NSString* tid = [NSString stringWithFormat:@"%@", ttid];
+    //NSString* tid = [NSString stringWithFormat:@"%@", ttid];
     
     UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否发送好友申请" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* sendAction = [UIAlertAction actionWithTitle:@"Send" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
