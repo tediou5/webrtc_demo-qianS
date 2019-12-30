@@ -9,6 +9,7 @@
  */
 
 #import "ARDBroadcastSetupViewController.h"
+#import "config.h"
 
 @implementation ARDBroadcastSetupViewController {
   UITextField *_roomNameField;
@@ -79,8 +80,10 @@
 
 - (void)userDidFinishSetup {
   // URL of the resource where broadcast can be viewed that will be returned to the application
-  NSURL *broadcastURL = [NSURL
-      URLWithString:[NSString stringWithFormat:@"http://52.82.101.16:8086/r/%@", _roomNameField.text]];
+    NSString *broadcast = [NSString stringWithFormat:@"/r/%@", _roomNameField.text];
+    NSString *stringUrl = [kARDRoomServerHostUrl stringByAppendingString:broadcast];
+    NSURL *broadcastURL = [NSURL URLWithString:stringUrl];
+    //[NSURL URLWithString:[NSString stringWithFormat:@"https://appr.tc/r/%@", _roomNameField.text]];
 
   // Dictionary with setup information that will be provided to broadcast extension when broadcast
   // is started

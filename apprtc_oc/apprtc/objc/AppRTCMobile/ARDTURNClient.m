@@ -12,9 +12,10 @@
 
 #import "ARDUtilities.h"
 #import "RTCIceServer+JSON.h"
+#import "config.h"
 
 // TODO(tkchin): move this to a configuration object.
-static NSString *kTURNRefererURLString = @"http://52.82.101.16:8086";
+//static NSString *kTURNRefererURLString = @"https://appr.tc";
 static NSString *kARDTURNClientErrorDomain = @"ARDTURNClient";
 static NSInteger kARDTURNClientErrorBadResponse = -1;
 

@@ -16,18 +16,23 @@
 #import "ARDMessageResponse.h"
 #import "ARDSignalingMessage.h"
 #import "ARDUtilities.h"
+#import "config.h"
 
 // TODO(tkchin): move these to a configuration object.
-static NSString * const kARDRoomServerHostUrl =
-    @"http://52.82.101.16:8086";
-static NSString * const kARDRoomServerJoinFormat =
-    @"http://52.82.101.16:8086/join/%@";
-static NSString * const kARDRoomServerJoinFormatLoopback =
-    @"http://52.82.101.16:8086/join/%@?debug=loopback";
-static NSString * const kARDRoomServerMessageFormat =
-    @"http://52.82.101.16:8086/message/%@/%@";
-static NSString * const kARDRoomServerLeaveFormat =
-    @"http://52.82.101.16:8086/leave/%@/%@";
+//static NSString * const kARDRoomServerHostUrl =@"https://appr.tc";
+//static NSString * const joinFormat = @"/join/%@";
+//static NSString * const joinFormatLoopback = @"/join/%@?debug=loopback";
+//static NSString * const messageFormat = @"/message/%@/%@";
+//static NSString * const leaveFormat = @"/leave/%@/%@";
+
+//static NSString * const kARDRoomServerJoinFormat;// = //[kARDRoomServerHostUrl stringByAppendingString:joinFormat];
+//    //@"https://appr.tc/join/%@";
+//static NSString * const kARDRoomServerJoinFormatLoopback;// = //[kARDRoomServerHostUrl stringByAppendingString:joinFormatLoopback];
+//    //@"https://appr.tc/join/%@?debug=loopback";
+//static NSString * const kARDRoomServerMessageFormat;// = //[kARDRoomServerHostUrl stringByAppendingString:messageFormat];
+//    //@"https://appr.tc/message/%@/%@";
+//static NSString * const kARDRoomServerLeaveFormat;// = //[kARDRoomServerHostUrl stringByAppendingString:leaveFormat];
+//    //@"https://appr.tc/leave/%@/%@";
 
 static NSString * const kARDAppEngineClientErrorDomain = @"ARDAppEngineClient";
 static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
@@ -43,12 +48,15 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
   NSParameterAssert(roomId.length);
 
   NSString *urlString = nil;
+  NSString *tempUrl = nil;
   if (isLoopback) {
-    urlString =
-        [NSString stringWithFormat:kARDRoomServerJoinFormatLoopback, roomId];
+      tempUrl = [NSString stringWithFormat:joinFormatLoopback, roomId];
+      urlString = [kARDRoomServerHostUrl stringByAppendingString:tempUrl];
+        //[NSString stringWithFormat:kARDRoomServerJoinFormatLoopback, roomId];
   } else {
-    urlString =
-        [NSString stringWithFormat:kARDRoomServerJoinFormat, roomId];
+      tempUrl = [NSString stringWithFormat:joinFormat, roomId];
+      urlString = [kARDRoomServerHostUrl stringByAppendingString:tempUrl];
+        //[NSString stringWithFormat:kARDRoomServerJoinFormat, roomId];
   }
 
   NSURL *roomURL = [NSURL URLWithString:urlString];
@@ -87,9 +95,10 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
   NSParameterAssert(clientId.length);
 
   NSData *data = [message JSONData];
-  NSString *urlString =
-      [NSString stringWithFormat:
-          kARDRoomServerMessageFormat, roomId, clientId];
+    NSString *tempUrl = [NSString stringWithFormat:messageFormat, roomId, clientId];
+    NSString *urlString = [kARDRoomServerHostUrl stringByAppendingString:tempUrl];
+      //[NSString stringWithFormat:
+          //kARDRoomServerMessageFormat, roomId, clientId];
   NSURL *url = [NSURL URLWithString:urlString];
   RTCLog(@"C->RS POST: %@", message);
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -125,9 +134,10 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
           completionHandler:(void (^)(NSError *error))completionHandler {
   NSParameterAssert(roomId.length);
   NSParameterAssert(clientId.length);
-
-  NSString *urlString =
-      [NSString stringWithFormat:kARDRoomServerLeaveFormat, roomId, clientId];
+    
+ NSString *tempUrl = [NSString stringWithFormat:leaveFormat, roomId, clientId];
+    NSString *urlString = [kARDRoomServerHostUrl stringByAppendingString:leaveFormat];
+      //[NSString stringWithFormat:kARDRoomServerLeaveFormat, roomId, clientId];
   NSURL *url = [NSURL URLWithString:urlString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   request.HTTPMethod = @"POST";
@@ -173,3 +183,4 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
 }
 
 @end
+

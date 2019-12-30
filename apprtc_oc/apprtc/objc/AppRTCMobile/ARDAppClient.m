@@ -9,6 +9,7 @@
  */
 
 #import "ARDAppClient+Internal.h"
+#import "config.h"
 
 #import <WebRTC/RTCAudioTrack.h>
 #import <WebRTC/RTCCameraVideoCapturer.h>
@@ -40,7 +41,7 @@
 #import "RTCIceCandidate+JSON.h"
 #import "RTCSessionDescription+JSON.h"
 
-static NSString * const kARDIceServerRequestUrl = @"http://52.82.101.16:8086/params";
+//static NSString * const kARDIceServerRequestUrl = @"https://appr.tc/params";
 
 static NSString * const kARDAppClientErrorDomain = @"ARDAppClient";
 static NSInteger const kARDAppClientErrorUnknown = -1;

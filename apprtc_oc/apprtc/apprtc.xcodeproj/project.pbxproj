@@ -175,6 +175,7 @@
 		B63FB136238639A6002DA4F7 /* ic_clear_black_24dp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_clear_black_24dp.png; path = objc/AppRTCMobile/ios/resources/ic_clear_black_24dp.png; sourceTree = SOURCE_ROOT; };
 		B63FB137238639A6002DA4F7 /* ic_surround_sound_black_24dp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_surround_sound_black_24dp@2x.png"; path = "objc/AppRTCMobile/ios/resources/ic_surround_sound_black_24dp@2x.png"; sourceTree = SOURCE_ROOT; };
 		B63FB138238639A6002DA4F7 /* ic_call_end_black_24dp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_call_end_black_24dp@2x.png"; path = "objc/AppRTCMobile/ios/resources/ic_call_end_black_24dp@2x.png"; sourceTree = SOURCE_ROOT; };
+		B6865D0623B9D29E00C029EA /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		B6EA0B4C2386313E00AD9EE5 /* apprtc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = apprtc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6EA0B522386313F00AD9EE5 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		B6EA0B532386313F00AD9EE5 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
@@ -346,6 +347,7 @@
 				B6EA0B5D2386314000AD9EE5 /* LaunchScreen.storyboard */,
 				B6EA0B602386314000AD9EE5 /* Info.plist */,
 				B6EA0B612386314000AD9EE5 /* main.m */,
+				B6865D0623B9D29E00C029EA /* config.h */,
 			);
 			path = apprtc;
 			sourceTree = "<group>";
