@@ -12,6 +12,7 @@
 @interface SignOutViewController()
 
 @property (strong, nonatomic) UIButton* leaveBtn;
+@property (strong, nonatomic) UIViewController* mainView;
 
 @end
 
@@ -40,11 +41,22 @@
 }
 
 - (void) clickLeaveBtn:(UIButton*) sender {
-    
-    NSLog(@"Leave Sign Out View Controller!");
-    [self willMoveToParentViewController:nil];
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
+    [self.delegate signOutAFNet];
+    //    NSLog(@"Leave Sign Out View Controller!");
+    //    [self willMoveToParentViewController:nil];
+    //    [self.view removeFromSuperview];
+    //    [self removeFromParentViewController];
 }
 
+- (UIViewController *)getParentController:(UIView *)view{
+    for (UIView* next = [view superview];next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    
+    return nil;
+    
+}
 @end

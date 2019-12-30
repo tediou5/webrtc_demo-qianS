@@ -14,10 +14,18 @@
 
 //#import "test_for_fs-Swift.h"
 //#import <Foundation/Foundation.h>
+@protocol LoginDelegate <NSObject>
+
+@required
+- (void) loginAFNet:(NSString* )name passwd:(NSString* )passwd;
+
+@end
 
 @interface LoginViewController : UIViewController
 
+- (void)showError:(NSString *)errorMsg;
 //- (instancetype) initAddr:(NSString*)addr withRoom:(NSString*)room;
+@property (weak, nonatomic) id<LoginDelegate> delegate;
 
 @end
 

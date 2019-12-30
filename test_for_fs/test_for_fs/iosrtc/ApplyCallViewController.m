@@ -32,6 +32,12 @@
 
 @implementation ApplyCallViewController
 
+- (instancetype) initWithAFNet:(AFManager* )AFNet{
+    self.AFNet = AFNet;
+    
+    return self;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
@@ -47,7 +53,7 @@
     self.IDsArr = self.applyCallDic.allKeys;
     [self.friendsTableView reloadData];
     
-    self.AFNet = [[AFManager alloc] init];
+    //self.AFNet = [[AFManager alloc] init];
     [self showUI];
 }
 

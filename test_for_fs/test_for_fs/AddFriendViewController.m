@@ -17,26 +17,24 @@
 
 @property (strong, nonatomic) UILabel* searchLabel;
 @property (strong, nonatomic) UIButton* searchBtn;
-@property (strong, nonatomic) UITextField* search;
 
-@property (strong, nonatomic) UITableView* searchTableView;
 
-@property (strong, nonatomic) NSArray *friendsArr;
-@property (strong, nonatomic) NSMutableArray* IDsArr;
-@property (strong, nonatomic) NSMutableDictionary *friendsDic;
+
 
 @property (strong, nonatomic) UIButton* leaveBtn;
 
-@property (strong, nonatomic) AFManager* AFNet;
 @end
 
 @implementation AddFriendViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-    self.AFNet = [[AFManager alloc] init];
+
     [self showUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)clickSearchBtn:(UIButton*) sender{
@@ -46,24 +44,7 @@
     NSNumber *cid = [[[NSUserDefaults standardUserDefaults] valueForKey:@"stClientID"] valueForKey:@"id"];
     NSString *sid = [cid stringValue];
     
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    self.friendsDic = [self.AFNet search:sid keyword:self.search.text group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            self.friendsArr = self.friendsDic.allValues;
-            self.IDsArr = self.friendsDic.allKeys;
-            [self.searchTableView reloadData];
-        }else{
-            [self showError:@"搜索失败，请检查网络并重新搜索！"];
-        }
-    });
-    
-    self.friendsArr = self.friendsDic.allValues;
-    [self.searchTableView reloadData];
+    [self.delegate SearchAFNet:sid];
 }
 
 - (void)showError:(NSString *)errorMsg {
@@ -99,19 +80,7 @@
 }
 
 - (void)doApplyAddDevice:(NSIndexPath *)indexPath uid:(NSString* )uid sid:(NSString* )sid tid:(NSString* )tid{
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet applyAddDevice:sid sid:sid tid:tid group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self showError:@"好友申请发送成功！"];
-        }else{
-            [self showError:@"发送失败，请检查网络并重新申请"];
-        }
-    });
+    [self.delegate AddFriendAFNet:indexPath uid:uid sid:sid tid:tid];
 }
 
 - (void) clickLeaveBtn:(UIButton*) sender {

@@ -13,17 +13,8 @@
 
 @interface FriendsListViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
-@property (strong, nonatomic) UITableView* friendsTableView;
-@property (strong, nonatomic) CallViewController* callView;
-
 @property (strong, nonatomic) UIButton* refreshBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
-
-@property (strong, nonatomic) NSMutableDictionary* friendsDic;
-@property (strong, nonatomic) NSMutableArray* friendsArr;
-@property (strong, nonatomic) NSMutableArray* IDsArr;
-
-@property (strong, nonatomic) AFManager* AFNet;
 
 @end
 
@@ -34,46 +25,18 @@
     
     self.friendsDic = [NSMutableDictionary dictionary];
     [self refresh];
-    
-    self.AFNet = [[AFManager alloc] init];
     [self showUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self refresh];
 }
 
 - (void) refresh{
-    //i should do GET with webSocket but not get friendsDic from local
-    
-    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
-    
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet getContacts:uid group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            self.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
-            NSLog(@"friends = %@", self.friendsDic);
-            if ([self.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsDic.count != 0) {
-                self.friendsArr = self.friendsDic.allValues;
-                self.IDsArr = self.friendsDic.allKeys;
-                NSLog(@"refresh %@", self.friendsArr);
-                [self.friendsTableView reloadData];
-            }else{
-                 [self showError:@"YOU HAVE NO FRIENDS!!!"];
-                 [self leave];
-            }
-        }else{
-            [self showError:@"please login first"];
-        }
-    });
+    [self.delegate GetContactsAFNet];
+    [self.friendsTableView reloadData];
+
 }
 
 - (void) showUI{
@@ -138,8 +101,9 @@
 }
 
 - (void)doCallFriend:(NSString* )friendId name:(NSString* )name{
-    [self.AFNet doMakeCall:friendId name:name];
+    //[self.AFNet doMakeCall:friendId name:name];
     
+//    [self.pCMD creatCallView:friendId name:name sview:self];
     NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
     NSString* userID = [NSString stringWithFormat:@"%@", uid];
     self.callView = [[CallViewController alloc] initWithId:friendId userID:userID];
@@ -153,20 +117,8 @@
 }
 
 - (void)doDeleteFriends:(NSIndexPath *)indexPath uid:(NSString* )uid cid:(NSString* )cid{
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet deleteDevice:uid cid:cid group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self refresh];
-            [self showError:@"成功删除好友！"];
-        }else{
-            [self showError:@"删除失败，请检查网络并重新申请"];
-        }
-    });
+    [self.delegate DeleteAFNet:uid cid:cid];
+    [self refresh];
 }
 
 - (void)showError:(NSString *)errorMsg {

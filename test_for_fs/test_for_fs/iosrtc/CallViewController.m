@@ -7,11 +7,6 @@
 //
 
 #import "CallViewController.h"
-#import "AFManager.h"
-#import "ProcessCommand.h"
-
-#import <WebRTC/WebRTC.h>
-#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface CallViewController() <ProcessCommandEvents, RTCPeerConnectionDelegate, RTCVideoViewDelegate>
 {
@@ -73,14 +68,16 @@ static int logY = 0;
     [super viewDidLoad];
     
     logY = 0;
-    AFNet = [[AFManager alloc] init];
-    pCMD = [[ProcessCommand alloc] init];
+    //AFNet = [[AFManager alloc] init];
+    //pCMD = [[ProcessCommand alloc] init];
     [self createPeerConnectionFactory];
     //[self startTimer];
     
     //创建本地流
     [self captureLocalMedia];
     
+    //pCMD = [ProcessCommand getInstance];
+    //pCMD.delegate = self;
     myState = @"init";
     
 }

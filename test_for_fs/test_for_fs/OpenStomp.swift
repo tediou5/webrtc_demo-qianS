@@ -13,17 +13,21 @@ import StompClientLib
 
 
 class OpenStomp: NSObject, StompClientLibDelegate{
-
-    var id = ""
-    
     var socketClient = StompClientLib()
+    let pMsg = ProcessMessage()
+    var pCmd = ProcessCommand.getInstance()
     var baseTopic = "/u/"
     var topic = ""
+    var id = ""
     var token = "[user_ws_token] TODO: request from server when login;"
 
     let url = NSURL(string: "ws://192.168.11.123:9001/ep-st-websocket/websocket")!
     //let url = NSURL(string: "ws://192.168.31.216:9001/ep-st-websocket/websocket")
     //var url = NSURL(string: "http://server.teclub.cn:8080/ep-st-websocket/websocket")!
+    
+    @objc func getPCmd() -> ProcessCommand{
+        return pCmd!;
+    }
     
     @objc func registerSocket() -> Void{
         print("webSocket is Connection:\(url)")
@@ -60,11 +64,9 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         //let pMsg = ProcessMessage()
         print(toDestination)
         if (socketClient.isConnected()){
-            let pMsg = ProcessMessage()
             print("+++++++++++++++++++++++++++++++++++webrtc send do call!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.MAKE_CALL, type: StWsMessage.stType.Request, info: name, from: id, to: friendId).toString()
-            pMsg.join(friendID: friendId)
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
         }else {
             print("do call Try To Connect Websocket!")
@@ -80,11 +82,9 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         //let pMsg = ProcessMessage()
         print(toDestination)
         if (socketClient.isConnected()){
-            let pMsg = ProcessMessage()
             print("+++++++++++++++++++++++++++++++++++webrtc Accept call!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ACCEPT_CALL, type: StWsMessage.stType.Request, info: "", from: id, to: friendId).toString()
-            pMsg.join(friendID: friendId)
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
         }else {
             print("do call Try To Connect Websocket!")
@@ -200,10 +200,9 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         //print("------------------------Get Command---------------------")
         print("DESTIONATION : \(destination)")
         //print("JSON BODY : \(String(describing: jsonBody))")
-        let pMsg = ProcessMessage()
-        let jsonMsg = jsonBody as? NSDictionary
-        pMsg.getMsg(jsonMsg: jsonMsg!)
         
+        let jsonMsg = jsonBody as? NSDictionary
+        pMsg.getMsg(pCmd: pCmd!, jsonMsg: jsonMsg!)
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, akaStringBody stringBody: String?, withHeader header: [String : String]?, withDestination destination: String) {

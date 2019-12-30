@@ -10,10 +10,11 @@
 #define ProcessCommand_h
 
 #import <Foundation/Foundation.h>
+//#import "CallViewController.h"
 
 @protocol ProcessCommandEvents <NSObject>
 
-@optional
+@required
 - (void) leaved: (NSString* ) room;
 - (void) join :(NSString* )friendId;
 - (void) otherjoin:(NSString* )friendID userID:(NSString* )user;
@@ -26,15 +27,16 @@
 @end
 
 @interface ProcessCommand : NSObject
-
+//- (void) creatCallView:(NSString* )friendId name:(NSString* )name sview:(UIViewController* )sview;
++ (ProcessCommand*) getInstance;
 - (void) doApplyAddCmd: (NSString* )info;
 
 - (void) doFull;
-- (void) doMakeCallCmd: (NSString* )friendID;
-- (void) doAcceptCallCmd: (NSString* )friendID userID:(NSString* )user;
-- (void) doJoin: (NSString* )friendId;
-- (void) doCallOfferCmd: (NSString* )sdp;
-- (void) doCallAnswerCmd: (NSString* )sdp;
+- (void) doMakeCallCmd:(ProcessCommand* )pCmd friendID:(NSString* )friendID;
+- (void) doAcceptCallCmd:(ProcessCommand* )pCmd friendID:(NSString* )friendID userID:(NSString* )user;
+- (void) doCallOfferCmd:(ProcessCommand* )pCmd sdp:(NSString* )sdp;
+- (void) doCallAnswerCmd:(ProcessCommand* )pCmd sdp:(NSString* )sdp;
+- (void) doCallCandidateCmd:(ProcessCommand* )pCmd info:(NSString* )info;
 
 @property (retain, nonatomic) id<ProcessCommandEvents> delegate;
 

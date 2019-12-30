@@ -10,9 +10,22 @@
 #define GrantAddFriendsViewController_h
 
 #import <UIKit/UIKit.h>
-#import "AFManager.h"
+
+@protocol GrantAddDelegate <NSObject>
+
+@required
+- (void) GrantAddAFNet:(NSIndexPath *)indexPath uid:(NSString* )uid sid:(NSString* )sid tid:(NSString* )tid type:(NSString* )type;
+
+@end
 
 @interface GrantAddFriendsViewController : UIViewController
 
+@property (weak, nonatomic) id<GrantAddDelegate> delegate;
+- (void)showError:(NSString *)errorMsg;
+
+@property (strong, nonatomic) UITableView* ApplyAddTableView;
+@property (strong, nonatomic) NSMutableDictionary* applyAddDic;
+@property (strong, nonatomic) NSMutableArray* applyAddArr;
+@property (strong, nonatomic) NSMutableArray* IDsArr;
 @end
 #endif /* GrantAddFriendsViewController_h */

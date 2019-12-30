@@ -13,9 +13,18 @@
 #import "AFManager.h"
 //#import <Foundation/Foundation.h>
 
+@protocol SignInDelegate <NSObject>
+
+@required
+- (void) signInAFNet;
+
+@end
+
 @interface SignInViewController : UIViewController
 
+- (void)showError:(NSString *)errorMsg;
 //- (instancetype) initAddr:(NSString*)addr withRoom:(NSString*)room;
+@property (weak, nonatomic) id<SignInDelegate> delegate;
 
 @end
 

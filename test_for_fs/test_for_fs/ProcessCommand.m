@@ -10,17 +10,38 @@
 
 @interface ProcessCommand()
 
-
+//@property (strong, nonatomic) CallViewController* callView;
 
 @end
 
 @implementation ProcessCommand
-//每当我收到一个request之后，首先回复一个Allow给对方，用来确认我收到了该请求
+static ProcessCommand* m_instance = nil;
 
++ (ProcessCommand*) getInstance {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        m_instance = [[self alloc]init];
+    });
+    
+    return m_instance;
+}
+
+//- (void) creatCallView:(NSString* )friendId name:(NSString* )name sview:(UIViewController* )sview{
+//    NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+//    NSString* userID = [NSString stringWithFormat:@"%@", uid];
+//    self.callView = [[CallViewController alloc] initWithId:friendId userID:userID];
+//    [self.callView.view setFrame:sview.view.bounds];
+//    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
+//    [sview addChildViewController:self.callView];
+//    [self.callView didMoveToParentViewController:sview];
+//}
+
+//TODO:每当我收到一个request之后，首先回复一个Allow给对方，用来确认我收到了该请求
 - (void) doApplyAddCmd: (NSString* )info{
     NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
-    NSLog(@"*******************************************");
+    //NSLog(@"*******************************************");
     NSData* infoData = [info dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* infoDic = [NSJSONSerialization JSONObjectWithData:infoData options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary* sourceInfo = [infoDic valueForKey:@"sourceInfo"];
@@ -28,62 +49,77 @@
     NSString* name = [sourceInfo valueForKey:@"name"];
     [applyAddDic setValue:name forKey:src];
     [applyAddDic addEntriesFromDictionary:localApplyAddDic];
-    NSLog(@"src = %@", src);
-    NSLog(@"name = %@", name);
-    NSLog(@"applyAddDic = %@", applyAddDic);
-    NSLog(@"*******************************************");
+    //NSLog(@"src = %@", src);
+    //NSLog(@"name = %@", name);
+    //NSLog(@"applyAddDic = %@", applyAddDic);
+    //NSLog(@"*******************************************");
     [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void) doMakeCallCmd: (NSString* )friendID{
+- (void) doMakeCallCmd:(ProcessCommand* )pCmd friendID:(NSString* )friendID{
     NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* localApplyCallDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* friendsDic = [NSMutableDictionary dictionary];
     friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
     localApplyCallDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyCallDic"];
     //NSString* name = [[NSString alloc] init];
-    
     NSString* name = [friendsDic valueForKey:friendID];
-    NSLog(@"%@", name);
-
+    //NSLog(@"%@", name);
     [applyCallDic setValue:name forKey:friendID];
     [applyCallDic addEntriesFromDictionary:localApplyCallDic];
-    NSLog(@"*********applyCallDic*******%@", applyCallDic);
+    //NSLog(@"*********applyCallDic*******%@", applyCallDic);
     [[NSUserDefaults standardUserDefaults] setObject:applyCallDic forKey:@"applyCallDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    NSLog(@"*********applyCallDic*******");
-    [self.delegate join:friendID];
+    //NSLog(@"*********applyCallDic*******");
+    if (self.delegate) {
+         [self.delegate join:friendID];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
-- (void) processMakeCallCmd: (NSString* )friendID{
-    [self.delegate join:friendID];
+- (void) doAcceptCallCmd:(ProcessCommand* )pCmd sdp:(NSString* )friendID userID:(NSString* )user{
+    if (self.delegate) {
+         [self.delegate otherjoin:friendID userID:user];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
-- (void) doAcceptCallCmd:(NSString* )friendID userID:(NSString* )user{
-    [self.delegate otherjoin:friendID userID:user];
+- (void) doCallOfferCmd:(ProcessCommand* )pCmd sdp:(NSString* )sdp{
+    if (self.delegate) {
+         [self.delegate offer:sdp];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
-- (void) doCallOfferCmd: (NSString* )sdp{
-    [self.delegate offer:sdp];
+- (void) doCallAnswerCmd:(ProcessCommand* )pCmd sdp:(NSString* )sdp{
+    if (self.delegate) {
+         [self.delegate answer:sdp];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
-- (void) doCallAnswerCmd: (NSString* )sdp{
-    [self.delegate answer:sdp];
-}
-
-- (void) doCallCandidateCmd: (NSString* )info{
+- (void) doCallCandidateCmd:(ProcessCommand* )pCmd info:(NSString* )info{
     NSData* infoData = [info dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* infoDict = [NSJSONSerialization JSONObjectWithData:infoData options:NSJSONReadingMutableLeaves error:nil];
     
-    [self.delegate candidate:infoDict];
+    if (self.delegate) {
+         [self.delegate candidate:infoDict];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
 -(void) doFull{
-    [self.delegate full];
+    if (self.delegate) {
+         [self.delegate full];
+    }else{
+        NSLog(@"not set delegate");
+    }
 }
 
-- (void) doJoin: (NSString* )friendId{
-    [self.delegate join:friendId];
-}
 @end

@@ -11,6 +11,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AFManager.h"
+#import "ProcessCommand.h"
+
+#import <WebRTC/WebRTC.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+
 @interface CallViewController : UIViewController
 
 - (instancetype) initWithId:(NSString* )friend userID:(NSString* )user;

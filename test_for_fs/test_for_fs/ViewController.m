@@ -16,13 +16,15 @@
 #import "FriendsListViewController.h"
 #import "CallViewController.h"
 #import "ProcessCommand.h"
+#import "AFManager.h"
 
 //#import "test_for_fs-Swift.h"
 //#import "test_for_fs-Bridging-Header.h"
 
 //OpenStomp* stomp;
 
-@interface ViewController ()
+@interface ViewController ()<SignOutDelegate, SignInDelegate, LoginDelegate ,
+                            AddFriendDelegate, GrantAddDelegate, FriendsListDelegate>
 
 @property (strong, nonatomic) UIButton* signInBtn;
 @property (strong, nonatomic) UIButton* signOutBtn;
@@ -44,6 +46,8 @@
 @property (strong, nonatomic) FriendsListViewController* friendsListView;
 @property (strong, nonatomic) CallViewController* callView;
 
+@property (strong, nonatomic) AFManager* AFNet;
+
 @end
 
 @implementation ViewController
@@ -58,12 +62,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.AFNet = [[AFManager alloc] init];
+    [self.AFNet registerSocket];
+    
     [self isFirstRun];
     [self showUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+}
+
+- (void)testForGetParentControll{
+    NSLog(@"i can do it!!!");
 }
 
 /** 点击空白处回收键盘 */
@@ -118,7 +129,7 @@
     self.signOutView = [[SignOutViewController alloc] init];
     [self.signOutView.view setFrame:self.view.bounds];
     [self.signOutView.view setBackgroundColor:[UIColor whiteColor]];
-    
+    self.signOutView.delegate = self;
     [self addChildViewController:self.signOutView];
     [self.signOutView didMoveToParentViewController:self];
     
@@ -130,6 +141,7 @@
     self.loginView = [[LoginViewController alloc] init];
     [self.loginView.view setFrame:self.view.bounds];
     [self.loginView.view setBackgroundColor:[UIColor whiteColor]];
+    self.loginView.delegate = self;
     [self addChildViewController:self.loginView];
     [self.loginView didMoveToParentViewController:self];
     
@@ -164,7 +176,7 @@
     self.addFriendView = [[AddFriendViewController alloc] init];
     [self.addFriendView.view setFrame:self.view.bounds];
     [self.addFriendView.view setBackgroundColor:[UIColor whiteColor]];
-    
+    self.addFriendView.delegate = self;
     [self addChildViewController:self.addFriendView];
     [self.addFriendView didMoveToParentViewController:self];
     
@@ -188,7 +200,7 @@
     self.friendsListView = [[FriendsListViewController alloc] init];
     [self.friendsListView.view setFrame:self.view.bounds];
     [self.friendsListView.view setBackgroundColor:[UIColor whiteColor]];
-    
+    self.friendsListView.delegate = self;
     [self addChildViewController:self.friendsListView];
     [self.friendsListView didMoveToParentViewController:self];
     
@@ -295,5 +307,154 @@
     [self.friendsListBtn setFrame:CGRectMake(width-150, 530, 120, 40)];
     [self.friendsListBtn addTarget:self action:@selector(clickFriendsListBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsListBtn];
+}
+
+- (void)signOutAFNet {
+    [self testForGetParentControll];
+}
+
+- (void)loginAFNet:(NSString *)name passwd:(NSString *)passwd{
+    NSLog(@"Login!");
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet login:name passwd:passwd group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.loginView showError:@"登陆成功！"];
+            [[NSUserDefaults standardUserDefaults] setObject:passwd forKey:@"passwd"];
+            [NSThread detachNewThreadSelector:@selector(threadECHO) toTarget:self withObject:nil];
+        }else{
+            [self.loginView showError:@"登录失败，请检查用户名和密码是否正确"];
+        }
+    });
+}
+
+- (void)AddFriendAFNet:(NSIndexPath *)indexPath uid:(NSString *)uid sid:(NSString *)sid tid:(NSString *)tid{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet applyAddDevice:sid sid:sid tid:tid group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.addFriendView showError:@"好友申请发送成功！"];
+        }else{
+            [self.addFriendView showError:@"发送失败，请检查网络并重新申请"];
+        }
+    });
+}
+
+-(void)GrantAddAFNet:(NSIndexPath *)indexPath uid:(NSString *)uid sid:(NSString *)sid tid:(NSString *)tid type:(NSString *)type{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet grantAddDevice:sid sid:sid tid:tid type:type group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.applyAddView.applyAddDic removeObjectForKey:self.applyAddView.IDsArr[indexPath.row]];
+            [[NSUserDefaults standardUserDefaults] setObject:self.applyAddView.applyAddDic forKey:@"applyAddDic"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            self.applyAddView.applyAddArr = self.applyAddView.applyAddDic.allValues;
+            [self.applyAddView.ApplyAddTableView reloadData];
+            
+            [self.applyAddView showError:@"好友申请已处理！"];
+        }else{
+            [self.applyAddView showError:@"请求发送失败，请检查网络并重新申请"];
+        }
+    });
+}
+
+-(void)GetContactsAFNet{
+    NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSString* uid = [NSString stringWithFormat:@"%@", uuid];
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet getContacts:uid group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            self.friendsListView.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
+            NSLog(@"friends = %@", self.friendsListView.friendsDic);
+            if ([self.friendsListView.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsListView.friendsDic.count != 0) {
+                self.friendsListView.friendsArr = self.friendsListView.friendsDic.allValues;
+                self.friendsListView.IDsArr = self.friendsListView.friendsDic.allKeys;
+                NSLog(@"refresh %@", self.friendsListView.friendsArr);
+                [self.friendsListView.friendsTableView reloadData];
+            }else{
+                 [self.friendsListView showError:@"YOU HAVE NO FRIENDS!!!"];
+                 [self.friendsListView leave];
+            }
+        }else{
+            [self.friendsListView showError:@"please login first"];
+        }
+    });
+}
+
+-(void)DeleteAFNet:(NSString *)uid cid:(NSString *)cid{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet deleteDevice:uid cid:cid group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.friendsListView showError:@"成功删除好友！"];
+            [self.friendsListView refresh];
+        }else{
+            [self.friendsListView showError:@"删除失败，请检查网络并重新申请"];
+        }
+    });
+}
+
+-(void)CallAFNet{
+    
+}
+
+-(void)SearchAFNet:(NSString *)sid{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    self.addFriendView.friendsDic = [self.AFNet search:sid keyword:self.addFriendView.search.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            self.addFriendView.friendsArr = self.addFriendView.friendsDic.allValues;
+            self.addFriendView.IDsArr = self.addFriendView.friendsDic.allKeys;
+            [self.addFriendView.searchTableView reloadData];
+        }else{
+            [self.addFriendView showError:@"搜索失败，请检查网络并重新搜索！"];
+        }
+    });
+    
+    self.addFriendView.friendsArr = self.addFriendView.friendsDic.allValues;
+    [self.addFriendView.searchTableView reloadData];
+}
+
+- (void)signInAFNet{
+    
+}
+
+- (void)threadECHO {
+    [self.AFNet registerSocket];
+    while (1) {
+        [NSThread sleepForTimeInterval:3];
+        [self.AFNet echo];
+        //NSLog(@"i can do a loop over here");
+        NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+        NSString* uid = [NSString stringWithFormat:@"%@", uuid];
+        [self.AFNet getContacts:uid];
+    }
 }
 @end

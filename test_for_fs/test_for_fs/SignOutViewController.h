@@ -13,9 +13,18 @@
 #import <UIKit/UIKit.h>
 //#import <Foundation/Foundation.h>
 
+
+@protocol SignOutDelegate <NSObject>
+
+@required
+- (void) signOutAFNet;
+
+@end
+
 @interface SignOutViewController : UIViewController
 
 //- (instancetype) initAddr:(NSString*)addr withRoom:(NSString*)room;
+@property (weak, nonatomic) id<SignOutDelegate> delegate;
 
 @end
 

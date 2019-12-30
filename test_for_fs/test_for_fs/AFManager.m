@@ -53,6 +53,10 @@ OpenStomp* stomp;
     return self;
 }
 
+- (ProcessCommand* ) getPCmd{
+    return stomp.getPCmd;
+}
+
 - (void) registerSocket{
     [stomp registerSocket];
 }

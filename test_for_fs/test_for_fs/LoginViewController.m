@@ -20,8 +20,6 @@
 @property (strong, nonatomic) UIButton* logInBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
 
-@property (strong, nonatomic) AFManager* AFNet;
-
 @end
 
 @implementation LoginViewController
@@ -29,47 +27,13 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-    self.AFNet = [[AFManager alloc] init];
-    
     [self showUI];
 }
 
 - (void)clickLoginBtn:(UIButton*) sender{
-    NSLog(@"Login!");
     
-    self.logInBtn.enabled = NO;
     
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet login:self.name.text passwd:self.passwd.text group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self showError:@"登陆成功！"];
-            [[NSUserDefaults standardUserDefaults] setObject:self.passwd.text forKey:@"passwd"];
-            [NSThread detachNewThreadSelector:@selector(threadECHO) toTarget:self withObject:nil];
-            self.logInBtn.enabled = YES;
-        }else{
-            [self showError:@"登录失败，请检查用户名和密码是否正确"];
-            NSLog(@"failure 2");
-            self.logInBtn.enabled = YES;
-        }
-    });
-}
-
-- (void)threadECHO {
-    [self.AFNet registerSocket];
-    while (1) {
-        [NSThread sleepForTimeInterval:3];
-        [self.AFNet echo];
-        //NSLog(@"i can do a loop over here");
-        NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-        NSString* uid = [NSString stringWithFormat:@"%@", uuid];
-        [self.AFNet getContacts:uid];
-    }
+    [self.delegate loginAFNet:self.name.text passwd:self.passwd.text];
 }
 
 - (void) clickLeaveBtn:(UIButton*) sender {

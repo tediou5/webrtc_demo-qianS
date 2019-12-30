@@ -13,22 +13,15 @@
 
 @interface GrantAddFriendsViewController() <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
-@property (strong, nonatomic) UITableView* ApplyAddTableView;
+
 @property (strong, nonatomic) UIButton* refreshBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
 
 //@property (strong, nonatomic) UIAlertController* applyAddAlert;
 
-@property (strong, nonatomic) NSMutableDictionary* applyAddDic;
-@property (strong, nonatomic) NSMutableArray* applyAddArr;
-@property (strong, nonatomic) NSMutableArray* IDsArr;
-
-@property (strong, nonatomic) AFManager* AFNet;
-
 @end
 
 @implementation GrantAddFriendsViewController
-
 - (void) viewDidLoad{
     [super viewDidLoad];
     
@@ -40,8 +33,11 @@
     self.IDsArr = self.applyAddDic.allKeys;
     [self.ApplyAddTableView reloadData];
     
-    self.AFNet = [[AFManager alloc] init];
     [self showUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void) showUI{
@@ -111,26 +107,7 @@
 }
 
 - (void)doGrantAddDevice:(NSIndexPath *)indexPath uid:(NSString* )uid sid:(NSString* )sid tid:(NSString* )tid type:(NSString* )type{
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet grantAddDevice:sid sid:sid tid:tid type:type group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self.applyAddDic removeObjectForKey:self.IDsArr[indexPath.row]];
-            [[NSUserDefaults standardUserDefaults] setObject:self.applyAddDic forKey:@"applyAddDic"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            self.applyAddArr = self.applyAddDic.allValues;
-            [self.ApplyAddTableView reloadData];
-            
-            [self showError:@"好友申请已处理！"];
-        }else{
-            [self showError:@"请求发送失败，请检查网络并重新申请"];
-        }
-    });
+    [self.delegate GrantAddAFNet:indexPath uid:uid sid:sid tid:tid type:type];
 }
 
 - (void)showError:(NSString *)errorMsg {

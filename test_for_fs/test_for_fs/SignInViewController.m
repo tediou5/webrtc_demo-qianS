@@ -31,6 +31,7 @@
     [super viewDidLoad];
     
     self.AFNet = [[AFManager alloc] init];
+    [self.AFNet registerSocket];
     [self showUI];
 }
 

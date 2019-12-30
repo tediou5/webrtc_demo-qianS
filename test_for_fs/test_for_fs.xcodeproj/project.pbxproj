@@ -160,13 +160,13 @@
 			isa = PBXGroup;
 			children = (
 				B69771F1239F6ABB00B45793 /* iosrtc */,
+				B697720023A078B600B45793 /* StWsMessage.swift */,
+				B65F2688238FD76600934887 /* OpenStomp.swift */,
 				B620604623A8EF5B006A6956 /* AFManager.h */,
 				B620604723A8EF77006A6956 /* AFManager.m */,
-				B65F2688238FD76600934887 /* OpenStomp.swift */,
-				B697720023A078B600B45793 /* StWsMessage.swift */,
+				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B6FB9B0323B1A56900997DD4 /* ProcessCommand.h */,
 				B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */,
-				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B6FA259A238CC7C100D16967 /* AppDelegate.h */,
 				B6FA259B238CC7C100D16967 /* AppDelegate.m */,
 				B6FA259D238CC7C100D16967 /* SceneDelegate.h */,
