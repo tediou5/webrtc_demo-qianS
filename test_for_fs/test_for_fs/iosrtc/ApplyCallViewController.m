@@ -8,7 +8,6 @@
 
 #import "ApplyCallViewController.h"
 #import "CallViewController.h"
-#import "AFManager.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -24,19 +23,13 @@
 @property (strong, nonatomic) NSMutableArray* applyCallArr;
 @property (strong, nonatomic) NSMutableArray* IDsArr;
 
-@property (strong, nonatomic) AFManager* AFNet;
+//@property (strong, nonatomic) AFManager* AFNet;
 
 @property (strong, nonatomic) CallViewController* callView;
 
 @end
 
 @implementation ApplyCallViewController
-
-- (instancetype) initWithAFNet:(AFManager* )AFNet{
-    self.AFNet = AFNet;
-    
-    return self;
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -89,15 +82,15 @@
     [self.leaveBtn addTarget:self action:@selector(clickLeaveBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.leaveBtn];
     
-    self.joinBtn= [[UIButton alloc] init];
-    [self.joinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.joinBtn setTintColor:[UIColor whiteColor]];
-    [self.joinBtn setTitle:@"join" forState:UIControlStateNormal];
-    [self.joinBtn setBackgroundColor:[UIColor grayColor]];
-    [self.joinBtn setShowsTouchWhenHighlighted:YES];
-    [self.joinBtn setFrame:CGRectMake(width-100, 180, 80, 40)];
-    [self.joinBtn addTarget:self action:@selector(clickJoinBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.joinBtn];
+//    self.joinBtn= [[UIButton alloc] init];
+//    [self.joinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self.joinBtn setTintColor:[UIColor whiteColor]];
+//    [self.joinBtn setTitle:@"join" forState:UIControlStateNormal];
+//    [self.joinBtn setBackgroundColor:[UIColor grayColor]];
+//    [self.joinBtn setShowsTouchWhenHighlighted:YES];
+//    [self.joinBtn setFrame:CGRectMake(width-100, 180, 80, 40)];
+//    [self.joinBtn addTarget:self action:@selector(clickJoinBtn:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.joinBtn];
 }
 
 -(void)m_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -123,9 +116,9 @@
     [self presentViewController:alertSheet animated:YES completion:nil];
 }
 
+//TODO:do it at ViewController
 - (void)doAcceptCall:(NSIndexPath *)indexPath friendID:(NSString* )friendId userID:(NSString* )userId{
     NSLog(@"Do Call");
-    [self.AFNet doAcceptCall:friendId];
     //[[NSUserDefaults standardUserDefaults] setObject:@false forKey:@"isCouldCall"];
     self.callView = [[CallViewController alloc] initWithId:friendId userID:userId];
     [self.callView.view setFrame:self.view.bounds];
@@ -148,19 +141,6 @@
 - (void) clickLeaveBtn:(UIButton*) sender {
     
     NSLog(@"Leave Apply Call View Controller!");
-    [self leave];
-}
-
-- (void) clickJoinBtn:(UIButton*) sender {
-    self.callView = [[CallViewController alloc] initWithId:@"2565" userID:@"2839"];
-    [self.callView.view setFrame:self.view.bounds];
-    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
-    
-    [self addChildViewController:self.callView];
-    [self.callView didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.callView.view];
-    NSLog(@"Leave GrantAdd View Controller!");
     [self leave];
 }
 

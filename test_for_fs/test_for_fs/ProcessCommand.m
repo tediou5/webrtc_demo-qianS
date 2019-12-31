@@ -79,7 +79,7 @@ static ProcessCommand* m_instance = nil;
     }
 }
 
-- (void) doAcceptCallCmd:(ProcessCommand* )pCmd sdp:(NSString* )friendID userID:(NSString* )user{
+- (void) doAcceptCallCmd:(ProcessCommand* )pCmd friendID:(NSString *)friendID userID:(NSString *)user{
     if (self.delegate) {
          [self.delegate otherjoin:friendID userID:user];
     }else{

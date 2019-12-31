@@ -12,16 +12,10 @@
 @interface SignInViewController()
 
 @property (strong, nonatomic) UILabel* phoneNumLabel;
-@property (strong, nonatomic) UITextField* phoneNum;
-@property (strong, nonatomic) UIButton* getAuthenticodeBtn;
 
 @property (strong, nonatomic) UILabel* authenticodeLabel;
-@property (strong, nonatomic) UITextField* authenticode;
-@property (strong, nonatomic) UIButton* signInBtn;
 
 @property (strong, nonatomic) UIButton* leaveBtn;
-
-@property (strong, nonatomic) AFManager* AFNet;
 
 @end
 
@@ -29,9 +23,6 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-    self.AFNet = [[AFManager alloc] init];
-    [self.AFNet registerSocket];
     [self showUI];
 }
 
@@ -39,41 +30,11 @@
     NSLog(@"Getting Authenticode!");
     self.getAuthenticodeBtn.enabled = NO;
     
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet getAuthCode:self.phoneNum.text group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self showError:@"验证码已发送！"];
-            self.signInBtn.enabled = YES;
-        }else{
-            [self showError:@"发送失败，请检查网络并重新申请！"];
-            self.getAuthenticodeBtn.enabled = YES;
-        }
-    });
+
 }
 
 - (void)clickSignInBtn:(UIButton*) sender{
-    
-    self.signInBtn.enabled = NO;
-
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    
-    [self.AFNet signIn:self.phoneNum.text authCode:self.authenticode.text group:group];
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
-        bool isSuccess = [self.AFNet getIsSuccess];
-        if (isSuccess == YES) {
-            [self showError:@"注册成功！"];
-        }else{
-            [self showError:@"注册失败，请检查验证码并重新输入！"];
-            self.getAuthenticodeBtn.enabled = YES;
-        }
-    });
+    [self.delegate signInAFNet];
 }
 
 - (void) clickLeaveBtn:(UIButton*) sender {

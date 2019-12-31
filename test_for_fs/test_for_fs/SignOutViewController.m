@@ -41,22 +41,10 @@
 }
 
 - (void) clickLeaveBtn:(UIButton*) sender {
-    [self.delegate signOutAFNet];
-    //    NSLog(@"Leave Sign Out View Controller!");
-    //    [self willMoveToParentViewController:nil];
-    //    [self.view removeFromSuperview];
-    //    [self removeFromParentViewController];
-}
-
-- (UIViewController *)getParentController:(UIView *)view{
-    for (UIView* next = [view superview];next; next = next.superview) {
-        UIResponder *nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController *)nextResponder;
-        }
-    }
-    
-    return nil;
-    
+//    [self.delegate signOutAFNet];
+        NSLog(@"Leave Sign Out View Controller!");
+        [self willMoveToParentViewController:nil];
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
 }
 @end

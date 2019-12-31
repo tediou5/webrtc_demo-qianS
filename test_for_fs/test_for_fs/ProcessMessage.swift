@@ -41,7 +41,7 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.ACCEPT_CALL.rawValue:
                 print("get ACCEPT_CALL command")
-                doAcceptCall(friendID: friendId, user: id)
+                doAcceptCall(pCmd: pCmd, friendID: friendId, user: id)
                 break
             case StWsMessage.Command.APPLY_ADD_DEVICE.rawValue:
                 print("get APPLY_ADD_DEVICE command")
@@ -82,15 +82,14 @@ class ProcessMessage: NSObject {
         print("--------------------------------------------")
     }
     
-    func doAcceptCall(friendID: String, user: String) -> Void {
+    func doAcceptCall(pCmd: ProcessCommand, friendID: String, user: String) -> Void {
         print("process do call apply")
 //        let isCouldCall: Bool = UserDefaults.standard.bool(forKey: "isCouldCall")
 //        print(isCouldCall)
 //        if (isCouldCall){
 //            let defaults = UserDefaults.standard
             //defaults.set(false, forKey: "isCouldCall")
-            let doCmd = ProcessCommand()
-        doCmd.doAcceptCallCmd(doCmd, friendID: friendID, userID: user)
+        pCmd.doAcceptCallCmd(pCmd, friendID: friendID, userID: user)
             
 //        }else{
 //            doCmd.doFull()

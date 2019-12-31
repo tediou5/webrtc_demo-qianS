@@ -10,9 +10,7 @@
 #define DeleteFriendsViewController_h
 
 #import <UIKit/UIKit.h>
-#import "AFManager.h"
 #import "CallViewController.h"
-#import "ProcessCommand.h"
 
 @protocol FriendsListDelegate <NSObject>
 

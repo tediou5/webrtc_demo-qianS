@@ -23,8 +23,7 @@
 
 //OpenStomp* stomp;
 
-@interface ViewController ()<SignOutDelegate, SignInDelegate, LoginDelegate ,
-                            AddFriendDelegate, GrantAddDelegate, FriendsListDelegate>
+@interface ViewController ()<SignOutDelegate, SignInDelegate, LoginDelegate, AddFriendDelegate, GrantAddDelegate, FriendsListDelegate, ApplyCallDelegate>
 
 @property (strong, nonatomic) UIButton* signInBtn;
 @property (strong, nonatomic) UIButton* signOutBtn;
@@ -47,6 +46,9 @@
 @property (strong, nonatomic) CallViewController* callView;
 
 @property (strong, nonatomic) AFManager* AFNet;
+@property (strong, nonatomic) ProcessCommand* pCmd;
+
+
 
 @end
 
@@ -54,7 +56,6 @@
 
 - (instancetype) init{
     self = [super init];
-    
     NSLog(@"init!");
     
     return self;
@@ -63,8 +64,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.AFNet = [[AFManager alloc] init];
+    self.pCmd = [ProcessCommand getInstance];
     [self.AFNet registerSocket];
-    
     [self isFirstRun];
     [self showUI];
 }
@@ -117,7 +118,7 @@
     self.signInView = [[SignInViewController alloc] init];
     [self.signInView.view setFrame:self.view.bounds];
     [self.signInView.view setBackgroundColor:[UIColor whiteColor]];
-    
+    self.signInView.delegate = self;
     [self addChildViewController:self.signInView];
     [self.signInView didMoveToParentViewController:self];
     
@@ -188,7 +189,7 @@
     self.applyAddView = [[GrantAddFriendsViewController alloc] init];
     [self.applyAddView.view setFrame:self.view.bounds];
     [self.applyAddView.view setBackgroundColor:[UIColor whiteColor]];
-    
+    self.applyAddView.delegate = self;
     [self addChildViewController:self.applyAddView];
     [self.applyAddView didMoveToParentViewController:self];
     
@@ -309,6 +310,7 @@
     [self.view addSubview:self.friendsListBtn];
 }
 
+#pragma mark - subView delegate
 - (void)signOutAFNet {
     [self testForGetParentControll];
 }
@@ -351,9 +353,7 @@
 -(void)GrantAddAFNet:(NSIndexPath *)indexPath uid:(NSString *)uid sid:(NSString *)sid tid:(NSString *)tid type:(NSString *)type{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
-    
     [self.AFNet grantAddDevice:sid sid:sid tid:tid type:type group:group];
-    
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
@@ -421,6 +421,10 @@
     
 }
 
+-(void)doAcceptCall:(NSString *)friendId userID:(NSString *)userId{
+    [self.AFNet doAcceptCall:friendId];
+}
+
 -(void)SearchAFNet:(NSString *)sid{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -442,8 +446,38 @@
     [self.addFriendView.searchTableView reloadData];
 }
 
-- (void)signInAFNet{
+- (void)getAuthCodeAFNet{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
     
+    [self.AFNet getAuthCode:self.signInView.phoneNum.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.signInView showError:@"验证码已发送！"];
+            self.signInBtn.enabled = YES;
+        }else{
+            [self.signInView showError:@"发送失败，请检查网络并重新申请！"];
+            self.signInView.getAuthenticodeBtn.enabled = YES;
+        }
+    });
+}
+
+- (void)signInAFNet{
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    [self.AFNet signIn:self.signInView.phoneNum.text authCode:self.signInView.authenticode.text group:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+        bool isSuccess = [self.AFNet getIsSuccess];
+        if (isSuccess == YES) {
+            [self.signInView showError:@"注册成功！"];
+        }else{
+            [self.signInView showError:@"注册失败，请检查验证码并重新输入！"];
+        }
+    });
 }
 
 - (void)threadECHO {

@@ -10,17 +10,21 @@
 #define SignInViewController_h
 
 #import <UIKit/UIKit.h>
-#import "AFManager.h"
 //#import <Foundation/Foundation.h>
 
 @protocol SignInDelegate <NSObject>
 
 @required
 - (void) signInAFNet;
+- (void) getAuthCodeAFNet;
 
 @end
 
 @interface SignInViewController : UIViewController
+@property (strong, nonatomic) UITextField* phoneNum;
+@property (strong, nonatomic) UITextField* authenticode;
+@property (strong, nonatomic) UIButton* getAuthenticodeBtn;
+@property (strong, nonatomic) UIButton* signInBtn;
 
 - (void)showError:(NSString *)errorMsg;
 //- (instancetype) initAddr:(NSString*)addr withRoom:(NSString*)room;

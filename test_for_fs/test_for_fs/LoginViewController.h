@@ -10,7 +10,6 @@
 #define LoginViewController_h
 
 #import <UIKit/UIKit.h>
-#import "AFManager.h"
 
 //#import "test_for_fs-Swift.h"
 //#import <Foundation/Foundation.h>
