@@ -102,18 +102,9 @@
 
 - (void)doCallFriend:(NSString* )friendId name:(NSString* )name{
     //[self.AFNet doMakeCall:friendId name:name];
-    
+    [self.delegate MakeCallAFNet:friendId name:name];
 //    [self.pCMD creatCallView:friendId name:name sview:self];
-    NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-    NSString* userID = [NSString stringWithFormat:@"%@", uid];
-    self.callView = [[CallViewController alloc] initWithId:friendId userID:userID];
-    [self.callView.view setFrame:self.view.bounds];
-    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
-    [self addChildViewController:self.callView];
-    [self.callView didMoveToParentViewController:self];
-    
-    
-    [self.view addSubview:self.callView.view];
+
 }
 
 - (void)doDeleteFriends:(NSIndexPath *)indexPath uid:(NSString* )uid cid:(NSString* )cid{

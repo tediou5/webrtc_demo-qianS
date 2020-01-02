@@ -32,8 +32,8 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     @objc func registerSocket() -> Void{
         print("webSocket is Connection:\(url)")
         if (socketClient.isConnected()){
-            //DisConnect()
-            //socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
+            DisConnect()
+            socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
             print("is connected")
        }else{
             socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
@@ -44,12 +44,10 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     
     @objc public func sendECHO() -> Void{
         if (socketClient.isConnected()){
-            print("send echo!")
+            //print("send echo!")
             print(StWsMessage.Command.ECHO)
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: "ECHO Message", from: id, to: "").toString()
-            //print("----------ECHO MSG-------------")
-            //print(mess)
             socketClient.sendMessage(message: mess, toDestination: "/app/server", withHeaders: stompHeaders, withReceipt: nil)
         }
         else {
@@ -113,7 +111,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         let des = "/app/user/"
         let toDestination = des + friendId
         if (socketClient.isConnected()){
-            print("webrtc send send answer!")
+            print("webrtc send answer!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.CALL_ANSWER, type: StWsMessage.stType.Request, info: sdp, from: id, to: friendId).toString()
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
@@ -198,10 +196,10 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, withHeader header: [String : String]?, withDestination destination: String) {
         //print("------------------------Get Command---------------------")
-        print("DESTIONATION : \(destination)")
-        //print("JSON BODY : \(String(describing: jsonBody))")
-        
+        //print("DESTIONATION : \(destination)")
         let jsonMsg = jsonBody as? NSDictionary
+        //print(jsonMsg)
+        //print("---------------------------------------------------------")
         pMsg.getMsg(pCmd: pCmd!, jsonMsg: jsonMsg!)
     }
     

@@ -10,9 +10,8 @@
 #define AFManager_h
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking.h>
 #import "test_for_fs-Swift.h"
-
+#import <AFNetworking.h>
 @interface AFManager : NSObject
 
 - (instancetype) init;
@@ -21,9 +20,9 @@
 - (void) echo;
 - (void) doMakeCall:(NSString* )friendId name:(NSString* )name;
 - (void) doAcceptCall:(NSString* )friendId;
-- (void) sendOffer: (NSString* )sdp friendId:(NSString* )friendId;
-- (void) sendAnswer: (NSString* )sdp friendId:(NSString* )friendId;
-- (void) sendCandidate: (NSDictionary* )sdp friendId:(NSString* )friendId;
+- (void) sendOffer:(NSString* )sdp friendId:(NSString* )friendId;
+- (void) sendAnswer:(NSString* )sdp friendId:(NSString* )friendId;
+- (void) sendCandidate:(NSDictionary* )sdp friendId:(NSString* )friendId;
 
 - (void) login: (NSString* )name passwd:(NSString* )passwd group:(dispatch_group_t)group;
 - (void) logout: (NSString* )uid group:(dispatch_group_t)group;
@@ -37,6 +36,7 @@
 - (void) deleteDevice: (NSString* )uid cid:(NSString* )cid group:(dispatch_group_t)group;
 
 - (bool) getIsSuccess;
+- (ProcessCommand* ) getPCmd;
 
 @end
 

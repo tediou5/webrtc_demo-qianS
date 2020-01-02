@@ -23,7 +23,7 @@
 
 //OpenStomp* stomp;
 
-@interface ViewController ()<SignOutDelegate, SignInDelegate, LoginDelegate, AddFriendDelegate, GrantAddDelegate, FriendsListDelegate, ApplyCallDelegate>
+@interface ViewController ()<SignOutDelegate, SignInDelegate, LoginDelegate, AddFriendDelegate, GrantAddDelegate, FriendsListDelegate, ApplyCallDelegate, CallViewDelegate>
 
 @property (strong, nonatomic) UIButton* signInBtn;
 @property (strong, nonatomic) UIButton* signOutBtn;
@@ -64,7 +64,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.AFNet = [[AFManager alloc] init];
-    self.pCmd = [ProcessCommand getInstance];
+    //self.pCmd = [ProcessCommand getInstance];
+    self.pCmd = [self.AFNet getPCmd];
     [self.AFNet registerSocket];
     [self isFirstRun];
     [self showUI];
@@ -90,7 +91,6 @@
         NSLog(@"is first");
         NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
         NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
-        //[applyAddDic setObject:@"" forKey:@""];
         
         [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
@@ -102,14 +102,6 @@
     }else{
         NSLog(@"is not the first");
         [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isCouldCall"];
-        //NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
-        //[applyCallDic setObject:@"" forKey:@""];
-        //[[NSUserDefaults standardUserDefaults] setObject:applyCallDic forKey:@"applyCallDic"];
-        //[[NSUserDefaults standardUserDefaults] synchronize];
-//        NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
-//        [applyAddDic removeAllObjects];
-//        [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -119,6 +111,7 @@
     [self.signInView.view setFrame:self.view.bounds];
     [self.signInView.view setBackgroundColor:[UIColor whiteColor]];
     self.signInView.delegate = self;
+    
     [self addChildViewController:self.signInView];
     [self.signInView didMoveToParentViewController:self];
     
@@ -131,6 +124,7 @@
     [self.signOutView.view setFrame:self.view.bounds];
     [self.signOutView.view setBackgroundColor:[UIColor whiteColor]];
     self.signOutView.delegate = self;
+    
     [self addChildViewController:self.signOutView];
     [self.signOutView didMoveToParentViewController:self];
     
@@ -143,6 +137,7 @@
     [self.loginView.view setFrame:self.view.bounds];
     [self.loginView.view setBackgroundColor:[UIColor whiteColor]];
     self.loginView.delegate = self;
+    
     [self addChildViewController:self.loginView];
     [self.loginView didMoveToParentViewController:self];
     
@@ -165,10 +160,10 @@
     self.applyCallView = [[ApplyCallViewController alloc] init];
     [self.applyCallView.view setFrame:self.view.bounds];
     [self.applyCallView.view setBackgroundColor:[UIColor whiteColor]];
+    self.applyCallView.delegate = self;
     
     [self addChildViewController:self.applyCallView];
     [self.applyCallView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.applyCallView.view];
 }
 
@@ -178,6 +173,7 @@
     [self.addFriendView.view setFrame:self.view.bounds];
     [self.addFriendView.view setBackgroundColor:[UIColor whiteColor]];
     self.addFriendView.delegate = self;
+    
     [self addChildViewController:self.addFriendView];
     [self.addFriendView didMoveToParentViewController:self];
     
@@ -190,6 +186,7 @@
     [self.applyAddView.view setFrame:self.view.bounds];
     [self.applyAddView.view setBackgroundColor:[UIColor whiteColor]];
     self.applyAddView.delegate = self;
+    
     [self addChildViewController:self.applyAddView];
     [self.applyAddView didMoveToParentViewController:self];
     
@@ -202,9 +199,9 @@
     [self.friendsListView.view setFrame:self.view.bounds];
     [self.friendsListView.view setBackgroundColor:[UIColor whiteColor]];
     self.friendsListView.delegate = self;
+    
     [self addChildViewController:self.friendsListView];
     [self.friendsListView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.friendsListView.view];
 }
 
@@ -275,7 +272,7 @@
     [self.applyCallBtn setTitle:@"Apply Call" forState:UIControlStateNormal];
     [self.applyCallBtn setBackgroundColor:[UIColor grayColor]];
     [self.applyCallBtn setShowsTouchWhenHighlighted:YES];
-    [self.applyCallBtn setFrame:CGRectMake(width-150, 380, 120, 40)];
+    [self.applyCallBtn setFrame:CGRectMake(width-150, 260, 120, 40)];
     [self.applyCallBtn addTarget:self action:@selector(clickIosrtcBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.applyCallBtn];
     
@@ -285,7 +282,7 @@
     [self.addFriendBtn setTitle:@"Search Friend" forState:UIControlStateNormal];
     [self.addFriendBtn setBackgroundColor:[UIColor grayColor]];
     [self.addFriendBtn setShowsTouchWhenHighlighted:YES];
-    [self.addFriendBtn setFrame:CGRectMake(width-150, 430, 120, 40)];
+    [self.addFriendBtn setFrame:CGRectMake(width-150, 310, 120, 40)];
     [self.addFriendBtn addTarget:self action:@selector(clickAddFriendBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addFriendBtn];
     
@@ -295,7 +292,7 @@
     [self.applyAddBtn setTitle:@"ApplyAdd List" forState:UIControlStateNormal];
     [self.applyAddBtn setBackgroundColor:[UIColor grayColor]];
     [self.applyAddBtn setShowsTouchWhenHighlighted:YES];
-    [self.applyAddBtn setFrame:CGRectMake(width-150, 480, 120, 40)];
+    [self.applyAddBtn setFrame:CGRectMake(width-150, 360, 120, 40)];
     [self.applyAddBtn addTarget:self action:@selector(clickApplyAddBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.applyAddBtn];
     
@@ -305,9 +302,59 @@
     [self.friendsListBtn setTitle:@"Friends List" forState:UIControlStateNormal];
     [self.friendsListBtn setBackgroundColor:[UIColor grayColor]];
     [self.friendsListBtn setShowsTouchWhenHighlighted:YES];
-    [self.friendsListBtn setFrame:CGRectMake(width-150, 530, 120, 40)];
+    [self.friendsListBtn setFrame:CGRectMake(width-150, 410, 120, 40)];
     [self.friendsListBtn addTarget:self action:@selector(clickFriendsListBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsListBtn];
+}
+
+#pragma RTC媒体协商
+
+-(void)MakeCallAFNet:(NSString *)friendId name:(NSString *)name{
+    [self.AFNet doMakeCall:friendId name:name];
+    
+    NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
+    NSString* userID = [NSString stringWithFormat:@"%@", uid];
+    self.callView = [[CallViewController alloc] initWithId:self.pCmd friendID:friendId userID:userID];
+    [self.callView.view setFrame:self.view.bounds];
+    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
+    self.callView.delegate = self;
+    
+    [self addChildViewController:self.callView];
+    [self.callView didMoveToParentViewController:self];
+    [self.view addSubview:self.callView.view];
+    [self.pCmd.delegate join:friendId];
+}
+
+-(void)doAcceptCall:(NSString *)friendId userID:(NSString *)userId{
+    self.callView = [[CallViewController alloc] initWithId:self.pCmd friendID:friendId userID:userId];
+    [self.callView.view setFrame:self.view.bounds];
+    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
+    self.callView.delegate = self;
+    [self addChildViewController:self.callView];
+    [self.callView didMoveToParentViewController:self];
+    [self.view addSubview:self.callView.view];
+    
+    if (self.pCmd.delegate) {
+        [self.pCmd.delegate join:friendId];
+    }else{
+        NSLog(@"not set delegate");
+    }
+    
+    [self.AFNet doAcceptCall:friendId];
+}
+
+-(void)sendOfferAFNet:(NSString *)sdp friendId:(NSString *)friendId{
+    [self.AFNet sendOffer:sdp friendId:friendId];
+}
+
+-(void)sendCandidateAFNet:(NSDictionary *)sdp friendId:(NSString *)friendId{
+    [self.AFNet sendCandidate:sdp friendId:friendId];
+}
+
+-(void)sendAnswerAFNet:(NSString *)sdp friendId:(NSString *)friendId{
+    NSLog(@"=====arrived sendAnswerAFNet!=====");
+    NSLog(@"friendId = %@", friendId);
+    [self.AFNet sendAnswer:sdp friendId:friendId];
 }
 
 #pragma mark - subView delegate
@@ -317,6 +364,7 @@
 
 - (void)loginAFNet:(NSString *)name passwd:(NSString *)passwd{
     NSLog(@"Login!");
+    [self.AFNet registerSocket];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     
@@ -417,14 +465,6 @@
     });
 }
 
--(void)CallAFNet{
-    
-}
-
--(void)doAcceptCall:(NSString *)friendId userID:(NSString *)userId{
-    [self.AFNet doAcceptCall:friendId];
-}
-
 -(void)SearchAFNet:(NSString *)sid{
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -481,7 +521,7 @@
 }
 
 - (void)threadECHO {
-    [self.AFNet registerSocket];
+    
     while (1) {
         [NSThread sleepForTimeInterval:3];
         [self.AFNet echo];

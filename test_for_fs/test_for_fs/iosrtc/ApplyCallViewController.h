@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CallViewController.h"
+
 @protocol ApplyCallDelegate <NSObject>
 @required
 - (void) doAcceptCall: (NSString* )friendId userID:(NSString* )userId;
@@ -16,6 +18,6 @@
 - (void)showError:(NSString *)errorMsg;
 
 @property (weak, nonatomic) id<ApplyCallDelegate> delegate;
-
+@property (strong, nonatomic) CallViewController* callView;
 @end
 

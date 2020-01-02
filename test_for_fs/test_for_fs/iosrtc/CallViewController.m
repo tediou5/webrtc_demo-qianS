@@ -11,12 +11,12 @@
 @interface CallViewController() <ProcessCommandEvents, RTCPeerConnectionDelegate, RTCVideoViewDelegate>
 {
     
-    NSString* userID;
-    NSString* friendID;
+//    NSString* userID;
+//    NSString* friendID;
     
     NSString* myState;
     
-    AFManager* AFNet;
+    //AFManager* AFNet;
     ProcessCommand* pCMD;
     
     RTCPeerConnectionFactory* factory;
@@ -37,6 +37,9 @@
 @property (strong, nonatomic) RTCEAGLVideoView *remoteVideoView;
 @property (strong, nonatomic) RTCCameraPreviewView *localVideoView;//如果设置成RTCEAGLVideoView 则需要从videoTrack中获取数据
 
+@property (strong, nonatomic) NSString* userID;
+@property (strong, nonatomic) NSString* friendID;
+
 @property (strong, nonatomic) UIButton* leaveBtn;
 
 
@@ -55,29 +58,30 @@ static NSString *const RTCSTUNServerURL = @"stun:hy03.teclub.cn:3478";
 //static NSString *const RTCSTUNServerURL2 = @"stun:23.21.150.121";
 static NSString *const RTCTURNServerURL = @"turn:turn003.teclub.cn:17711";
 static int logY = 0;
-- (instancetype) initWithId:(NSString* )friend userID:(NSString* )user{
-    
-    friendID = friend;
-    userID = user;
-    
+static int test = 0;
+- (instancetype) initWithId:(ProcessCommand* )pCmd friendID:(NSString* )friend userID:(NSString* )user{
+    NSLog(@"===init: %d===", test++);
+    _friendID = friend;
+    _userID = user;
+//  pCmd.delegate = self;
+    //[self createPeerConnectionFactory];
+    pCMD = pCmd;
     [self initView];
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"===viewDidLoad: %d===", test++);
     logY = 0;
-    //AFNet = [[AFManager alloc] init];
-    //pCMD = [[ProcessCommand alloc] init];
+    
     [self createPeerConnectionFactory];
-    //[self startTimer];
     
     //创建本地流
     [self captureLocalMedia];
     
     //pCMD = [ProcessCommand getInstance];
-    //pCMD.delegate = self;
+    pCMD.delegate = self;
     myState = @"init";
     
 }
@@ -195,6 +199,7 @@ static int logY = 0;
 }
 
 - (void) join :(NSString* )friendId{
+    NSLog(@"===join: %d===", test++);
     NSLog(@"joined room(%@) notify!", friendId);
     //[self addLogToScreen: @"joined room(%@) notify!", self->friendID];
     
@@ -204,15 +209,21 @@ static int logY = 0;
     if (!peerConnection) {
         peerConnection = [self createPeerConnection];
     }
+    if (!peerConnection) {
+        NSLog(@"===================create peerConnection error===================");
+    }
 }
 
 //-----------------------------------------------------------------------------------------otherjoin here
 - (void) otherjoin:(NSString *)friendID userID:(NSString *)user{
     //[self addLogToScreen: @"other user(%@) has been called with user(%@) notify!", friendID, userID];
-    if([myState isEqualToString:@"joined_unbind"]){
+    //if([myState isEqualToString:@"joined_unbind"]){
         if (!peerConnection) {
             peerConnection = [self createPeerConnection];
         }
+//    }
+    if (!peerConnection) {
+        NSLog(@"===================create peerConnection error===================");
     }
     
     myState =@"joined_conn";
@@ -222,7 +233,7 @@ static int logY = 0;
 }
 
 - (void) full {
-    NSLog(@"the friendID(%@) is buzy!", self->friendID);
+    NSLog(@"the friendID(%@) is buzy!", _friendID);
     //[self addLogToScreen: @"the friendID(%@) is buzy!", self->friendID];
     myState = @"leaved";
     
@@ -274,7 +285,7 @@ static int logY = 0;
 }
 
 - (void) answer:(NSString *)sdp {
-    NSLog(@"have received a answer message %@", sdp);
+    //NSLog(@"have received a answer message %@", sdp);
     
     NSString *remoteAnswerSdp = sdp;
     RTCSessionDescription *remoteSdp = [[RTCSessionDescription alloc]
@@ -283,8 +294,8 @@ static int logY = 0;
     [peerConnection setRemoteDescription:remoteSdp
                        completionHandler:^(NSError * _Nullable error) {
                            if(!error){
-                               NSLog(@"-----------------------------------------------------------Success to set remote Answer SDP");
-                               NSLog(@"%@", remoteAnswerSdp);
+                               NSLog(@"Success to set remote Answer SDP");
+                               //NSLog(@"%@", remoteAnswerSdp);
                            }else{
                                NSLog(@"Failure to set remote Answer SDP, err=%@", error);
                            }
@@ -302,12 +313,11 @@ static int logY = 0;
     }];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         //send answer sdp
 //        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"answer", sdp.sdp]
 //                                                           forKeys: @[@"type", @"sdp"]];
-        
-        [self->AFNet sendAnswer:sdp.sdp friendId:self->friendID];
+        NSLog(@"CallViewController self.friendID = %@", self->_friendID);
+        [self.delegate sendAnswerAFNet:sdp.sdp friendId:self->_friendID];
     });
 }
 
@@ -330,7 +340,7 @@ static int logY = 0;
 
 //本地
 - (void) offer:(NSString *)sdp {
-    NSLog(@"have received a offer message %@", sdp);
+    //NSLog(@"have received a offer message %@", sdp);
     
     NSString* remoteOfferSdp = sdp;
     RTCSessionDescription* remoteSdp = [[RTCSessionDescription alloc]
@@ -351,7 +361,8 @@ static int logY = 0;
 }
 //本地
 - (void) candidate: (NSDictionary *)dict {
-    NSLog(@"have received a message %@", dict);
+    NSLog(@"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-add Ice Candidate=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-");
+    //NSLog(@"have received a message %@", dict);
     
     NSString* desc = dict[@"sdp"];
     NSString* sdpMLineIndex = dict[@"label"];
@@ -361,7 +372,7 @@ static int logY = 0;
     
     RTCIceCandidate *candidate = [[RTCIceCandidate alloc] initWithSdp:desc
                                                         sdpMLineIndex:index
-                                                               sdpMid:sdpMid];;
+                                                               sdpMid:sdpMid];
     [peerConnection addIceCandidate:candidate];
 }
 //----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
@@ -415,7 +426,8 @@ didGenerateIceCandidate:(RTCIceCandidate *)candidate{
                                                                      candidate.sdpMid,
                                                                      candidate.sdp]
                                                            forKeys:@[@"label", @"id", @"sdp"]];
-        [self->AFNet sendCandidate:dict friendId:self->friendID];
+        [self.delegate sendCandidateAFNet:dict friendId:self->_friendID];
+        //[self->AFNet sendCandidate:dict friendId:self->friendID];
     });
 }
 
@@ -466,13 +478,13 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
                                                                 kRTCMediaConstraintsOfferToReceiveAudio:kRTCMediaConstraintsValueTrue,
                                                                 kRTCMediaConstraintsOfferToReceiveVideo:kRTCMediaConstraintsValueTrue
                                                                 }
-                                          optionalConstraints:@{ @"DtlsSrtpKeyAgreement" : @"true" }];
+                                          optionalConstraints:@{ @"DtlsSrtpKeyAgreement" : @"true" }];//原设置为true
     return mediaConstraints;
 }
 
 
 - (void) captureLocalMedia {//---------------------------------maybe here
-    
+    NSLog(@"===captureLocalMedia: %d===", test++);
     NSDictionary* mandatoryConstraints = @{};
     NSDictionary* optionalConstraints = @{};
     RTCMediaConstraints* constraints =
@@ -535,11 +547,13 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
 
 //初始化STUN Server （ICE Server）
 - (RTCIceServer *)defaultSTUNServer {
-    return [[RTCIceServer alloc] initWithURLStrings:@[RTCSTUNServerURL,RTCTURNServerURL]];
+    //[iceS initWithURLStrings:RTCTURNServerURL username:@"user00" credential:@"abcD1234"];
+    return [[RTCIceServer alloc] initWithURLStrings:@[RTCTURNServerURL, RTCSTUNServerURL] username:@"user00" credential:@"abcD1234" tlsCertPolicy:RTCTlsCertPolicyInsecureNoCheck];
+    //return [[RTCIceServer alloc] initWithURLStrings:@[RTCSTUNServerURL,RTCTURNServerURL]];
 }
 
 - (void) createPeerConnectionFactory {
-    
+    NSLog(@"===createFactory: %d===", test++);
     //设置SSL传输
     [RTCPeerConnectionFactory initialize];
     
@@ -558,8 +572,8 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
 }
 
 - (RTCPeerConnection *)createPeerConnection {
-    
-    //得到ICEServer
+    NSLog(@"===createPeerConnection: %d===", test++);
+    //得到ICEServer---------------------------------------------------------------------------------delete it to try to fixed bug
     if (!ICEServers) {
         ICEServers = [NSMutableArray array];
         [ICEServers addObject:[self defaultSTUNServer]];
@@ -567,9 +581,15 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     
     //用工厂来创建连接
     RTCConfiguration* configuration = [[RTCConfiguration alloc] init];
+    
+    //---------------------------------------------------------------------------------delete it to try to fixed bug
     [configuration setIceServers:ICEServers];
-    RTCPeerConnection* conn = [factory
-                               peerConnectionWithConfiguration:configuration//最主要就是ICEServer
+    
+    //peerConnection = [RTCPeerConnection alloc];
+    
+    RTCPeerConnection* conn = [RTCPeerConnection alloc];
+        conn = [self->factory //bug should Fixed返回值总是为nil
+                               peerConnectionWithConfiguration:configuration//configuration//最主要就是ICEServer
                                constraints:[self defaultPeerConnContraints]//限制，
                                delegate:self];
     
@@ -578,6 +598,8 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     //如果没有将Track添加到PeerConnection中，那么在进行媒体协商的时候是不会接收数据的
     [conn addTrack:videoTrack streamIds:mediaStreamLabels];//添加视频信息
     [conn addTrack:audioTrack streamIds:mediaStreamLabels];//添加音频信息
+//    [conn addTrack:videoTrack streamIds:mediaStreamLabels];//添加视频信息
+//    [conn addTrack:audioTrack streamIds:mediaStreamLabels];//添加音频信息
     
     return conn;
 }
@@ -593,11 +615,10 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     }];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        
+        [self.delegate sendOfferAFNet:sdp.sdp friendId:self->_friendID];
 //        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"offer", sdp.sdp]
 //                                                           forKeys: @[@"type", @"sdp"]];
-        
-        [self->AFNet sendOffer:sdp.sdp friendId:self->friendID];
+        //[self.AFNet sendOffer:sdp.sdp friendId:self->friendID];
     });
 }
 //-----------------------------------------------------------------------------------------------------setLocalOffer here
@@ -606,7 +627,7 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     //[self addLogToScreen: @"Start Call, Wait ..."];
     if (!peerConnection) {
         peerConnection = [self createPeerConnection];
-    }
+    }//-------------------------????????
     
     [peerConnection offerForConstraints:[self defaultPeerConnContraints]
                       completionHandler:^(RTCSessionDescription * _Nullable sdp, NSError * _Nullable error) {

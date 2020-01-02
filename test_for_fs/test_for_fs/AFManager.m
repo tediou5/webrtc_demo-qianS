@@ -37,7 +37,7 @@ OpenStomp* stomp;
     
     if(self){
         //self.baseUrl = @"ws://localhost:9001";
-        self.baseUrl = @"ws://192.168.11.123:9001";
+        self.baseUrl = @"http://192.168.11.123:9001";
         self.applyAddApi = @"/api/v1/rtc/contact/applyAdd";
         self.authcodeApi = @"/api/v1/rtc/common/authcode/";
         self.contactsApi = @"/api/v1/rtc/user/contacts/";
@@ -77,7 +77,8 @@ OpenStomp* stomp;
     [stomp sendOfferWithSdp:sdp friendId:friendId];
 }
 
-- (void) sendAnwser: (NSString* )sdp friendId:(NSString* )friendId{
+- (void) sendAnswer: (NSString* )sdp friendId:(NSString* )friendId{
+    NSLog(@"=====arriver AFManager: sendAnwser!=====");
     [stomp sendAnswerWithSdp:sdp friendId:friendId];
 }
 

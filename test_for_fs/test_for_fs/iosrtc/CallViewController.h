@@ -10,16 +10,21 @@
 #define CallViewController_h
 
 #import <UIKit/UIKit.h>
-
-#import "AFManager.h"
 #import "ProcessCommand.h"
-
 #import <WebRTC/WebRTC.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
-@interface CallViewController : UIViewController
+@protocol CallViewDelegate <NSObject>
+@required
+- (void)sendAnswerAFNet:(NSString* )sdp friendId:(NSString* )friendId;
+- (void)sendCandidateAFNet:(NSDictionary* )sdp friendId:(NSString* )friendId;
+- (void)sendOfferAFNet:(NSString* )sdp friendId:(NSString* )friendId;
 
-- (instancetype) initWithId:(NSString* )friend userID:(NSString* )user;
+@end
+
+@interface CallViewController : UIViewController
+@property (weak, nonatomic) id<CallViewDelegate> delegate;
+- (instancetype) initWithId:(ProcessCommand* )pCmd friendID:(NSString* )friend userID:(NSString* )user;
 
 @end
 

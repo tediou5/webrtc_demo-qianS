@@ -7,14 +7,14 @@
 //
 
 #import "ApplyCallViewController.h"
-#import "CallViewController.h"
+
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
 @interface ApplyCallViewController () <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
-@property (strong, nonatomic) UITableView* friendsTableView;
+@property (strong, nonatomic) UITableView* applyCallTableView;
 @property (strong, nonatomic) UIButton* refreshBtn;
 @property (strong, nonatomic) UIButton* leaveBtn;
 @property (strong, nonatomic) UIButton* joinBtn;
@@ -25,7 +25,7 @@
 
 //@property (strong, nonatomic) AFManager* AFNet;
 
-@property (strong, nonatomic) CallViewController* callView;
+
 
 @end
 
@@ -44,7 +44,7 @@
     
     self.applyCallArr = self.applyCallDic.allValues;
     self.IDsArr = self.applyCallDic.allKeys;
-    [self.friendsTableView reloadData];
+    [self.applyCallTableView reloadData];
     
     //self.AFNet = [[AFManager alloc] init];
     [self showUI];
@@ -53,14 +53,14 @@
 - (void) showUI{
     CGFloat width = self.view.bounds.size.width;
     
-    self.friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 80, ScreenWidth-130, ScreenHeight-100) style:UITableViewStylePlain];
+    self.applyCallTableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 80, ScreenWidth-130, ScreenHeight-100) style:UITableViewStylePlain];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myTableViewClick:)];
-    [self.friendsTableView addGestureRecognizer:tapGesture];
+    [self.applyCallTableView addGestureRecognizer:tapGesture];
     
-    self.friendsTableView.delegate = self;
-    self.friendsTableView.dataSource = self;
-    [self.view addSubview:self.friendsTableView];
+    self.applyCallTableView.delegate = self;
+    self.applyCallTableView.dataSource = self;
+    [self.view addSubview:self.applyCallTableView];
     
     self.refreshBtn = [[UIButton alloc] init];
     [self.refreshBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -119,15 +119,16 @@
 //TODO:do it at ViewController
 - (void)doAcceptCall:(NSIndexPath *)indexPath friendID:(NSString* )friendId userID:(NSString* )userId{
     NSLog(@"Do Call");
-    //[[NSUserDefaults standardUserDefaults] setObject:@false forKey:@"isCouldCall"];
-    self.callView = [[CallViewController alloc] initWithId:friendId userID:userId];
-    [self.callView.view setFrame:self.view.bounds];
-    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
-    [self addChildViewController:self.callView];
-    [self.callView didMoveToParentViewController:self];
+    [self.delegate doAcceptCall:friendId userID:userId];
+    [self.applyCallDic removeObjectForKey:self.IDsArr[indexPath.row]];
+    [[NSUserDefaults standardUserDefaults] setObject:self.applyCallDic forKey:@"applyCallDic"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.view addSubview:self.callView.view];
-}
+    self.applyCallArr = self.applyCallDic.allValues;
+    [self.applyCallTableView reloadData];
+    //[[NSUserDefaults standardUserDefaults] setObject:@false forKey:@"isCouldCall"];
+
+    }
 
 - (void)showError:(NSString *)errorMsg {
     // 弹框提醒
@@ -156,10 +157,10 @@
 
 #pragma mark - 点击事件
 - (void)myTableViewClick:(UIGestureRecognizer *)gestureRecognizer {
-    CGPoint point = [gestureRecognizer locationInView:self.friendsTableView];
-    NSIndexPath *indexpath = [self.friendsTableView indexPathForRowAtPoint:point];
+    CGPoint point = [gestureRecognizer locationInView:self.applyCallTableView];
+    NSIndexPath *indexpath = [self.applyCallTableView indexPathForRowAtPoint:point];
     if ([self respondsToSelector:@selector(m_tableView:didSelectRowAtIndexPath:)]) {
-        [self m_tableView:self.friendsTableView didSelectRowAtIndexPath:indexpath];
+        [self m_tableView:self.applyCallTableView didSelectRowAtIndexPath:indexpath];
     }
 }
 

@@ -9,22 +9,15 @@
 import Foundation
 
 class ProcessMessage: NSObject {
-    //var doCmd = ProcessCommand.getInstance()
-    //var doCmd = ProcessCommand()
-    //doCmd.ProcessCommand.getInstance()
     let id = String(UserDefaults.standard.integer(forKey: "id"))
     
     func getMsg(pCmd: ProcessCommand, jsonMsg: NSDictionary){
         
         let cmd: Int = jsonMsg["cmd"] as! Int
-        let command: String = jsonMsg["command"] as! String
+        //let command: String = jsonMsg["command"] as! String
         let info: String = jsonMsg["info"] as! String
         let friendID: Int = jsonMsg["src"] as! Int
         let friendId: String = String(friendID)
-        print("------------------------Process Command---------------------")
-        print("cmd = \(command)")
-        print("------------------------------------------------------------")
-        //print("msg = \(jsonMsg)")
         
         switch cmd {//should add MAKE_CALL cmd
             case StWsMessage.Command.SEND_DATA.rawValue:
@@ -32,7 +25,7 @@ class ProcessMessage: NSObject {
                 print(info)
                 break
             case StWsMessage.Command.ECHO.rawValue:
-                print("get ECHO command")
+                //print("get ECHO command")
                 //print(jsonMsg)
                 break
             case StWsMessage.Command.MAKE_CALL.rawValue:
@@ -49,12 +42,14 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.CALL_ANSWER.rawValue:
                 print("get CALL_ANSWER command")
+                doCallAnswer(pCmd: pCmd, sdp: info)
                 break
             case StWsMessage.Command.CALL_BYE.rawValue:
                 print("get CALL_BYE command")
                 break
             case StWsMessage.Command.CALL_CANDIDATE.rawValue:
                 print("get CALL_CANDIDATE command")
+                doCallCandidate(pCmd: pCmd, info: info)
                 break
             case StWsMessage.Command.CALL_CANDIDATE_RM.rawValue:
                 print("get CALL_CANDIDATE_RM command")
@@ -75,11 +70,7 @@ class ProcessMessage: NSObject {
     }
     func applyAddDevice(pCmd: ProcessCommand, info: String) -> Void {
         print("process add device apply")
-        
         pCmd.doApplyAddCmd(info)
-        print("--------------------------------------------")
-        print(info)
-        print("--------------------------------------------")
     }
     
     func doAcceptCall(pCmd: ProcessCommand, friendID: String, user: String) -> Void {
@@ -99,24 +90,24 @@ class ProcessMessage: NSObject {
     func doCallOffer(pCmd: ProcessCommand, sdp: String) -> Void {
         print("process do send offer apply")
         pCmd.doCallOfferCmd(pCmd, sdp: sdp)
-        print("----------------------offer----------------------")
-        print(sdp)
-        print("-----------------------------------------------")
+//        print("----------------------offer----------------------")
+//        print(sdp)
+//        print("-----------------------------------------------")
     }
     
     func doCallAnswer(pCmd: ProcessCommand, sdp: String) -> Void {
-        print("process do send offer apply")
+        print("process do send answer apply")
         pCmd.doCallAnswerCmd(pCmd, sdp: sdp)
-        print("----------------------answer----------------------")
-        print(sdp)
-        print("-----------------------------------------------")
+//        print("----------------------answer----------------------")
+//        print(sdp)
+//        print("-----------------------------------------------")
     }
     
     func doCallCandidate(pCmd: ProcessCommand, info: String) -> Void {
         print("process do send candidate apply")
-        pCmd.doCallAnswerCmd(pCmd, sdp: info)
-        print("----------------------candidate----------------------")
-        print(info)
-        print("-----------------------------------------------")
+        pCmd.doCallCandidateCmd(pCmd, info: info)
+//        print("----------------------candidate----------------------")
+//        print(info)
+//        print("-----------------------------------------------")
     }
 }

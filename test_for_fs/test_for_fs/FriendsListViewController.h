@@ -17,7 +17,7 @@
 @required
 - (void) GetContactsAFNet;
 - (void) DeleteAFNet:(NSString* )uid cid:(NSString* )cid;
-- (void) CallAFNet;
+- (void) MakeCallAFNet:(NSString* )friendId name:(NSString* )name;
 
 @end
 

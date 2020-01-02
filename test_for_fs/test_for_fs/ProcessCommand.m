@@ -27,21 +27,10 @@ static ProcessCommand* m_instance = nil;
     return m_instance;
 }
 
-//- (void) creatCallView:(NSString* )friendId name:(NSString* )name sview:(UIViewController* )sview{
-//    NSNumber* uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
-//    NSString* userID = [NSString stringWithFormat:@"%@", uid];
-//    self.callView = [[CallViewController alloc] initWithId:friendId userID:userID];
-//    [self.callView.view setFrame:sview.view.bounds];
-//    [self.callView.view setBackgroundColor:[UIColor whiteColor]];
-//    [sview addChildViewController:self.callView];
-//    [self.callView didMoveToParentViewController:sview];
-//}
-
 //TODO:每当我收到一个request之后，首先回复一个Allow给对方，用来确认我收到了该请求
 - (void) doApplyAddCmd: (NSString* )info{
     NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* localApplyAddDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyAddDic"];
-    //NSLog(@"*******************************************");
     NSData* infoData = [info dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* infoDic = [NSJSONSerialization JSONObjectWithData:infoData options:NSJSONReadingMutableLeaves error:nil];
     NSDictionary* sourceInfo = [infoDic valueForKey:@"sourceInfo"];
@@ -56,7 +45,7 @@ static ProcessCommand* m_instance = nil;
     [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
+//TODO:when i get a msg with Type.ALLOW do delegate
 - (void) doMakeCallCmd:(ProcessCommand* )pCmd friendID:(NSString* )friendID{
     NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* localApplyCallDic = [NSMutableDictionary dictionary];
@@ -72,11 +61,11 @@ static ProcessCommand* m_instance = nil;
     [[NSUserDefaults standardUserDefaults] setObject:applyCallDic forKey:@"applyCallDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     //NSLog(@"*********applyCallDic*******");
-    if (self.delegate) {
-         [self.delegate join:friendID];
-    }else{
-        NSLog(@"not set delegate");
-    }
+//    if (self.delegate) {
+//         [self.delegate join:friendID];
+//    }else{
+//        NSLog(@"not set delegate");
+//    }
 }
 
 - (void) doAcceptCallCmd:(ProcessCommand* )pCmd friendID:(NSString *)friendID userID:(NSString *)user{
