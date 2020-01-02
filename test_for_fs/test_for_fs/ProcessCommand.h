@@ -27,7 +27,6 @@
 @end
 
 @interface ProcessCommand : NSObject
-//- (void) creatCallView:(NSString* )friendId name:(NSString* )name sview:(UIViewController* )sview;
 + (ProcessCommand*) getInstance;
 - (void) doApplyAddCmd: (NSString* )info;
 

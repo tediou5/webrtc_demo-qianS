@@ -19,14 +19,13 @@ class ProcessMessage: NSObject {
         let friendID: Int = jsonMsg["src"] as! Int
         let friendId: String = String(friendID)
         
-        switch cmd {//should add MAKE_CALL cmd
+        switch cmd {//should add type.Allow cmd
             case StWsMessage.Command.SEND_DATA.rawValue:
                 print("get SEND_DATA command")
                 print(info)
                 break
             case StWsMessage.Command.ECHO.rawValue:
                 //print("get ECHO command")
-                //print(jsonMsg)
                 break
             case StWsMessage.Command.MAKE_CALL.rawValue:
                 print("get MAKE_CALL command")
@@ -75,39 +74,21 @@ class ProcessMessage: NSObject {
     
     func doAcceptCall(pCmd: ProcessCommand, friendID: String, user: String) -> Void {
         print("process do call apply")
-//        let isCouldCall: Bool = UserDefaults.standard.bool(forKey: "isCouldCall")
-//        print(isCouldCall)
-//        if (isCouldCall){
-//            let defaults = UserDefaults.standard
-            //defaults.set(false, forKey: "isCouldCall")
         pCmd.doAcceptCallCmd(pCmd, friendID: friendID, userID: user)
-            
-//        }else{
-//            doCmd.doFull()
-//        }
     }
     
     func doCallOffer(pCmd: ProcessCommand, sdp: String) -> Void {
         print("process do send offer apply")
         pCmd.doCallOfferCmd(pCmd, sdp: sdp)
-//        print("----------------------offer----------------------")
-//        print(sdp)
-//        print("-----------------------------------------------")
     }
     
     func doCallAnswer(pCmd: ProcessCommand, sdp: String) -> Void {
         print("process do send answer apply")
         pCmd.doCallAnswerCmd(pCmd, sdp: sdp)
-//        print("----------------------answer----------------------")
-//        print(sdp)
-//        print("-----------------------------------------------")
     }
     
     func doCallCandidate(pCmd: ProcessCommand, info: String) -> Void {
         print("process do send candidate apply")
         pCmd.doCallCandidateCmd(pCmd, info: info)
-//        print("----------------------candidate----------------------")
-//        print(info)
-//        print("-----------------------------------------------")
     }
 }

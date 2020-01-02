@@ -10,8 +10,6 @@
 
 @interface ProcessCommand()
 
-//@property (strong, nonatomic) CallViewController* callView;
-
 @end
 
 @implementation ProcessCommand
@@ -38,10 +36,6 @@ static ProcessCommand* m_instance = nil;
     NSString* name = [sourceInfo valueForKey:@"name"];
     [applyAddDic setValue:name forKey:src];
     [applyAddDic addEntriesFromDictionary:localApplyAddDic];
-    //NSLog(@"src = %@", src);
-    //NSLog(@"name = %@", name);
-    //NSLog(@"applyAddDic = %@", applyAddDic);
-    //NSLog(@"*******************************************");
     [[NSUserDefaults standardUserDefaults] setObject:applyAddDic forKey:@"applyAddDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -52,20 +46,11 @@ static ProcessCommand* m_instance = nil;
     NSMutableDictionary* friendsDic = [NSMutableDictionary dictionary];
     friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
     localApplyCallDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"applyCallDic"];
-    //NSString* name = [[NSString alloc] init];
     NSString* name = [friendsDic valueForKey:friendID];
-    //NSLog(@"%@", name);
     [applyCallDic setValue:name forKey:friendID];
     [applyCallDic addEntriesFromDictionary:localApplyCallDic];
-    //NSLog(@"*********applyCallDic*******%@", applyCallDic);
     [[NSUserDefaults standardUserDefaults] setObject:applyCallDic forKey:@"applyCallDic"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    //NSLog(@"*********applyCallDic*******");
-//    if (self.delegate) {
-//         [self.delegate join:friendID];
-//    }else{
-//        NSLog(@"not set delegate");
-//    }
 }
 
 - (void) doAcceptCallCmd:(ProcessCommand* )pCmd friendID:(NSString *)friendID userID:(NSString *)user{

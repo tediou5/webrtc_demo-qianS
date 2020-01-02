@@ -31,8 +31,6 @@
 }
 
 - (void)clickLoginBtn:(UIButton*) sender{
-    
-    
     [self.delegate loginAFNet:self.name.text passwd:self.passwd.text];
 }
 

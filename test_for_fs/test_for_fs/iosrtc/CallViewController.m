@@ -52,19 +52,13 @@
 static CGFloat const kLocalVideoViewSize = 120;
 static CGFloat const kLocalVideoViewPadding = 8;
 
-
-
 static NSString *const RTCSTUNServerURL = @"stun:hy03.teclub.cn:3478";
-//static NSString *const RTCSTUNServerURL2 = @"stun:23.21.150.121";
 static NSString *const RTCTURNServerURL = @"turn:turn003.teclub.cn:17711";
 static int logY = 0;
-static int test = 0;
+
 - (instancetype) initWithId:(ProcessCommand* )pCmd friendID:(NSString* )friend userID:(NSString* )user{
-    NSLog(@"===init: %d===", test++);
     _friendID = friend;
     _userID = user;
-//  pCmd.delegate = self;
-    //[self createPeerConnectionFactory];
     pCMD = pCmd;
     [self initView];
     return self;
@@ -72,7 +66,6 @@ static int test = 0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"===viewDidLoad: %d===", test++);
     logY = 0;
     
     [self createPeerConnectionFactory];
@@ -80,26 +73,21 @@ static int test = 0;
     //创建本地流
     [self captureLocalMedia];
     
-    //pCMD = [ProcessCommand getInstance];
     pCMD.delegate = self;
     myState = @"init";
     
 }
 
 -(void)initView{
-    
-    //self.leaveBtn = [[UIButton alloc] init];//button init也crash？？？？问题应该就出在这里了
-    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];//------------------------here
+    self.remoteVideoView = [[RTCEAGLVideoView alloc] initWithFrame:self.view.bounds];
     self.remoteVideoView.delegate = self;//---------------------------or here
     [self.view addSubview:self.remoteVideoView];
     
     self.localVideoView = [[RTCCameraPreviewView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.localVideoView];
     
-    // Aspect fit local video view into a square box.
     CGRect localVideoFrame =
     CGRectMake(0, 0, kLocalVideoViewSize, kLocalVideoViewSize);
-    // Place the view in the bottom right.
     localVideoFrame.origin.x = CGRectGetMaxX(self.view.bounds)
     - localVideoFrame.size.width - kLocalVideoViewPadding;
     localVideoFrame.origin.y = CGRectGetMaxY(self.view.bounds)
@@ -128,31 +116,15 @@ static int test = 0;
     
 }
 
-//-(void)addLogToScreen:(NSString *)format, ...{
-//
-//    va_list paramList;
-//    va_start(paramList,format);
-//    NSString* log = [[NSString alloc]initWithFormat:format arguments:paramList];
-//    va_end(paramList);
-//
-//    CGRect labelRect = CGRectMake(0, logY++ * 20, 500, 200);
-//    UILabel *label = [[UILabel alloc] initWithFrame:labelRect];
-//    label.text = log;
-//    label.textColor = [UIColor redColor];
-//    [self.view addSubview:label];
-//}
 - (void)layoutSubviews {
     CGRect bounds = self.view.bounds;
     if (remoteVideoSize.width > 0 && remoteVideoSize.height > 0) {
-        // Aspect fill remote video into bounds.
         CGRect remoteVideoFrame =
         AVMakeRectWithAspectRatioInsideRect(remoteVideoSize, bounds);
         CGFloat scale = 1;
         if (remoteVideoFrame.size.width > remoteVideoFrame.size.height) {
-            // Scale by height.
             scale = bounds.size.height / remoteVideoFrame.size.height;
         } else {
-            // Scale by width.
             scale = bounds.size.width / remoteVideoFrame.size.width;
         }
         remoteVideoFrame.size.height *= scale;
@@ -165,78 +137,46 @@ static int test = 0;
     }
     
 }
-
-
+//TODO:finish it
 - (void) leaveRoom:(UIButton*) sender {
     
     [self willMoveToParentViewController:nil];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
     
-    //------------------------------------------------------------------------------------------leave room
-//    if (!sigclient) {
-//        sigclient = [SignalClient getInstance];
-//    }
-//
-//    if(![myState isEqualToString:@"leaved"]){
-//        [sigclient leaveRoom: myRoom];
-//    }
-//
     if(peerConnection){
         [peerConnection close];
         peerConnection = nil;
     }
-//
-//    NSLog(@"leave room(%@)", myRoom);
-//    [self addLogToScreen: @"leave room(%@)", myRoom];
 }
 
 #pragma mark - SignalEventNotify
-
+//TODO: finish it
 - (void) leaved:(NSString *)room {
     NSLog(@"leaved room(%@) notify!", room);
-    //[self addLogToScreen: @"leaved room(%@) notify!", room];
 }
 
 - (void) join :(NSString* )friendId{
-    NSLog(@"===join: %d===", test++);
     NSLog(@"joined room(%@) notify!", friendId);
-    //[self addLogToScreen: @"joined room(%@) notify!", self->friendID];
-    
     myState = @"joined";
-    
     //这里应该创建PeerConnection
     if (!peerConnection) {
         peerConnection = [self createPeerConnection];
     }
-    if (!peerConnection) {
-        NSLog(@"===================create peerConnection error===================");
-    }
 }
 
-//-----------------------------------------------------------------------------------------otherjoin here
 - (void) otherjoin:(NSString *)friendID userID:(NSString *)user{
-    //[self addLogToScreen: @"other user(%@) has been called with user(%@) notify!", friendID, userID];
-    //if([myState isEqualToString:@"joined_unbind"]){
-        if (!peerConnection) {
-            peerConnection = [self createPeerConnection];
-        }
-//    }
     if (!peerConnection) {
-        NSLog(@"===================create peerConnection error===================");
+        peerConnection = [self createPeerConnection];
     }
-    
     myState =@"joined_conn";
     //调用call， 进行媒体协商
     [self doStartCall];
-    
 }
 
 - (void) full {
     NSLog(@"the friendID(%@) is buzy!", _friendID);
-    //[self addLogToScreen: @"the friendID(%@) is buzy!", self->friendID];
     myState = @"leaved";
-    
     if(peerConnection) {
         [peerConnection close];
         peerConnection = nil;
@@ -275,7 +215,6 @@ static int test = 0;
 
 - (void) byeFrom:(NSString *)room User:(NSString *)uid {
     NSLog(@"the user(%@) has leaved from room(%@) notify!", uid, room);
-    //[self addLogToScreen: @"the user(%@) has leaved from room(%@) notify!", uid, room];
     myState = @"joined_unbind";
     
     [peerConnection close];
@@ -285,7 +224,6 @@ static int test = 0;
 
 - (void) answer:(NSString *)sdp {
     //NSLog(@"have received a answer message %@", sdp);
-    
     NSString *remoteAnswerSdp = sdp;
     RTCSessionDescription *remoteSdp = [[RTCSessionDescription alloc]
                                         initWithType:RTCSdpTypeAnswer
@@ -294,7 +232,6 @@ static int test = 0;
                        completionHandler:^(NSError * _Nullable error) {
                            if(!error){
                                NSLog(@"Success to set remote Answer SDP");
-                               //NSLog(@"%@", remoteAnswerSdp);
                            }else{
                                NSLog(@"Failure to set remote Answer SDP, err=%@", error);
                            }
@@ -302,7 +239,6 @@ static int test = 0;
 }
 
 - (void) setLocalAnswer: (RTCPeerConnection*)pc withSdp: (RTCSessionDescription*)sdp {
-    
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {
         if(!error){
             NSLog(@"Successed to set local answer!");
@@ -312,18 +248,12 @@ static int test = 0;
     }];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        //send answer sdp
-//        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"answer", sdp.sdp]
-//                                                           forKeys: @[@"type", @"sdp"]];
-        NSLog(@"CallViewController self.friendID = %@", self->_friendID);
         [self.delegate sendAnswerAFNet:sdp.sdp friendId:self->_friendID];
     });
 }
 
 - (void) getAnswer:(RTCPeerConnection*) pc {
-    
     NSLog(@"Success to set remote offer SDP");
-    
     [pc answerForConstraints:[self defaultPeerConnContraints]
            completionHandler:^(RTCSessionDescription * _Nullable sdp, NSError * _Nullable error) {
                if(!error){
@@ -340,7 +270,6 @@ static int test = 0;
 //本地
 - (void) offer:(NSString *)sdp {
     //NSLog(@"have received a offer message %@", sdp);
-    
     NSString* remoteOfferSdp = sdp;
     RTCSessionDescription* remoteSdp = [[RTCSessionDescription alloc]
                                         initWithType:RTCSdpTypeOffer
@@ -348,7 +277,6 @@ static int test = 0;
     if(!peerConnection){
         peerConnection = [self createPeerConnection];
     }
-    
     __weak RTCPeerConnection* weakPeerConnection = peerConnection;
     [weakPeerConnection setRemoteDescription:remoteSdp completionHandler:^(NSError * _Nullable error) {
         if(!error){
@@ -361,13 +289,10 @@ static int test = 0;
 //本地
 - (void) candidate: (NSDictionary *)dict {
     //NSLog(@"have received a message %@", dict);
-    
     NSString* desc = dict[@"sdp"];
     NSString* sdpMLineIndex = dict[@"label"];
     int index = [sdpMLineIndex intValue];
     NSString* sdpMid = dict[@"id"];
-    
-    
     RTCIceCandidate *candidate = [[RTCIceCandidate alloc] initWithSdp:desc
                                                         sdpMLineIndex:index
                                                                sdpMid:sdpMid];
@@ -375,7 +300,6 @@ static int test = 0;
 }
 
 #pragma mark RTCPeerConnectionDelegate
-
 /** Called when the SignalingState changed. */
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
 didChangeSignalingState:(RTCSignalingState)stateChanged{
@@ -466,8 +390,6 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
 }
 
 #pragma mark webrtc
-
-
 - (RTCMediaConstraints*) defaultPeerConnContraints {
     RTCMediaConstraints* mediaConstraints =
     [[RTCMediaConstraints alloc] initWithMandatoryConstraints:@{
@@ -479,16 +401,14 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
 }
 
 
-- (void) captureLocalMedia {//---------------------------------maybe here
-    NSLog(@"===captureLocalMedia: %d===", test++);
+- (void) captureLocalMedia {
     NSDictionary* mandatoryConstraints = @{};
     NSDictionary* optionalConstraints = @{};
     RTCMediaConstraints* constraints =
     [[RTCMediaConstraints alloc] initWithMandatoryConstraints:mandatoryConstraints
-                                          optionalConstraints:optionalConstraints];//-----------------------maybe here
+                                          optionalConstraints:optionalConstraints];
     
-    RTCAudioSource* audioSource = [factory audioSourceWithConstraints: constraints];//---------------------------maybe here
-    //self.audioTrack = [factory audioTrackWithTrackId:@"ARDAMSa0"];
+    RTCAudioSource* audioSource = [factory audioSourceWithConstraints: constraints];
     audioTrack = [factory audioTrackWithSource:audioSource trackId:@"ADRAMSa0"];
     
     NSArray<AVCaptureDevice* >* captureDevices = [RTCCameraVideoCapturer captureDevices];//移动端支持的设备列表
@@ -496,7 +416,6 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     AVCaptureDevice* device;
     if (captureDevices.count != 0){
         device = captureDevices[0];
-    //默认第一个//-----------here,模拟器没有device，所以初始化会出问题
         for (AVCaptureDevice* obj in captureDevices) {
             if (obj.position == position) {
                 device = obj;
@@ -509,7 +428,6 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied)
     {
         NSLog(@"相机访问受限");
-        
         //弹出提醒添加成功
         MBProgressHUD *hud= [[MBProgressHUD alloc] initWithView:self.view];
         [hud setRemoveFromSuperViewOnHide:YES];
@@ -520,7 +438,6 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
         [self.view addSubview:hud];
         [hud showAnimated:YES];
         [hud hideAnimated:YES afterDelay:1.0]; //设置1秒钟后自动消失
-        
         return;
     }
     
@@ -540,19 +457,14 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     }
     
 }
-
 //初始化STUN Server （ICE Server）
 - (RTCIceServer *)defaultSTUNServer {
-    //[iceS initWithURLStrings:RTCTURNServerURL username:@"user00" credential:@"abcD1234"];
     return [[RTCIceServer alloc] initWithURLStrings:@[RTCTURNServerURL, RTCSTUNServerURL] username:@"user00" credential:@"abcD1234" tlsCertPolicy:RTCTlsCertPolicyInsecureNoCheck];
-    //return [[RTCIceServer alloc] initWithURLStrings:@[RTCSTUNServerURL,RTCTURNServerURL]];
 }
 
 - (void) createPeerConnectionFactory {
-    NSLog(@"===createFactory: %d===", test++);
     //设置SSL传输
     [RTCPeerConnectionFactory initialize];
-    
     //如果点对点工厂为空
     if (!factory)
     {
@@ -563,43 +475,30 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
         
         factory = [[RTCPeerConnectionFactory alloc] initWithEncoderFactory: encoderFactory
                                                             decoderFactory: decoderFactory];
-        //factory = [[RTCPeerConnectionFactory alloc] init];
     }
 }
 
 - (RTCPeerConnection *)createPeerConnection {
-    NSLog(@"===createPeerConnection: %d===", test++);
-    //得到ICEServer---------------------------------------------------------------------------------delete it to try to fixed bug
     if (!ICEServers) {
         ICEServers = [NSMutableArray array];
         [ICEServers addObject:[self defaultSTUNServer]];
     }
-    
     //用工厂来创建连接
     RTCConfiguration* configuration = [[RTCConfiguration alloc] init];
-    
-    //---------------------------------------------------------------------------------delete it to try to fixed bug
     [configuration setIceServers:ICEServers];
     
-    //peerConnection = [RTCPeerConnection alloc];
-    
     RTCPeerConnection* conn = [RTCPeerConnection alloc];
-        conn = [self->factory //bug should Fixed返回值总是为nil
-                               peerConnectionWithConfiguration:configuration//configuration//最主要就是ICEServer
-                               constraints:[self defaultPeerConnContraints]//限制，
-                               delegate:self];
-    
-    
+    conn = [self->factory //bug should Fixed返回值总是为nil
+            peerConnectionWithConfiguration:configuration//configuration//最主要就是ICEServer
+            constraints:[self defaultPeerConnContraints]//限制，
+            delegate:self];
     NSArray<NSString*>* mediaStreamLabels = @[@"ARDAMS"];
     //如果没有将Track添加到PeerConnection中，那么在进行媒体协商的时候是不会接收数据的
     [conn addTrack:videoTrack streamIds:mediaStreamLabels];//添加视频信息
     [conn addTrack:audioTrack streamIds:mediaStreamLabels];//添加音频信息
-//    [conn addTrack:videoTrack streamIds:mediaStreamLabels];//添加视频信息
-//    [conn addTrack:audioTrack streamIds:mediaStreamLabels];//添加音频信息
-    
     return conn;
 }
-//----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
+
 - (void)setLocalOffer:(RTCPeerConnection*)pc withSdp:(RTCSessionDescription*) sdp{
     
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {
@@ -612,18 +511,15 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate sendOfferAFNet:sdp.sdp friendId:self->_friendID];
-//        NSDictionary* dict = [[NSDictionary alloc] initWithObjects:@[@"offer", sdp.sdp]
-//                                                           forKeys: @[@"type", @"sdp"]];
-        //[self.AFNet sendOffer:sdp.sdp friendId:self->friendID];
     });
 }
-//-----------------------------------------------------------------------------------------------------setLocalOffer here
+
 - (void) doStartCall {
     NSLog(@"Start Call, Wait ...");
     //[self addLogToScreen: @"Start Call, Wait ..."];
     if (!peerConnection) {
         peerConnection = [self createPeerConnection];
-    }//-------------------------????????
+    }
     
     [peerConnection offerForConstraints:[self defaultPeerConnContraints]
                       completionHandler:^(RTCSessionDescription * _Nullable sdp, NSError * _Nullable error) {

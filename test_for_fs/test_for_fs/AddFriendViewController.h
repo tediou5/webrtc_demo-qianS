@@ -25,7 +25,7 @@
 @property (strong, nonatomic) UITableView* searchTableView;
 @property (strong, nonatomic) UITextField* search;
 
-@property (strong, nonatomic) NSArray *friendsArr;
+@property (strong, nonatomic) NSMutableArray *friendsArr;
 @property (strong, nonatomic) NSMutableArray* IDsArr;
 @property (strong, nonatomic) NSMutableDictionary *friendsDic;
 @property (weak, nonatomic) id<AddFriendDelegate> delegate;

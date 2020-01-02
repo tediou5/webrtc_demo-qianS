@@ -36,15 +36,12 @@ class OpenStomp: NSObject, StompClientLibDelegate{
             socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
             print("is connected")
        }else{
-            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
-            //registerSocket()
+            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
         }
-        //print("i can do something over here")
     }
     
     @objc public func sendECHO() -> Void{
         if (socketClient.isConnected()){
-            //print("send echo!")
             print(StWsMessage.Command.ECHO)
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: "ECHO Message", from: id, to: "").toString()
@@ -59,36 +56,30 @@ class OpenStomp: NSObject, StompClientLibDelegate{
     @objc public func doMakeCall(friendId: String, name: String) -> Void{
         let des = "/app/user/"
         let toDestination = des + friendId
-        //let pMsg = ProcessMessage()
         print(toDestination)
         if (socketClient.isConnected()){
-            print("+++++++++++++++++++++++++++++++++++webrtc send do call!")
+            print("webrtc do call!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.MAKE_CALL, type: StWsMessage.stType.Request, info: name, from: id, to: friendId).toString()
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
         }else {
             print("do call Try To Connect Websocket!")
-            //socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
-            //self.registerSocket()
-            doMakeCall(friendId: friendId, name: name)
+            self.registerSocket()
         }
     }
     
     @objc public func doAcceptCall(friendId: String) -> Void{
         let des = "/app/user/"
         let toDestination = des + friendId
-        //let pMsg = ProcessMessage()
         print(toDestination)
         if (socketClient.isConnected()){
-            print("+++++++++++++++++++++++++++++++++++webrtc Accept call!")
+            print("webrtc Accept call!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ACCEPT_CALL, type: StWsMessage.stType.Request, info: "", from: id, to: friendId).toString()
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
         }else {
             print("do call Try To Connect Websocket!")
-            //socketClient.reconnect(request: NSURLRequest(url: url as URL) , delegate: self as StompClientLibDelegate)
-            //self.registerSocket()
-            doAcceptCall(friendId: friendId)
+            self.registerSocket()
         }
     }
     
@@ -96,7 +87,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         let des = "/app/user/"
         let toDestination = des + friendId
         if (socketClient.isConnected()){
-            print("webrtc send send offer!")
+            print("webrtc send offer!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.CALL_OFFER, type: StWsMessage.stType.Request, info: sdp, from: id, to: friendId).toString()
             socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
@@ -126,7 +117,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         let des = "/app/user/"
         let toDestination = des + friendId
         if (socketClient.isConnected()){
-            print("webrtc send send candidate!")
+            print("webrtc send candidate!")
             let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
             do {
                 let theJSONData = try JSONSerialization.data(withJSONObject: sdp, options: JSONSerialization.WritingOptions())
@@ -167,12 +158,6 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         print("Socket is Connected : \(topic)")
         socketClient.subscribe(destination: topic)
         print(url)
-//        if (!socketClient.isConnected()){
-//            socketClient.reconnect(request: NSURLRequest(url: url as! URL) , delegate: self as StompClientLibDelegate)
-//        }
-//        else {
-//            print("is connected")
-//        }
     }
     
     @objc public func DisConnect() -> Void{

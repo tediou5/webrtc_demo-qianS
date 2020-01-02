@@ -78,7 +78,6 @@
 - (void)testForGetParentControll{
     NSLog(@"i can do it!!!");
 }
-
 /** 点击空白处回收键盘 */
 - (void)touchesBegan:(NSSet<UITouch *> *)touches   withEvent:(UIEvent *)event
 {
@@ -91,7 +90,6 @@
         NSLog(@"is first");
         NSMutableDictionary* applyAddDic = [NSMutableDictionary dictionary];
         NSMutableDictionary* applyCallDic = [NSMutableDictionary dictionary];
-        
         [[NSUserDefaults standardUserDefaults] setObject:@"user01" forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:@"abcd1234" forKey:@"passwd"];
         [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"isFirstRun"];
@@ -114,7 +112,6 @@
     
     [self addChildViewController:self.signInView];
     [self.signInView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.signInView.view];
 }
 
@@ -127,7 +124,6 @@
     
     [self addChildViewController:self.signOutView];
     [self.signOutView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.signOutView.view];
 }
 
@@ -140,7 +136,6 @@
     
     [self addChildViewController:self.loginView];
     [self.loginView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.loginView.view];
 }
 
@@ -176,7 +171,6 @@
     
     [self addChildViewController:self.addFriendView];
     [self.addFriendView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.addFriendView.view];
 }
 
@@ -189,7 +183,6 @@
     
     [self addChildViewController:self.applyAddView];
     [self.applyAddView didMoveToParentViewController:self];
-    
     [self.view addSubview:self.applyAddView.view];
 }
 
@@ -409,7 +402,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:self.applyAddView.applyAddDic forKey:@"applyAddDic"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            self.applyAddView.applyAddArr = self.applyAddView.applyAddDic.allValues;
+            self.applyAddView.applyAddArr = [self.applyAddView.applyAddDic.allValues mutableCopy];
             [self.applyAddView.ApplyAddTableView reloadData];
             
             [self.applyAddView showError:@"好友申请已处理！"];
@@ -434,8 +427,8 @@
             self.friendsListView.friendsDic = [[NSUserDefaults standardUserDefaults] valueForKey:@"friends"];
             NSLog(@"friends = %@", self.friendsListView.friendsDic);
             if ([self.friendsListView.friendsDic isKindOfClass:[NSDictionary class]] && self.friendsListView.friendsDic.count != 0) {
-                self.friendsListView.friendsArr = self.friendsListView.friendsDic.allValues;
-                self.friendsListView.IDsArr = self.friendsListView.friendsDic.allKeys;
+                self.friendsListView.friendsArr = [self.friendsListView.friendsDic.allValues mutableCopy];
+                self.friendsListView.IDsArr = [self.friendsListView.friendsDic.allKeys mutableCopy];
                 NSLog(@"refresh %@", self.friendsListView.friendsArr);
                 [self.friendsListView.friendsTableView reloadData];
             }else{
@@ -474,15 +467,15 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
         bool isSuccess = [self.AFNet getIsSuccess];
         if (isSuccess == YES) {
-            self.addFriendView.friendsArr = self.addFriendView.friendsDic.allValues;
-            self.addFriendView.IDsArr = self.addFriendView.friendsDic.allKeys;
+            self.addFriendView.friendsArr = [self.addFriendView.friendsDic.allValues mutableCopy];
+            self.addFriendView.IDsArr = [self.addFriendView.friendsDic.allKeys mutableCopy];
             [self.addFriendView.searchTableView reloadData];
         }else{
             [self.addFriendView showError:@"搜索失败，请检查网络并重新搜索！"];
         }
     });
     
-    self.addFriendView.friendsArr = self.addFriendView.friendsDic.allValues;
+    self.addFriendView.friendsArr = [self.addFriendView.friendsDic.allValues mutableCopy];
     [self.addFriendView.searchTableView reloadData];
 }
 

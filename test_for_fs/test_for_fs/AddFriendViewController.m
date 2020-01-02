@@ -63,7 +63,6 @@
     NSNumber* cid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
     NSString* tid = self.IDsArr[indexPath.row];
     NSString* sid = [NSString stringWithFormat:@"%@", cid];
-    //NSString* tid = [NSString stringWithFormat:@"%@", ttid];
     
     UIAlertController *alertSheet = [UIAlertController alertControllerWithTitle:name message:@"是否发送好友申请" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* sendAction = [UIAlertAction actionWithTitle:@"Send" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){

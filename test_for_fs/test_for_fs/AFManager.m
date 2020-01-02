@@ -78,7 +78,6 @@ OpenStomp* stomp;
 }
 
 - (void) sendAnswer: (NSString* )sdp friendId:(NSString* )friendId{
-    NSLog(@"=====arriver AFManager: sendAnwser!=====");
     [stomp sendAnswerWithSdp:sdp friendId:friendId];
 }
 
@@ -107,35 +106,23 @@ OpenStomp* stomp;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success for login");
-
         NSMutableDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        
-        NSLog(@"%@", resultDic);
-        NSLog(@"token = %@", [resultDic valueForKey:@"token"]);
-        NSLog(@"name = %@", [[resultDic valueForKey:@"client"] valueForKey:@"name"]);
-        NSLog(@"client.id = %@", [[[resultDic valueForKey:@"client"] valueForKey:@"id"] valueForKey:@"id"]);
-
         NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
-                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
                 NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
                 NSString* ID = Id.stringValue;
                 [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
             }
-            NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
-            //[[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }
         
         [[NSUserDefaults standardUserDefaults] setObject:[resultDic valueForKey:@"token"] forKey:@"token"];
         [[NSUserDefaults standardUserDefaults] setObject:[[resultDic valueForKey:@"client"] valueForKey:@"name"] forKey:@"name"];
         [[NSUserDefaults standardUserDefaults] setObject:[[[resultDic valueForKey:@"client"] valueForKey:@"id"] valueForKey:@"id"] forKey:@"id"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        //[stomp registerSocket];
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -164,7 +151,6 @@ OpenStomp* stomp;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success");
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@", resultDic);
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -178,9 +164,9 @@ OpenStomp* stomp;
 - (void) signIn: (NSString* )phoneNum authCode:(NSString* )authCode group:(dispatch_group_t)group{
     NSString *Url = [self.baseUrl stringByAppendingString: self.signInApi];
     NSLog(@"start sign in");
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-       
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
 
@@ -192,8 +178,7 @@ OpenStomp* stomp;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success");
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@", resultDic);
+        //NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -248,17 +233,13 @@ OpenStomp* stomp;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success");
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-         
         NSArray *friends = [resultDic valueForKey:@"contacts"];
-        //NSLog(@"------------------------friends---------------------");
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
             for (NSDictionary *friend in friends){
                 NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
                 NSString* ID = Id.stringValue;
-                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
                 [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
             }
-            NSLog(@"friends = %@", friendsDic);
             [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
         }else{
             NSLog(@"friends list is emmpty");
@@ -272,50 +253,6 @@ OpenStomp* stomp;
         NSLog(@"%@", error);
         self.isSuccess = NO;
         dispatch_group_leave(group);
-    }];
-}
-
-- (void) getContacts: (NSString* )uid{
-    NSLog(@"start get Contacts");
-    NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
-    NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
-    NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    [manager.requestSerializer setValue:uid forHTTPHeaderField:@"client-id"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
-
-    [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
-        NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-         
-        NSArray *friends = [resultDic valueForKey:@"contacts"];
-        //NSLog(@"------------------------friends---------------------");
-        if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
-            for (NSDictionary *friend in friends){
-                NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
-                NSString* ID = Id.stringValue;
-                //[friendsDic setObject:[[friend valueForKey:@"id"] valueForKey:@"id"] forKey:[friend valueForKey:@"name"]];
-                [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
-            }
-            //NSLog(@"friends = %@", friendsDic);
-            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
-        }else{
-            NSLog(@"friends list is emmpty");
-            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
-        }
-        
-        self.isSuccess = YES;
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"failure");
-        NSLog(@"%@", error);
-        self.isSuccess = NO;
     }];
 }
 
@@ -341,10 +278,8 @@ OpenStomp* stomp;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success for searching");
-        
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSMutableArray* resultArr = [resultDic valueForKey:@"contacts"];
-
         for (NSMutableDictionary *friendDic in resultArr){
             NSNumber* Id = [[friendDic valueForKey:@"id"] valueForKey:@"id"];
             NSString* ID = Id.stringValue;
@@ -378,7 +313,6 @@ OpenStomp* stomp;
     [parametersDic setObject:sid forKey:@"sid"];
     [parametersDic setObject:tid forKey:@"tid"];
     [parametersDic setObject:@"0" forKey:@"type"];
-    NSLog(@"%@", parametersDic);
         
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -411,7 +345,6 @@ OpenStomp* stomp;
     [parametersDic setObject:sid forKey:@"sid"];
     [parametersDic setObject:tid forKey:@"tid"];
     [parametersDic setObject:type forKey:@"type"];
-    NSLog(@"%@", parametersDic);
 
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -442,8 +375,7 @@ OpenStomp* stomp;
     
     [parametersDic setObject:uid forKey:@"uid"];
     [parametersDic setObject:cid forKey:@"cid"];
-    NSLog(@"%@", parametersDic);
-
+    
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

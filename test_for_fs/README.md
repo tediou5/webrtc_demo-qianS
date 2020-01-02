@@ -38,6 +38,7 @@
 7. 开始媒体协商流程
 ## RTC注意事项
 1. createPeerConnection时如果设置不对，会返回nil。注意IceServer的设置，如果TURN服务器有密码请在初始化时将账户密码也写入。有可能会因为STUN服务器没有配置证书而不能正确初始化peerConnection，可以尝试设置在初始化IceServer时`tlsCertPolicy:RTCTlsCertPolicyInsecureNoCheck`
+2. StWsMessage报文中的ssid是所发送报文的序列号，用来在发送Request后返回Allow或者Deny时查找报文的
 ## TODO
 1. 每次收到一个Request时应该回复一个Allow或者Deny
 2. 实现信令中的leave和full
