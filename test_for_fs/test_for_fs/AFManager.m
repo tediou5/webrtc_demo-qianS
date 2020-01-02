@@ -36,7 +36,7 @@ OpenStomp* stomp;
     stomp = [[OpenStomp alloc] init];
     
     if(self){
-        //self.baseUrl = @"ws://localhost:9001";
+        //self.baseUrl = @"http://localhost:9001";
         self.baseUrl = @"http://192.168.11.123:9001";
         self.applyAddApi = @"/api/v1/rtc/contact/applyAdd";
         self.authcodeApi = @"/api/v1/rtc/common/authcode/";

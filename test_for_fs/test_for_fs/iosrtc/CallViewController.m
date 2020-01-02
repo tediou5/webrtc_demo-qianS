@@ -273,7 +273,6 @@ static int test = 0;
     }
 }
 
-//------------------------------TODO-------------------------------------update byeFrom later
 - (void) byeFrom:(NSString *)room User:(NSString *)uid {
     NSLog(@"the user(%@) has leaved from room(%@) notify!", uid, room);
     //[self addLogToScreen: @"the user(%@) has leaved from room(%@) notify!", uid, room];
@@ -301,7 +300,7 @@ static int test = 0;
                            }
                        }];
 }
-//----------------------------------------------------------------------------------------------------------------I need change this(send answer)
+
 - (void) setLocalAnswer: (RTCPeerConnection*)pc withSdp: (RTCSessionDescription*)sdp {
     
     [pc setLocalDescription:sdp completionHandler:^(NSError * _Nullable error) {
@@ -361,7 +360,6 @@ static int test = 0;
 }
 //本地
 - (void) candidate: (NSDictionary *)dict {
-    NSLog(@"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-add Ice Candidate=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-");
     //NSLog(@"have received a message %@", dict);
     
     NSString* desc = dict[@"sdp"];
@@ -375,7 +373,6 @@ static int test = 0;
                                                                sdpMid:sdpMid];
     [peerConnection addIceCandidate:candidate];
 }
-//----------------------------------------------------------------------------------------------------------------I need change this(connected to room)
 
 #pragma mark RTCPeerConnectionDelegate
 
@@ -415,7 +412,6 @@ didChangeIceGatheringState:(RTCIceGatheringState)newState{
 }
 
 /** New ice candidate has been found. */
-//----------------------------------------------------------------------------------------------------------------I need change this(New ice candidate has been found)
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
 didGenerateIceCandidate:(RTCIceCandidate *)candidate{
     NSLog(@"%s",__func__);
