@@ -89,7 +89,7 @@ OpenStomp* stomp;
     NSString *Url = [self.baseUrl stringByAppendingString: self.loginApi];
     NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
     
-    NSLog(@"start Login!");
+    //NSLog(@"start Login!");
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -105,7 +105,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for login");
+        //NSLog(@"success for login");
         NSMutableDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSArray *friends = [[resultDic valueForKey:@"client"] valueForKey:@"friends"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
@@ -149,7 +149,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
+        //NSLog(@"success");
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         self.isSuccess = YES;
         dispatch_group_leave(group);
@@ -163,7 +163,7 @@ OpenStomp* stomp;
 
 - (void) signIn: (NSString* )phoneNum authCode:(NSString* )authCode group:(dispatch_group_t)group{
     NSString *Url = [self.baseUrl stringByAppendingString: self.signInApi];
-    NSLog(@"start sign in");
+    //NSLog(@"start sign in");
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -177,7 +177,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
+        //NSLog(@"success");
         //NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         self.isSuccess = YES;
         dispatch_group_leave(group);
@@ -190,7 +190,7 @@ OpenStomp* stomp;
 }
 
 - (void) getAuthCode: (NSString* )phoneNum group:(dispatch_group_t)group{
-    NSLog(@"start get AuthCode");
+    //NSLog(@"start get AuthCode");
     NSString* phoneAuth = [self.authcodeApi stringByAppendingString: phoneNum];
     NSString *Url = [self.baseUrl stringByAppendingString: phoneAuth];
     
@@ -203,7 +203,7 @@ OpenStomp* stomp;
     [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
+        //NSLog(@"success");
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -215,7 +215,7 @@ OpenStomp* stomp;
 }
 
 - (void) getContacts: (NSString* )uid group:(dispatch_group_t)group{
-    NSLog(@"start get Contacts");
+    //NSLog(@"start get Contacts");
     NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
     NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
     NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
@@ -231,7 +231,7 @@ OpenStomp* stomp;
     [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success");
+        //NSLog(@"success");
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSArray *friends = [resultDic valueForKey:@"contacts"];
         if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
@@ -256,8 +256,48 @@ OpenStomp* stomp;
     }];
 }
 
+- (void) getContacts: (NSString* )uid{
+    //NSLog(@"start get Contacts");
+    NSString* apiWithId = [self.contactsApi stringByAppendingString: uid];
+    NSString *Url = [self.baseUrl stringByAppendingString: apiWithId];
+    NSMutableDictionary *friendsDic = [NSMutableDictionary dictionary];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    [manager.requestSerializer setValue:uid forHTTPHeaderField:@"client-id"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"] forHTTPHeaderField:@"token"];
+
+    [manager GET:Url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //NSLog(@"success");
+        NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+        NSArray *friends = [resultDic valueForKey:@"contacts"];
+        if ([friends isKindOfClass:[NSArray class]] && friends.count != 0){
+            for (NSDictionary *friend in friends){
+                NSNumber* Id = [[friend valueForKey:@"id"] valueForKey:@"id"];
+                NSString* ID = Id.stringValue;
+                [friendsDic setObject:[friend valueForKey:@"name"] forKey:ID];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }else{
+            NSLog(@"friends list is emmpty");
+            [[NSUserDefaults standardUserDefaults] setObject:friendsDic forKey:@"friends"];
+        }
+        
+        self.isSuccess = YES;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure");
+        NSLog(@"%@", error);
+        self.isSuccess = NO;
+    }];
+}
+
 - (NSMutableDictionary* ) search:(NSString* )sid keyword:(NSString* )keyword group:(dispatch_group_t)group{
-    NSLog(@"start search!");
+    //NSLog(@"start search!");
     NSString *Url = [self.baseUrl stringByAppendingString: self.searchApi];
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     NSMutableDictionary* friendsDic = [NSMutableDictionary dictionary];
@@ -277,7 +317,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for searching");
+        //NSLog(@"success for searching");
         NSMutableDictionary* resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         NSMutableArray* resultArr = [resultDic valueForKey:@"contacts"];
         for (NSMutableDictionary *friendDic in resultArr){
@@ -297,7 +337,7 @@ OpenStomp* stomp;
 }
 
 - (void) applyAddDevice: (NSString* )cid sid:(NSString* )sid tid:(NSString* )tid group:(dispatch_group_t)group{
-    NSLog(@"start apply add device!");
+    //NSLog(@"start apply add device!");
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     NSString *Url = [self.baseUrl stringByAppendingString: self.applyAddApi];
     
@@ -317,7 +357,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for applyAdd");
+        //NSLog(@"success for applyAdd");
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -329,7 +369,7 @@ OpenStomp* stomp;
 }
 
 - (void) grantAddDevice: (NSString* )uid sid:(NSString* )sid tid:(NSString* )tid type:(NSString* )type group:(dispatch_group_t)group{
-    NSLog(@"start grant add device!");
+    //NSLog(@"start grant add device!");
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     NSString *Url = [self.baseUrl stringByAppendingString: self.grantAddApi];
     
@@ -349,7 +389,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for grantAdd");
+        //NSLog(@"success for grantAdd");
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -361,7 +401,7 @@ OpenStomp* stomp;
 }
 
 - (void) deleteDevice: (NSString* )uid cid:(NSString* )cid group:(dispatch_group_t)group{
-    NSLog(@"start delete device!");
+    //NSLog(@"start delete device!");
     NSMutableDictionary *parametersDic = [NSMutableDictionary dictionary];
     NSString *Url = [self.baseUrl stringByAppendingString: self.deleteDeviceApi];
     
@@ -379,7 +419,7 @@ OpenStomp* stomp;
     [manager POST:Url parameters:parametersDic progress:^(NSProgress * _Nonnull uploadProgress) {
             
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"success for Delete Devide");
+        //NSLog(@"success for Delete Devide");
         self.isSuccess = YES;
         dispatch_group_leave(group);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

@@ -11,13 +11,15 @@ import Foundation
 class ProcessMessage: NSObject {
     let id = String(UserDefaults.standard.integer(forKey: "id"))
     
-    func getMsg(pCmd: ProcessCommand, jsonMsg: NSDictionary){
+    func receiveMsg(stomp: OpenStomp, pCmd: ProcessCommand, jsonMsg: NSDictionary){
         
+        let ssid: Int = jsonMsg["ssid"] as! Int
         let cmd: Int = jsonMsg["cmd"] as! Int
-        //let command: String = jsonMsg["command"] as! String
+        //let command: StWsMessage.Command = jsonMsg["command"] as! StWsMessage.Command
         let info: String = jsonMsg["info"] as! String
-        let friendID: Int = jsonMsg["src"] as! Int
-        let friendId: String = String(friendID)
+        let friendId: String = String(jsonMsg["src"] as! Int)
+        //let friendId: String = String(friendID)
+        //let stomp: OpenStomp
         
         switch cmd {//should add type.Allow cmd
             case StWsMessage.Command.SEND_DATA.rawValue:
@@ -29,6 +31,10 @@ class ProcessMessage: NSObject {
                 break
             case StWsMessage.Command.MAKE_CALL.rawValue:
                 print("get MAKE_CALL command")
+                print("============================AMKE_CALL============================")
+                print(jsonMsg)
+                print("=================================================================")
+                stomp.sendAllow(ssid: ssid, cmd: StWsMessage.Command.MAKE_CALL, info: info, friendId: friendId)
                 doMakeCall(pCmd: pCmd, friendID: friendId)
                 break
             case StWsMessage.Command.ACCEPT_CALL.rawValue:

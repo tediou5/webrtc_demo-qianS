@@ -40,6 +40,23 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         }
     }
     
+    public func sendAllow(ssid: Int, cmd: StWsMessage.Command, info: String, friendId: String) -> Void{
+        let des = "/app/user/"
+        let toDestination = des + friendId
+        if (socketClient.isConnected()){
+            let stompHeaders:[String: String] = ["content-type": "application/json", "auth": token]
+            let mess = StWsMessage(ssid: ssid, cmd: cmd, type: StWsMessage.stType.Allow, info: info, from: id, to: friendId).toString()
+            print("======------======")
+            print(mess)
+            //let mess = StWsMessage(ssid: 0, cmd: StWsMessage.Command.ECHO, type: StWsMessage.stType.Request, info: info, from: id, to: "").toString()
+            socketClient.sendMessage(message: mess, toDestination: toDestination, withHeaders: stompHeaders, withReceipt: nil)
+        }
+        else {
+            print("Try To Connect Websocket!")
+            self.registerSocket()
+        }
+    }
+    
     @objc public func sendECHO() -> Void{
         if (socketClient.isConnected()){
             print(StWsMessage.Command.ECHO)
@@ -185,7 +202,7 @@ class OpenStomp: NSObject, StompClientLibDelegate{
         let jsonMsg = jsonBody as? NSDictionary
         //print(jsonMsg)
         //print("---------------------------------------------------------")
-        pMsg.getMsg(pCmd: pCmd!, jsonMsg: jsonMsg!)
+        pMsg.receiveMsg(stomp: self, pCmd: pCmd!, jsonMsg: jsonMsg!)
     }
     
     func stompClient(client: StompClientLib!, didReceiveMessageWithJSONBody jsonBody: AnyObject?, akaStringBody stringBody: String?, withHeader header: [String : String]?, withDestination destination: String) {

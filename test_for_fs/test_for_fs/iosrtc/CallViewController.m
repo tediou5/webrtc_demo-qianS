@@ -15,7 +15,6 @@
 //    NSString* friendID;
     
     NSString* myState;
-    
     //AFManager* AFNet;
     ProcessCommand* pCMD;
     

@@ -11,6 +11,10 @@
 		B60D947B23BDCA420091E01D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B60D947A23BDCA420091E01D /* SceneDelegate.m */; };
 		B620604823A8EF77006A6956 /* AFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B620604723A8EF77006A6956 /* AFManager.m */; };
 		B620604B23AC73EE006A6956 /* GrantAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */; };
+		B64B7F4123BF41690064E3BD /* StCallInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B7F4023BF41690064E3BD /* StCallInfo.swift */; };
+		B64B7F4323BF5F250064E3BD /* StClientID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B7F4223BF5F250064E3BD /* StClientID.swift */; };
+		B64B7F4523BF606C0064E3BD /* StDevInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B7F4423BF606C0064E3BD /* StDevInfo.swift */; };
+		B64B7F4B23BF76A30064E3BD /* StAppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B7F4A23BF76A30064E3BD /* StAppState.swift */; };
 		B6568122238E0637005F85FF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6568121238E0637005F85FF /* LoginViewController.m */; };
 		B65F2689238FD76600934887 /* OpenStomp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65F2688238FD76600934887 /* OpenStomp.swift */; };
 		B68B3F32238D288900C00A64 /* SignOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B68B3F31238D288900C00A64 /* SignOutViewController.m */; };
@@ -59,6 +63,10 @@
 		B620604723A8EF77006A6956 /* AFManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFManager.m; sourceTree = "<group>"; };
 		B620604923AC73DF006A6956 /* GrantAddFriendsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrantAddFriendsViewController.h; sourceTree = "<group>"; };
 		B620604A23AC73EE006A6956 /* GrantAddFriendsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrantAddFriendsViewController.m; sourceTree = "<group>"; };
+		B64B7F4023BF41690064E3BD /* StCallInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StCallInfo.swift; sourceTree = "<group>"; };
+		B64B7F4223BF5F250064E3BD /* StClientID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StClientID.swift; sourceTree = "<group>"; };
+		B64B7F4423BF606C0064E3BD /* StDevInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StDevInfo.swift; sourceTree = "<group>"; };
+		B64B7F4A23BF76A30064E3BD /* StAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StAppState.swift; sourceTree = "<group>"; };
 		B6568121238E0637005F85FF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B6568123238E0642005F85FF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B65F2688238FD76600934887 /* OpenStomp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenStomp.swift; sourceTree = "<group>"; };
@@ -161,10 +169,14 @@
 			children = (
 				B69771F1239F6ABB00B45793 /* iosrtc */,
 				B697720023A078B600B45793 /* StWsMessage.swift */,
+				B64B7F4223BF5F250064E3BD /* StClientID.swift */,
+				B64B7F4423BF606C0064E3BD /* StDevInfo.swift */,
+				B64B7F4A23BF76A30064E3BD /* StAppState.swift */,
+				B64B7F4023BF41690064E3BD /* StCallInfo.swift */,
 				B65F2688238FD76600934887 /* OpenStomp.swift */,
+				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B620604623A8EF5B006A6956 /* AFManager.h */,
 				B620604723A8EF77006A6956 /* AFManager.m */,
-				B6D908CD23A7D05B002630E7 /* ProcessMessage.swift */,
 				B6FB9B0323B1A56900997DD4 /* ProcessCommand.h */,
 				B6FB9B0423B1A57E00997DD4 /* ProcessCommand.m */,
 				B6FA259A238CC7C100D16967 /* AppDelegate.h */,
@@ -405,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B64B7F4B23BF76A30064E3BD /* StAppState.swift in Sources */,
 				B69771FE239F6B6D00B45793 /* ApplyCallViewController.m in Sources */,
 				B60D947B23BDCA420091E01D /* SceneDelegate.m in Sources */,
 				B6FB9B0823B1FCCB00997DD4 /* FriendsListViewController.m in Sources */,
@@ -413,6 +426,8 @@
 				B6568122238E0637005F85FF /* LoginViewController.m in Sources */,
 				B69771FD239F6B6D00B45793 /* CallViewController.m in Sources */,
 				B620604823A8EF77006A6956 /* AFManager.m in Sources */,
+				B64B7F4523BF606C0064E3BD /* StDevInfo.swift in Sources */,
+				B64B7F4323BF5F250064E3BD /* StClientID.swift in Sources */,
 				B6FA25D1238D197000D16967 /* SignInViewController.m in Sources */,
 				B6FA25A2238CC7C100D16967 /* ViewController.m in Sources */,
 				B697720423A0F00300B45793 /* AddFriendViewController.m in Sources */,
@@ -422,6 +437,7 @@
 				B6D908CE23A7D05B002630E7 /* ProcessMessage.swift in Sources */,
 				B620604B23AC73EE006A6956 /* GrantAddFriendsViewController.m in Sources */,
 				B65F2689238FD76600934887 /* OpenStomp.swift in Sources */,
+				B64B7F4123BF41690064E3BD /* StCallInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

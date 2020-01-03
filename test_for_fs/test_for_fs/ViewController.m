@@ -514,14 +514,12 @@
 }
 
 - (void)threadECHO {
-    
     while (1) {
-        [NSThread sleepForTimeInterval:3];
         [self.AFNet echo];
-        //NSLog(@"i can do a loop over here");
         NSNumber* uuid = [[NSUserDefaults standardUserDefaults] valueForKey:@"id"];
         NSString* uid = [NSString stringWithFormat:@"%@", uuid];
         [self.AFNet getContacts:uid];
+        [NSThread sleepForTimeInterval:5];
     }
 }
 @end
