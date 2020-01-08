@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '12.0'
+
+use_frameworks!
+target 'StTestRest' do
+  ##pod 'AFNetworking', '~> 3.0'
+  pod 'Alamofire', '~> 4.0' 
+  pod 'HandyJSON', '~> 5.0.1'
+  pod 'GoogleWebRTC'
+  pod "StompClientLib"
+  pod 'SocketRocket'
+  pod'Socket.IO-Client-Swift', '~>13.3.0'
+end

@@ -1,0 +1,41 @@
+PODS:
+  - Alamofire (4.9.1)
+  - GoogleWebRTC (1.1.29024)
+  - HandyJSON (5.0.1)
+  - Socket.IO-Client-Swift (13.3.1):
+    - Starscream (~> 3.0.2)
+  - SocketRocket (0.5.1)
+  - Starscream (3.0.6)
+  - StompClientLib (1.3.7):
+    - SocketRocket
+
+DEPENDENCIES:
+  - Alamofire (~> 4.0)
+  - GoogleWebRTC
+  - HandyJSON (~> 5.0.1)
+  - Socket.IO-Client-Swift (~> 13.3.0)
+  - SocketRocket
+  - StompClientLib
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - GoogleWebRTC
+    - HandyJSON
+    - Socket.IO-Client-Swift
+    - SocketRocket
+    - Starscream
+    - StompClientLib
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  GoogleWebRTC: 3d459ebbdc9461f94442e7bf03e5571238f390f7
+  HandyJSON: d45b8415c501e3affc59ca9762c1197ff0feb646
+  Socket.IO-Client-Swift: 79f8f85fa44881838175a20f9bd2c32bef2c9d37
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  StompClientLib: c9361dd2f8baa05998f61a79d4c5b5be0d93744b
+
+PODFILE CHECKSUM: d316c05f933b96c9f37c747839e986242e72edf7
+
+COCOAPODS: 1.8.4
