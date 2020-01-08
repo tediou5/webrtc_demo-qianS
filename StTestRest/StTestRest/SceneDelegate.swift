@@ -1,9 +1,9 @@
 //
 //  SceneDelegate.swift
-//  LoginTest
+//  StTestRest
 //
-//  Created by qians on 2020/1/6.
-//  Copyright © 2020 qians. All rights reserved.
+//  Created by Guilin Cao on 2020/1/6.
+//  Copyright © 2020 Guilin Cao. All rights reserved.
 //
 
 import UIKit

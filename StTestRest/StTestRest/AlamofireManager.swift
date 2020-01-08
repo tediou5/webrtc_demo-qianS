@@ -40,23 +40,9 @@ class AFManager: NSObject {
             let theJSONData = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions())
             request.httpBody = theJSONData
             Alamofire.request(request).responseString{(response) in
-                switch response.result{
-                case .success:
-                    if let loginResponse = StLoginResponse.deserialize(from: response.result.value){
-                        if  (loginResponse.token != nil) {
-                            ProcessInfoTools.saveToken(token: loginResponse.token)
-                            ProcessInfoTools.saveFriendsFromArr(friends: loginResponse.client.friends)
-                            self.isSuccess = true
-                        }else{
-                            self.isSuccess = false
-                        }
-                    }
-                    break
-                    
-                case .failure(let error):
-                    print(error)
-                    self.isSuccess = false
-                    break
+                if let loginResponse = StLoginResponse.deserialize(from: response.result.value){
+                    ProcessInfoTools.saveToken(token: loginResponse.token)
+                    ProcessInfoTools.saveFriendsFromArr(friends: loginResponse.client.friends)
                 }
                 group.leave()
             }

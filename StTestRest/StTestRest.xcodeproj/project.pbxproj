@@ -7,270 +7,182 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6AB261A23C55DAF00A2A529 /* StWsClinet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261123C55DAE00A2A529 /* StWsClinet.swift */; };
-		B6AB261B23C55DAF00A2A529 /* StLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261223C55DAE00A2A529 /* StLoginResponse.swift */; };
-		B6AB261C23C55DAF00A2A529 /* StAppFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261323C55DAE00A2A529 /* StAppFriend.swift */; };
-		B6AB261E23C55DAF00A2A529 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261523C55DAE00A2A529 /* AlamofireManager.swift */; };
-		B6AB261F23C55DAF00A2A529 /* StClientID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261623C55DAF00A2A529 /* StClientID.swift */; };
-		B6AB262023C55DAF00A2A529 /* ProcessInfoTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261723C55DAF00A2A529 /* ProcessInfoTools.swift */; };
-		B6AB262123C55DAF00A2A529 /* StAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261823C55DAF00A2A529 /* StAppClient.swift */; };
-		B6AB262223C55DAF00A2A529 /* StWsMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB261923C55DAF00A2A529 /* StWsMessage.swift */; };
-		B6AB262423C5695200A2A529 /* TagBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB262323C5695200A2A529 /* TagBarViewController.swift */; };
-		B6AB262823C56E9D00A2A529 /* ProcessMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB262723C56E9D00A2A529 /* ProcessMessage.swift */; };
-		B6CB553623C2E18300CDB3EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB553523C2E18300CDB3EC /* AppDelegate.swift */; };
-		B6CB553823C2E18300CDB3EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB553723C2E18300CDB3EC /* SceneDelegate.swift */; };
-		B6CB553A23C2E18300CDB3EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB553923C2E18300CDB3EC /* ViewController.swift */; };
-		B6CB553D23C2E18300CDB3EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6CB553B23C2E18300CDB3EC /* Main.storyboard */; };
-		B6CB553F23C2E18400CDB3EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CB553E23C2E18400CDB3EC /* Assets.xcassets */; };
-		B6CB554223C2E18400CDB3EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6CB554023C2E18400CDB3EC /* LaunchScreen.storyboard */; };
-		B6CB554D23C2E18400CDB3EC /* LoginTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB554C23C2E18400CDB3EC /* LoginTestTests.swift */; };
-		B6CB555823C2E18400CDB3EC /* LoginTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB555723C2E18400CDB3EC /* LoginTestUITests.swift */; };
-		BD94E740617CEF250C2BDD5D /* Pods_StTestRest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9011C1F38027357EFB4C301 /* Pods_StTestRest.framework */; };
+		8FB6FE9423C3027500D3B5D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9323C3027500D3B5D5 /* AppDelegate.swift */; };
+		8FB6FE9623C3027500D3B5D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9523C3027500D3B5D5 /* SceneDelegate.swift */; };
+		8FB6FE9823C3027500D3B5D5 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9723C3027500D3B5D5 /* ContactsViewController.swift */; };
+		8FB6FE9A23C3027500D3B5D5 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9923C3027500D3B5D5 /* SecondViewController.swift */; };
+		8FB6FE9D23C3027500D3B5D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9B23C3027500D3B5D5 /* Main.storyboard */; };
+		8FB6FE9F23C3027600D3B5D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FB6FE9E23C3027600D3B5D5 /* Assets.xcassets */; };
+		8FB6FEA223C3027600D3B5D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FB6FEA023C3027600D3B5D5 /* LaunchScreen.storyboard */; };
+		95FA7A836CAA81A1E96E4470 /* Pods_StTestRest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE232179F9AB121B9ECC7FF0 /* Pods_StTestRest.framework */; };
+		B641960523C5CCB500596934 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960023C5CCB500596934 /* FriendsListViewController.swift */; };
+		B641960623C5CCB500596934 /* RTCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960123C5CCB500596934 /* RTCViewController.swift */; };
+		B641960723C5CCB500596934 /* StTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960223C5CCB500596934 /* StTabBarViewController.swift */; };
+		B641960823C5CCB500596934 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960323C5CCB500596934 /* SettingViewController.swift */; };
+		B641960923C5CCB500596934 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960423C5CCB500596934 /* UserInfoViewController.swift */; };
+		B641960B23C5D7C000596934 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960A23C5D7C000596934 /* LoginViewController.swift */; };
+		B641960D23C5ED5A00596934 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B641960C23C5ED5A00596934 /* FirstViewController.swift */; };
+		B652DA7D23C436BD00BDB6C9 /* StAppFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA7923C436BD00BDB6C9 /* StAppFriend.swift */; };
+		B652DA7E23C436BD00BDB6C9 /* StLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA7A23C436BD00BDB6C9 /* StLoginResponse.swift */; };
+		B652DA7F23C436BD00BDB6C9 /* StAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA7B23C436BD00BDB6C9 /* StAppClient.swift */; };
+		B652DA8023C436BD00BDB6C9 /* StClientID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA7C23C436BD00BDB6C9 /* StClientID.swift */; };
+		B652DA8223C4377B00BDB6C9 /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA8123C4377B00BDB6C9 /* AlamofireManager.swift */; };
+		B652DA8423C46C4100BDB6C9 /* ProcessInfoTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B652DA8323C46C4100BDB6C9 /* ProcessInfoTools.swift */; };
+		B6CB558223C3253A00CDB3EC /* StWsClinet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB557D23C3253900CDB3EC /* StWsClinet.swift */; };
+		B6CB558423C3253A00CDB3EC /* ProcessMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB557F23C3253A00CDB3EC /* ProcessMessage.swift */; };
+		B6CB558723C3260200CDB3EC /* StWsMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CB558623C3260200CDB3EC /* StWsMessage.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		B6CB554923C2E18400CDB3EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B6CB552A23C2E18300CDB3EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B6CB553123C2E18300CDB3EC;
-			remoteInfo = LoginTest;
-		};
-		B6CB555423C2E18400CDB3EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B6CB552A23C2E18300CDB3EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B6CB553123C2E18300CDB3EC;
-			remoteInfo = LoginTest;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		22F0845A2475816502A3E66D /* Pods-StTestRest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StTestRest.release.xcconfig"; path = "Target Support Files/Pods-StTestRest/Pods-StTestRest.release.xcconfig"; sourceTree = "<group>"; };
-		5F1CD482E52D69577FA1BD95 /* Pods-LoginTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginTest.release.xcconfig"; path = "Target Support Files/Pods-LoginTest/Pods-LoginTest.release.xcconfig"; sourceTree = "<group>"; };
-		971B5F2D51A51332713CF10E /* Pods-LoginTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginTest.debug.xcconfig"; path = "Target Support Files/Pods-LoginTest/Pods-LoginTest.debug.xcconfig"; sourceTree = "<group>"; };
-		B6AB261123C55DAE00A2A529 /* StWsClinet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StWsClinet.swift; sourceTree = "<group>"; };
-		B6AB261223C55DAE00A2A529 /* StLoginResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StLoginResponse.swift; sourceTree = "<group>"; };
-		B6AB261323C55DAE00A2A529 /* StAppFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StAppFriend.swift; sourceTree = "<group>"; };
-		B6AB261523C55DAE00A2A529 /* AlamofireManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
-		B6AB261623C55DAF00A2A529 /* StClientID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StClientID.swift; sourceTree = "<group>"; };
-		B6AB261723C55DAF00A2A529 /* ProcessInfoTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessInfoTools.swift; sourceTree = "<group>"; };
-		B6AB261823C55DAF00A2A529 /* StAppClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StAppClient.swift; sourceTree = "<group>"; };
-		B6AB261923C55DAF00A2A529 /* StWsMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StWsMessage.swift; sourceTree = "<group>"; };
-		B6AB262323C5695200A2A529 /* TagBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBarViewController.swift; sourceTree = "<group>"; };
-		B6AB262723C56E9D00A2A529 /* ProcessMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessMessage.swift; sourceTree = "<group>"; };
-		B6CB553223C2E18300CDB3EC /* StTestRest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StTestRest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6CB553523C2E18300CDB3EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B6CB553723C2E18300CDB3EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B6CB553923C2E18300CDB3EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B6CB553C23C2E18300CDB3EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B6CB553E23C2E18400CDB3EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B6CB554123C2E18400CDB3EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B6CB554323C2E18400CDB3EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6CB554823C2E18400CDB3EC /* StTestRestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StTestRestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6CB554C23C2E18400CDB3EC /* LoginTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTestTests.swift; sourceTree = "<group>"; };
-		B6CB554E23C2E18400CDB3EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6CB555323C2E18400CDB3EC /* StTestRestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StTestRestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6CB555723C2E18400CDB3EC /* LoginTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTestUITests.swift; sourceTree = "<group>"; };
-		B6CB555923C2E18400CDB3EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6CB556C23C3111C00CDB3EC /* StTestRest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StTestRest-Bridging-Header.h"; sourceTree = "<group>"; };
-		C5AA85AD33CEADFA8A537212 /* Pods-StTestRest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StTestRest.debug.xcconfig"; path = "Target Support Files/Pods-StTestRest/Pods-StTestRest.debug.xcconfig"; sourceTree = "<group>"; };
-		D9011C1F38027357EFB4C301 /* Pods_StTestRest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StTestRest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FB6FE9023C3027500D3B5D5 /* StTestRest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StTestRest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FB6FE9323C3027500D3B5D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8FB6FE9523C3027500D3B5D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8FB6FE9723C3027500D3B5D5 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		8FB6FE9923C3027500D3B5D5 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		8FB6FE9C23C3027500D3B5D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8FB6FE9E23C3027600D3B5D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8FB6FEA123C3027600D3B5D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8FB6FEA323C3027600D3B5D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0598442523B56D8E8278CB2 /* Pods-StTestRest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StTestRest.release.xcconfig"; path = "Target Support Files/Pods-StTestRest/Pods-StTestRest.release.xcconfig"; sourceTree = "<group>"; };
+		B641960023C5CCB500596934 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
+		B641960123C5CCB500596934 /* RTCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCViewController.swift; sourceTree = "<group>"; };
+		B641960223C5CCB500596934 /* StTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StTabBarViewController.swift; sourceTree = "<group>"; };
+		B641960323C5CCB500596934 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		B641960423C5CCB500596934 /* UserInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		B641960A23C5D7C000596934 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B641960C23C5ED5A00596934 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		B652DA7923C436BD00BDB6C9 /* StAppFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StAppFriend.swift; sourceTree = "<group>"; };
+		B652DA7A23C436BD00BDB6C9 /* StLoginResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StLoginResponse.swift; sourceTree = "<group>"; };
+		B652DA7B23C436BD00BDB6C9 /* StAppClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StAppClient.swift; sourceTree = "<group>"; };
+		B652DA7C23C436BD00BDB6C9 /* StClientID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StClientID.swift; sourceTree = "<group>"; };
+		B652DA8123C4377B00BDB6C9 /* AlamofireManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
+		B652DA8323C46C4100BDB6C9 /* ProcessInfoTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInfoTools.swift; sourceTree = "<group>"; };
+		B652DA8523C4798600BDB6C9 /* StTestRest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StTestRest-Bridging-Header.h"; sourceTree = "<group>"; };
+		B6CB557D23C3253900CDB3EC /* StWsClinet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StWsClinet.swift; sourceTree = "<group>"; };
+		B6CB557F23C3253A00CDB3EC /* ProcessMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessMessage.swift; sourceTree = "<group>"; };
+		B6CB558623C3260200CDB3EC /* StWsMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StWsMessage.swift; sourceTree = "<group>"; };
+		F51BDA00EFECDAB9D753B79B /* Pods-StTestRest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StTestRest.debug.xcconfig"; path = "Target Support Files/Pods-StTestRest/Pods-StTestRest.debug.xcconfig"; sourceTree = "<group>"; };
+		FE232179F9AB121B9ECC7FF0 /* Pods_StTestRest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StTestRest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B6CB552F23C2E18300CDB3EC /* Frameworks */ = {
+		8FB6FE8D23C3027500D3B5D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD94E740617CEF250C2BDD5D /* Pods_StTestRest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB554523C2E18400CDB3EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB555023C2E18400CDB3EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				95FA7A836CAA81A1E96E4470 /* Pods_StTestRest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0802A3C84C454433810B212D /* Frameworks */ = {
+		4CF83F3867F9BCDF0198C42D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9011C1F38027357EFB4C301 /* Pods_StTestRest.framework */,
+				FE232179F9AB121B9ECC7FF0 /* Pods_StTestRest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B6CB552923C2E18300CDB3EC = {
+		64614ECB7B5BB4E6958AAF68 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B6CB553423C2E18300CDB3EC /* StTestRest */,
-				B6CB554B23C2E18400CDB3EC /* StTestRestTests */,
-				B6CB555623C2E18400CDB3EC /* StTestRestUITests */,
-				B6CB553323C2E18300CDB3EC /* Products */,
-				F73A0C24F12EB21D21124776 /* Pods */,
-				0802A3C84C454433810B212D /* Frameworks */,
+				F51BDA00EFECDAB9D753B79B /* Pods-StTestRest.debug.xcconfig */,
+				B0598442523B56D8E8278CB2 /* Pods-StTestRest.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8FB6FE8723C3027500D3B5D5 = {
+			isa = PBXGroup;
+			children = (
+				8FB6FE9223C3027500D3B5D5 /* StTestRest */,
+				8FB6FE9123C3027500D3B5D5 /* Products */,
+				64614ECB7B5BB4E6958AAF68 /* Pods */,
+				4CF83F3867F9BCDF0198C42D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		B6CB553323C2E18300CDB3EC /* Products */ = {
+		8FB6FE9123C3027500D3B5D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B6CB553223C2E18300CDB3EC /* StTestRest.app */,
-				B6CB554823C2E18400CDB3EC /* StTestRestTests.xctest */,
-				B6CB555323C2E18400CDB3EC /* StTestRestUITests.xctest */,
+				8FB6FE9023C3027500D3B5D5 /* StTestRest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B6CB553423C2E18300CDB3EC /* StTestRest */ = {
+		8FB6FE9223C3027500D3B5D5 /* StTestRest */ = {
 			isa = PBXGroup;
 			children = (
-				B6AB261523C55DAE00A2A529 /* AlamofireManager.swift */,
-				B6AB262723C56E9D00A2A529 /* ProcessMessage.swift */,
-				B6AB261723C55DAF00A2A529 /* ProcessInfoTools.swift */,
-				B6AB261823C55DAF00A2A529 /* StAppClient.swift */,
-				B6AB261323C55DAE00A2A529 /* StAppFriend.swift */,
-				B6AB261623C55DAF00A2A529 /* StClientID.swift */,
-				B6AB261223C55DAE00A2A529 /* StLoginResponse.swift */,
-				B6AB261123C55DAE00A2A529 /* StWsClinet.swift */,
-				B6AB261923C55DAF00A2A529 /* StWsMessage.swift */,
-				B6CB553523C2E18300CDB3EC /* AppDelegate.swift */,
-				B6CB553723C2E18300CDB3EC /* SceneDelegate.swift */,
-				B6CB553923C2E18300CDB3EC /* ViewController.swift */,
-				B6AB262323C5695200A2A529 /* TagBarViewController.swift */,
-				B6CB553B23C2E18300CDB3EC /* Main.storyboard */,
-				B6CB553E23C2E18400CDB3EC /* Assets.xcassets */,
-				B6CB554023C2E18400CDB3EC /* LaunchScreen.storyboard */,
-				B6CB554323C2E18400CDB3EC /* Info.plist */,
-				B6CB556C23C3111C00CDB3EC /* StTestRest-Bridging-Header.h */,
+				8FB6FE9923C3027500D3B5D5 /* SecondViewController.swift */,
+				B641960C23C5ED5A00596934 /* FirstViewController.swift */,
+				B6CB558623C3260200CDB3EC /* StWsMessage.swift */,
+				B652DA7C23C436BD00BDB6C9 /* StClientID.swift */,
+				B652DA7923C436BD00BDB6C9 /* StAppFriend.swift */,
+				B652DA7B23C436BD00BDB6C9 /* StAppClient.swift */,
+				B652DA7A23C436BD00BDB6C9 /* StLoginResponse.swift */,
+				B652DA8123C4377B00BDB6C9 /* AlamofireManager.swift */,
+				B652DA8323C46C4100BDB6C9 /* ProcessInfoTools.swift */,
+				B6CB557F23C3253A00CDB3EC /* ProcessMessage.swift */,
+				B6CB557D23C3253900CDB3EC /* StWsClinet.swift */,
+				8FB6FE9323C3027500D3B5D5 /* AppDelegate.swift */,
+				8FB6FE9523C3027500D3B5D5 /* SceneDelegate.swift */,
+				B641960A23C5D7C000596934 /* LoginViewController.swift */,
+				8FB6FE9723C3027500D3B5D5 /* ContactsViewController.swift */,
+				B641960023C5CCB500596934 /* FriendsListViewController.swift */,
+				B641960123C5CCB500596934 /* RTCViewController.swift */,
+				B641960323C5CCB500596934 /* SettingViewController.swift */,
+				B641960423C5CCB500596934 /* UserInfoViewController.swift */,
+				B641960223C5CCB500596934 /* StTabBarViewController.swift */,
+				8FB6FE9B23C3027500D3B5D5 /* Main.storyboard */,
+				8FB6FE9E23C3027600D3B5D5 /* Assets.xcassets */,
+				8FB6FEA023C3027600D3B5D5 /* LaunchScreen.storyboard */,
+				8FB6FEA323C3027600D3B5D5 /* Info.plist */,
+				B652DA8523C4798600BDB6C9 /* StTestRest-Bridging-Header.h */,
 			);
 			path = StTestRest;
-			sourceTree = "<group>";
-		};
-		B6CB554B23C2E18400CDB3EC /* StTestRestTests */ = {
-			isa = PBXGroup;
-			children = (
-				B6CB554C23C2E18400CDB3EC /* LoginTestTests.swift */,
-				B6CB554E23C2E18400CDB3EC /* Info.plist */,
-			);
-			path = StTestRestTests;
-			sourceTree = "<group>";
-		};
-		B6CB555623C2E18400CDB3EC /* StTestRestUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B6CB555723C2E18400CDB3EC /* LoginTestUITests.swift */,
-				B6CB555923C2E18400CDB3EC /* Info.plist */,
-			);
-			path = StTestRestUITests;
-			sourceTree = "<group>";
-		};
-		F73A0C24F12EB21D21124776 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				971B5F2D51A51332713CF10E /* Pods-LoginTest.debug.xcconfig */,
-				5F1CD482E52D69577FA1BD95 /* Pods-LoginTest.release.xcconfig */,
-				C5AA85AD33CEADFA8A537212 /* Pods-StTestRest.debug.xcconfig */,
-				22F0845A2475816502A3E66D /* Pods-StTestRest.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B6CB553123C2E18300CDB3EC /* StTestRest */ = {
+		8FB6FE8F23C3027500D3B5D5 /* StTestRest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B6CB555C23C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRest" */;
+			buildConfigurationList = 8FB6FEA623C3027600D3B5D5 /* Build configuration list for PBXNativeTarget "StTestRest" */;
 			buildPhases = (
-				EF44A6B5C44489589468CFFF /* [CP] Check Pods Manifest.lock */,
-				B6CB552E23C2E18300CDB3EC /* Sources */,
-				B6CB552F23C2E18300CDB3EC /* Frameworks */,
-				B6CB553023C2E18300CDB3EC /* Resources */,
-				49293BC94716D323C224E0C2 /* [CP] Embed Pods Frameworks */,
+				189DFC83EEBD80E1596E5853 /* [CP] Check Pods Manifest.lock */,
+				8FB6FE8C23C3027500D3B5D5 /* Sources */,
+				8FB6FE8D23C3027500D3B5D5 /* Frameworks */,
+				8FB6FE8E23C3027500D3B5D5 /* Resources */,
+				DA673B626F33983884DDD278 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = StTestRest;
-			productName = LoginTest;
-			productReference = B6CB553223C2E18300CDB3EC /* StTestRest.app */;
+			productName = StTestRest;
+			productReference = 8FB6FE9023C3027500D3B5D5 /* StTestRest.app */;
 			productType = "com.apple.product-type.application";
-		};
-		B6CB554723C2E18400CDB3EC /* StTestRestTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B6CB555F23C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRestTests" */;
-			buildPhases = (
-				B6CB554423C2E18400CDB3EC /* Sources */,
-				B6CB554523C2E18400CDB3EC /* Frameworks */,
-				B6CB554623C2E18400CDB3EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B6CB554A23C2E18400CDB3EC /* PBXTargetDependency */,
-			);
-			name = StTestRestTests;
-			productName = LoginTestTests;
-			productReference = B6CB554823C2E18400CDB3EC /* StTestRestTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		B6CB555223C2E18400CDB3EC /* StTestRestUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B6CB556223C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRestUITests" */;
-			buildPhases = (
-				B6CB554F23C2E18400CDB3EC /* Sources */,
-				B6CB555023C2E18400CDB3EC /* Frameworks */,
-				B6CB555123C2E18400CDB3EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B6CB555523C2E18400CDB3EC /* PBXTargetDependency */,
-			);
-			name = StTestRestUITests;
-			productName = LoginTestUITests;
-			productReference = B6CB555323C2E18400CDB3EC /* StTestRestUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B6CB552A23C2E18300CDB3EC /* Project object */ = {
+		8FB6FE8823C3027500D3B5D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = qians;
+				ORGANIZATIONNAME = "Guilin Cao";
 				TargetAttributes = {
-					B6CB553123C2E18300CDB3EC = {
+					8FB6FE8F23C3027500D3B5D5 = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
 					};
-					B6CB554723C2E18400CDB3EC = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = B6CB553123C2E18300CDB3EC;
-					};
-					B6CB555223C2E18400CDB3EC = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = B6CB553123C2E18300CDB3EC;
-					};
 				};
 			};
-			buildConfigurationList = B6CB552D23C2E18300CDB3EC /* Build configuration list for PBXProject "StTestRest" */;
+			buildConfigurationList = 8FB6FE8B23C3027500D3B5D5 /* Build configuration list for PBXProject "StTestRest" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -278,64 +190,31 @@
 				en,
 				Base,
 			);
-			mainGroup = B6CB552923C2E18300CDB3EC;
-			productRefGroup = B6CB553323C2E18300CDB3EC /* Products */;
+			mainGroup = 8FB6FE8723C3027500D3B5D5;
+			productRefGroup = 8FB6FE9123C3027500D3B5D5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B6CB553123C2E18300CDB3EC /* StTestRest */,
-				B6CB554723C2E18400CDB3EC /* StTestRestTests */,
-				B6CB555223C2E18400CDB3EC /* StTestRestUITests */,
+				8FB6FE8F23C3027500D3B5D5 /* StTestRest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B6CB553023C2E18300CDB3EC /* Resources */ = {
+		8FB6FE8E23C3027500D3B5D5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6CB554223C2E18400CDB3EC /* LaunchScreen.storyboard in Resources */,
-				B6CB553F23C2E18400CDB3EC /* Assets.xcassets in Resources */,
-				B6CB553D23C2E18300CDB3EC /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB554623C2E18400CDB3EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB555123C2E18400CDB3EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				8FB6FEA223C3027600D3B5D5 /* LaunchScreen.storyboard in Resources */,
+				8FB6FE9F23C3027600D3B5D5 /* Assets.xcassets in Resources */,
+				8FB6FE9D23C3027500D3B5D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		49293BC94716D323C224E0C2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EF44A6B5C44489589468CFFF /* [CP] Check Pods Manifest.lock */ = {
+		189DFC83EEBD80E1596E5853 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -357,73 +236,68 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DA673B626F33983884DDD278 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StTestRest/Pods-StTestRest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B6CB552E23C2E18300CDB3EC /* Sources */ = {
+		8FB6FE8C23C3027500D3B5D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6AB262423C5695200A2A529 /* TagBarViewController.swift in Sources */,
-				B6AB262123C55DAF00A2A529 /* StAppClient.swift in Sources */,
-				B6CB553A23C2E18300CDB3EC /* ViewController.swift in Sources */,
-				B6AB262023C55DAF00A2A529 /* ProcessInfoTools.swift in Sources */,
-				B6CB553623C2E18300CDB3EC /* AppDelegate.swift in Sources */,
-				B6CB553823C2E18300CDB3EC /* SceneDelegate.swift in Sources */,
-				B6AB262823C56E9D00A2A529 /* ProcessMessage.swift in Sources */,
-				B6AB261E23C55DAF00A2A529 /* AlamofireManager.swift in Sources */,
-				B6AB261B23C55DAF00A2A529 /* StLoginResponse.swift in Sources */,
-				B6AB261C23C55DAF00A2A529 /* StAppFriend.swift in Sources */,
-				B6AB261A23C55DAF00A2A529 /* StWsClinet.swift in Sources */,
-				B6AB262223C55DAF00A2A529 /* StWsMessage.swift in Sources */,
-				B6AB261F23C55DAF00A2A529 /* StClientID.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB554423C2E18400CDB3EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B6CB554D23C2E18400CDB3EC /* LoginTestTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6CB554F23C2E18400CDB3EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B6CB555823C2E18400CDB3EC /* LoginTestUITests.swift in Sources */,
+				B652DA7D23C436BD00BDB6C9 /* StAppFriend.swift in Sources */,
+				B652DA8023C436BD00BDB6C9 /* StClientID.swift in Sources */,
+				B641960523C5CCB500596934 /* FriendsListViewController.swift in Sources */,
+				B6CB558223C3253A00CDB3EC /* StWsClinet.swift in Sources */,
+				B641960B23C5D7C000596934 /* LoginViewController.swift in Sources */,
+				B652DA7F23C436BD00BDB6C9 /* StAppClient.swift in Sources */,
+				B641960823C5CCB500596934 /* SettingViewController.swift in Sources */,
+				B6CB558423C3253A00CDB3EC /* ProcessMessage.swift in Sources */,
+				B652DA7E23C436BD00BDB6C9 /* StLoginResponse.swift in Sources */,
+				B6CB558723C3260200CDB3EC /* StWsMessage.swift in Sources */,
+				8FB6FE9A23C3027500D3B5D5 /* SecondViewController.swift in Sources */,
+				B641960723C5CCB500596934 /* StTabBarViewController.swift in Sources */,
+				8FB6FE9823C3027500D3B5D5 /* ContactsViewController.swift in Sources */,
+				8FB6FE9423C3027500D3B5D5 /* AppDelegate.swift in Sources */,
+				B641960923C5CCB500596934 /* UserInfoViewController.swift in Sources */,
+				B641960D23C5ED5A00596934 /* FirstViewController.swift in Sources */,
+				B652DA8423C46C4100BDB6C9 /* ProcessInfoTools.swift in Sources */,
+				B641960623C5CCB500596934 /* RTCViewController.swift in Sources */,
+				B652DA8223C4377B00BDB6C9 /* AlamofireManager.swift in Sources */,
+				8FB6FE9623C3027500D3B5D5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		B6CB554A23C2E18400CDB3EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B6CB553123C2E18300CDB3EC /* StTestRest */;
-			targetProxy = B6CB554923C2E18400CDB3EC /* PBXContainerItemProxy */;
-		};
-		B6CB555523C2E18400CDB3EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B6CB553123C2E18300CDB3EC /* StTestRest */;
-			targetProxy = B6CB555423C2E18400CDB3EC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		B6CB553B23C2E18300CDB3EC /* Main.storyboard */ = {
+		8FB6FE9B23C3027500D3B5D5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B6CB553C23C2E18300CDB3EC /* Base */,
+				8FB6FE9C23C3027500D3B5D5 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		B6CB554023C2E18400CDB3EC /* LaunchScreen.storyboard */ = {
+		8FB6FEA023C3027600D3B5D5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B6CB554123C2E18400CDB3EC /* Base */,
+				8FB6FEA123C3027600D3B5D5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -431,7 +305,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B6CB555A23C2E18400CDB3EC /* Debug */ = {
+		8FB6FEA423C3027600D3B5D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -484,14 +358,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		B6CB555B23C2E18400CDB3EC /* Release */ = {
+		8FB6FEA523C3027600D3B5D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -545,22 +419,21 @@
 			};
 			name = Release;
 		};
-		B6CB555D23C2E18400CDB3EC /* Debug */ = {
+		8FB6FEA723C3027600D3B5D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5AA85AD33CEADFA8A537212 /* Pods-StTestRest.debug.xcconfig */;
+			baseConfigurationReference = F51BDA00EFECDAB9D753B79B /* Pods-StTestRest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = "$(SRCROOT)/StTestRest/Info.plist";
+				INFOPLIST_FILE = StTestRest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTest;
-				PRODUCT_NAME = StTestRest;
-				SWIFT_INSTALL_OBJC_HEADER = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.teclub.demo.StTestRest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StTestRest/StTestRest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -568,152 +441,49 @@
 			};
 			name = Debug;
 		};
-		B6CB555E23C2E18400CDB3EC /* Release */ = {
+		8FB6FEA823C3027600D3B5D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22F0845A2475816502A3E66D /* Pods-StTestRest.release.xcconfig */;
+			baseConfigurationReference = B0598442523B56D8E8278CB2 /* Pods-StTestRest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = "$(SRCROOT)/StTestRest/Info.plist";
+				INFOPLIST_FILE = StTestRest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTest;
-				PRODUCT_NAME = StTestRest;
-				SWIFT_INSTALL_OBJC_HEADER = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.teclub.demo.StTestRest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StTestRest/StTestRest-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		B6CB556023C2E18400CDB3EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = LoginTestTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTestTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StTestRest.app/StTestRest";
-			};
-			name = Debug;
-		};
-		B6CB556123C2E18400CDB3EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = LoginTestTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTestTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StTestRest.app/StTestRest";
-			};
-			name = Release;
-		};
-		B6CB556323C2E18400CDB3EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = LoginTestUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LoginTest;
-			};
-			name = Debug;
-		};
-		B6CB556423C2E18400CDB3EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJR9HXYAZT;
-				INFOPLIST_FILE = LoginTestUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = fs.LoginTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LoginTest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B6CB552D23C2E18300CDB3EC /* Build configuration list for PBXProject "StTestRest" */ = {
+		8FB6FE8B23C3027500D3B5D5 /* Build configuration list for PBXProject "StTestRest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B6CB555A23C2E18400CDB3EC /* Debug */,
-				B6CB555B23C2E18400CDB3EC /* Release */,
+				8FB6FEA423C3027600D3B5D5 /* Debug */,
+				8FB6FEA523C3027600D3B5D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6CB555C23C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRest" */ = {
+		8FB6FEA623C3027600D3B5D5 /* Build configuration list for PBXNativeTarget "StTestRest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B6CB555D23C2E18400CDB3EC /* Debug */,
-				B6CB555E23C2E18400CDB3EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B6CB555F23C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRestTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B6CB556023C2E18400CDB3EC /* Debug */,
-				B6CB556123C2E18400CDB3EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B6CB556223C2E18400CDB3EC /* Build configuration list for PBXNativeTarget "StTestRestUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B6CB556323C2E18400CDB3EC /* Debug */,
-				B6CB556423C2E18400CDB3EC /* Release */,
+				8FB6FEA723C3027600D3B5D5 /* Debug */,
+				8FB6FEA823C3027600D3B5D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B6CB552A23C2E18300CDB3EC /* Project object */;
+	rootObject = 8FB6FE8823C3027500D3B5D5 /* Project object */;
 }
