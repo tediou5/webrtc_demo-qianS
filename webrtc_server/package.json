@@ -4,7 +4,7 @@
   "description": "webrtc server",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "log": "^6.0.0",
     "log4js": "^5.3.0",
     "serve-index": "^1.9.1",
